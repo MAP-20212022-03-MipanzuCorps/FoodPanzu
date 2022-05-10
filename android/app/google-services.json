@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "614731977741",
+    "project_id": "foodpanzu",
+    "storage_bucket": "foodpanzu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614731977741:android:39c837d5fed3dc922e7144",
+        "android_client_info": {
+          "package_name": "panzu.corps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614731977741-f70oncif4sjf5n5mhl90erfncdrr029j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJRVslXf1oFnEvRRTYtFcubYhbytmwElA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614731977741-f70oncif4sjf5n5mhl90erfncdrr029j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
