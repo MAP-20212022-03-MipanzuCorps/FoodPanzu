@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
@@ -18,6 +19,9 @@ class _SignUpFormState extends State<SignUpForm> {
   String? email;
   String? password;
   String? conform_password;
+  // TextEditingController _passwordTextController = TextEditingController();
+  // TextEditingController _emailTextController = TextEditingController();
+  // TextEditingController _userNameTextController = TextEditingController();
   bool remember = false;
   final List<String?> errors = [];
 
@@ -37,6 +41,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Form(
       key: _formKey,
       child: Column(
@@ -54,7 +59,19 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                // controller.createAccountWithEmailAndPassword();
+                FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                          email: email!,
+                          password: password!)
+                      .then((value) {
+                    // print("Created New Account");
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                      Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                  }).onError((error, stackTrace) {
+                    print("Error ${error.toString()}");
+                  });
               }
             },
           ),
@@ -139,7 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
         } else if (emailValidatorRegExp.hasMatch(value)) {
           removeError(error: kInvalidEmailError);
         }
-        return null;
+        email = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
