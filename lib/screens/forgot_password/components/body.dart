@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';

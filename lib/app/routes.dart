@@ -1,11 +1,9 @@
 import 'package:flutter/widgets.dart';
-// import 'package:foodpanzu/screens/cart/cart_screen.dart';
-import 'package:foodpanzu/screens/complete_profile/complete_profile_screen.dart';
-// import 'package:foodpanzu/screens/details/details_screen.dart';
+import 'package:foodpanzu/screens/role_choice/role_choice_screen.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/login_success/login_success_screen.dart';
-// import 'package:foodpanzu/screens/otp/otp_screen.dart';
+import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
@@ -19,11 +17,9 @@ final Map<String, WidgetBuilder> routes = {
   SignInScreen.routeName: (context) => SignInScreen(),
   ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
   LoginSuccessScreen.routeName: (context) => LoginSuccessScreen(),
+  LogOutSuccessScreen.routeName: (context) => LogOutSuccessScreen(),
   SignUpScreen.routeName: (context) => SignUpScreen(),
-  CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
-  // OtpScreen.routeName: (context) => OtpScreen(),
+  RoleChoiceScreen.routeName: (context) => RoleChoiceScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
-  // DetailsScreen.routeName: (context) => DetailsScreen(),
-  // CartScreen.routeName: (context) => CartScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
 };
