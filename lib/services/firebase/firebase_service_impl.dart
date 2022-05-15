@@ -38,6 +38,7 @@ class fireBaseServiceImpl extends firebaseService {
       });
     } on FirebaseAuthException catch (e) {
       print(e);
+      // return e.message.toString();
       //return error back to display screen
       // return e.message.toString();
     }
