@@ -29,13 +29,15 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  Future<void> createAccountWithEmailAndPassword(email, password) async {
+  Future<String> createAccountWithEmailAndPassword(email, password) async {
     // final _firebaseAuth = FirebaseAuth.instance;
     try {
-      await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return "Password Reset has been sent to the email";
     } on FirebaseAuthException catch (e) {
       print(e);
+      return e.toString();
       //return error back to display screen
       // return e.message.toString();
     }
