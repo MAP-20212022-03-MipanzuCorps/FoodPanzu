@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:foodpanzu/app/service_locator.dart';
 import 'firebase_options.dart';
 
-import 'package:foodpanzu/routes.dart';
+import 'package:foodpanzu/app/routes.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
 import 'package:foodpanzu/theme.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await initializeServiceLocator();
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
-  
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

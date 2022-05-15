@@ -4,6 +4,7 @@ import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/components/no_account_text.dart';
 import 'package:foodpanzu/size_config.dart';
+import 'package:foodpanzu/services/firebase_forget_password.dart';
 
 import '../../../constants.dart';
 
@@ -70,7 +71,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                   errors.remove(kInvalidEmailError);
                 });
               }
-              return null;
             },
             validator: (value) {
               if (value!.isEmpty && !errors.contains(kEmailNullError)) {
@@ -88,8 +88,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             decoration: InputDecoration(
               labelText: "Email",
               hintText: "Enter your email",
-              // If  you are using latest version of flutter then lable text and hint text shown like this
-              // if you r using flutter less then 1.20.* then maybe this is not working properly
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
             ),
@@ -101,7 +99,17 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             text: "Continue",
             press: () {
               if (_formKey.currentState!.validate()) {
-                // Do what you want to do
+                //put a buffer loading while service is executed
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) =>
+                      Center(child: CircularProgressIndicator()),
+                );
+                //call password forget service
+
+                //show success message
+                //show error message
               }
             },
           ),
