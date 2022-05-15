@@ -4,6 +4,7 @@ import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 
 class fireBaseServiceImpl extends firebaseService {
+  final _firebaseAuth = FirebaseAuth.instance;
   @override
   Future<void> addUserToFireStore(UserModel userModel) async {
     final CollectionReference _userCollectionRef =
@@ -15,7 +16,7 @@ class fireBaseServiceImpl extends firebaseService {
 
   @override
   Future<String> forgotPasswordUsingEmail(email) async {
-    final _firebaseAuth = FirebaseAuth.instance;
+    // final _firebaseAuth = FirebaseAuth.instance;
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
       //return result sucess to forgot password screen
@@ -24,6 +25,19 @@ class fireBaseServiceImpl extends firebaseService {
       print(e);
       //return error back to display screen
       return e.message.toString();
+    }
+  }
+
+  @override
+  Future<void> createAccountWithEmailAndPassword(email, password) async {
+    // final _firebaseAuth = FirebaseAuth.instance;
+    try {
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      //return error back to display screen
+      // return e.message.toString();
     }
   }
 }

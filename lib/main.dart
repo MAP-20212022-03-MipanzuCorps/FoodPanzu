@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:foodpanzu/app/service_locator.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 
 import 'package:foodpanzu/app/routes.dart';
-import 'package:foodpanzu/screens/profile/profile_screen.dart';
+// import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
 import 'package:foodpanzu/theme.dart';
 

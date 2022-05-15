@@ -2,6 +2,11 @@
 class Failure {
   final int code;
   final String? message;
+  final String? location; // e.g. the class and method where the error occured
 
-  const Failure(this.code, [this.message = '']);
+  const Failure(this.code, {this.message = '', this.location = ''});
+
+  @override
+  String toString() =>
+      'Code: $code\n\nMessage: $message\n\nLocation: $location';
 }

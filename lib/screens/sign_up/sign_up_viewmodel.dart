@@ -1,67 +1,39 @@
-import 'package:foodpanzu/screens/home/home_screen.dart';
-import 'package:foodpanzu/services/firestore_user.dart';
-import 'package:foodpanzu/models/user_model.dart';
-// import 'package:foodpanzu/screens/.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:get/get.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:foodpanzu/screens/home/home_screen.dart';
+// import 'package:foodpanzu/services/firestore_user.dart';
+// import 'package:foodpanzu/models/user_model.dart';
+// // import 'package:foodpanzu/screens/.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:get/get.dart';
+// // import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodpanzu/app/service_locator.dart';
+// import 'package:foodpanzu/models/user_model.dart';
+import 'package:foodpanzu/services/firebase/firebase_service.dart';
+import 'package:map_mvvm/map_mvvm.dart';
 
-class AuthViewModel extends GetxController {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
-  String? email, password, name;
-
-  Rxn<User> _user = Rxn<User>();
-
-  String? get user => _user.value?.email;
-
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    _user.bindStream(_auth.authStateChanges());
-  }
+class SignUpViewModel extends Viewmodel {
+  firebaseService get service => locator<firebaseService>();
+  StreamSubscription? _streamListener;
+  bool get isListeningToStream => _streamListener != null;
+  String email = '';
+  String password = '';
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-    super.onReady();
+  void init() async {
+    super.init();
+    notifyListenersOnFailure = false;
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
-  }
+  String get _email => email;
+  String get _password => password;
+  set _email(value) => update(() async => email = value);
+  set _password(value) => update(() async => password = value);
 
-  void createAccountWithEmailAndPassword() async {
-    try {
-      await _auth
-          .createUserWithEmailAndPassword(email: email!, password: password!)
-          .then((user) async {
-        saveUser(user);
-      });
-
-      Get.offAll(HomeScreen.routeName);
-    } catch (e) {
-      print(e.toString());
-      Get.snackbar(
-        'Error login account',
-        e.toString(),
-        colorText: Colors.black,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
-
-  void saveUser(UserCredential user) async {
-    await FireStoreUser().addUserToFireStore(UserModel(
-      userId: user.user?.uid,
-      email: user.user?.email,
-      name: name == null ? user.user?.displayName : name,
-      role: '',
-    ));
-  }
+ Future<void> createAccountWithEmailAndPassword(_email, _password) async => 
+ await update(() async {
+   await service.createAccountWithEmailAndPassword(_email, _password);
+ });
 }
