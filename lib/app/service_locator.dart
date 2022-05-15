@@ -1,4 +1,5 @@
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
+import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:map_mvvm/service_locator.dart';
 
 // import '../ui/screens/home/home_viewmodel.dart';
@@ -33,4 +34,5 @@ Future<void> initializeServiceLocator() async {
   // Viewmodels
   locator
       .registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
+  locator.registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
 }
