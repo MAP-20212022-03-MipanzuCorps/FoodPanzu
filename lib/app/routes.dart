@@ -10,7 +10,7 @@ import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
 
-import 'screens/sign_up/sign_up_screen.dart';
+import '../screens/sign_up/sign_up_screen.dart';
 
 // We use name route
 // All our routes will be available here
