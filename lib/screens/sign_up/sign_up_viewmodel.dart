@@ -1,5 +1,4 @@
 import 'package:foodpanzu/screens/home/home_screen.dart';
-import 'package:foodpanzu/services/firestore_user.dart';
 import 'package:foodpanzu/models/user_model.dart';
 // import 'package:foodpanzu/screens/.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +40,7 @@ class AuthViewModel extends GetxController {
       await _auth
           .createUserWithEmailAndPassword(email: email!, password: password!)
           .then((user) async {
-        saveUser(user);
+        // saveUser(user);
       });
 
       Get.offAll(HomeScreen.routeName);
@@ -56,12 +55,12 @@ class AuthViewModel extends GetxController {
     }
   }
 
-  void saveUser(UserCredential user) async {
-    await FireStoreUser().addUserToFireStore(UserModel(
-      userId: user.user?.uid,
-      email: user.user?.email,
-      name: name == null ? user.user?.displayName : name,
-      role: '',
-    ));
-  }
+  // void saveUser(UserCredential user) async {
+  //   await FireStoreUser().addUserToFireStore(UserModel(
+  //     userId: user.user?.uid,
+  //     email: user.user?.email,
+  //     name: name == null ? user.user?.displayName : name,
+  //     role: '',
+  //   ));
+  // }
 }

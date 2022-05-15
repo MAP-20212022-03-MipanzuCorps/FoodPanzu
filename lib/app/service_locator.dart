@@ -1,3 +1,4 @@
+import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:map_mvvm/service_locator.dart';
 
 // import '../ui/screens/home/home_viewmodel.dart';
@@ -30,6 +31,6 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<firebaseService>(() => fireBaseServiceImpl());
 
   // Viewmodels
-  // locator.registerLazySingleton<FireBaseForgotPassword>(
-  //     () => FireBaseForgotPassword());
+  locator
+      .registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
 }

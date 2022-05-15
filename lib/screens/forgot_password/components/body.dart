@@ -3,8 +3,9 @@ import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/components/no_account_text.dart';
+import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:foodpanzu/size_config.dart';
-import 'package:foodpanzu/services/firebase_forget_password.dart';
+import 'package:map_mvvm/map_mvvm.dart';
 
 import '../../../constants.dart';
 
@@ -51,6 +52,10 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
   String? email;
+
+  //forgot password model
+  var forgotPassModel = forgotPasswordModel();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -95,23 +100,30 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           FormError(errors: errors),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                //put a buffer loading while service is executed
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) =>
-                      Center(child: CircularProgressIndicator()),
-                );
-                //call password forget service
+          View<forgotPasswordModel>(
+            builder: (_, viewmodel) => DefaultButton(
+              text: "Continue",
+              press: () {
+                if (_formKey.currentState!.validate()) {
+                  //put a buffer loading while service is executed
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) =>
+                        Center(child: CircularProgressIndicator()),
+                  );
 
-                //show success message
-                //show error message
-              }
-            },
+                  //call password for get service
+
+                  // var message =
+                  //     ('${forgotPassModel.forgotPasswordUsingEmail(email)}');
+
+                  //show success message
+                  //show error message
+                  // SnackBar(content: Text(message));
+                }
+              },
+            ),
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           NoAccountText(),
