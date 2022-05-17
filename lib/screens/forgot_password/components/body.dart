@@ -12,6 +12,7 @@ import 'package:map_mvvm/map_mvvm.dart';
 // import 'package:foodpanzu/services/firebase_forget_password.dart';
 
 import '../../../constants.dart';
+import '../../../ui_utils.dart';
 import '../../sign_in/sign_in_screen.dart';
 
 class Body extends StatelessWidget {
@@ -49,16 +50,43 @@ class Body extends StatelessWidget {
 }
 
 class ForgotPassForm extends StatefulWidget {
+  ForgotPassForm({
+    Key? key,
+  }) : super(key: key);
   @override
   _ForgotPassFormState createState() => _ForgotPassFormState();
 }
 
 class _ForgotPassFormState extends State<ForgotPassForm> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
   List<String> errors = [];
 
   //forgot password model
   var forgotPassModel = forgotPasswordModel();
+
+  void Function()? _onForgetEmailPressed(
+      BuildContext context, forgotPasswordModel viewModel) {
+    return () async {
+      SnackBar snackbar;
+      try {
+        await viewModel.forgotPassword(viewModel.email);
+        snackbar = SnackBar(
+          content: Text("send sucessfully"),
+        );
+      } on Failure catch (f) {
+        snackbar = SnackBar(
+          content: Text(f.message ?? 'Error'),
+          backgroundColor: Colors.red,
+        );
+      }
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,27 +134,29 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             SizedBox(height: getProportionateScreenHeight(30)),
             FormError(errors: errors),
             SizedBox(height: SizeConfig.screenHeight * 0.1),
-            DefaultButton(
-                text: "Continue",
-                press: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    //put a buffer loading while service is executed
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()),
-                    );
-                    viewModel.forgotPasswordUsingEmail(viewModel.email);
-
-                    var snackBar = SnackBar(
-                        content: Text(
-                            '${viewModel.hasFailure ? ('Error occured: \n' + (viewModel.failure?.toString())!) : viewModel.msg}'));
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                }),
+            SizedBox(
+              width: double.infinity,
+              height: getProportionateScreenHeight(56),
+              child: ElevatedButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  primary: Colors.white,
+                  backgroundColor: kPrimaryColor,
+                ),
+                onPressed: _onForgetEmailPressed(
+                  context,
+                  viewModel,
+                ),
+                child: Text(
+                  "Continue",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(18),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
             SizedBox(height: SizeConfig.screenHeight * 0.1),
             NoAccountText(),
           ],

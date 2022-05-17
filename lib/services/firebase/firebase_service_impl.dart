@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
+import 'package:map_mvvm/failure.dart';
 
 class fireBaseServiceImpl extends firebaseService {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -12,15 +13,28 @@ class fireBaseServiceImpl extends firebaseService {
 
   //forgot password
   @override
-  Future<String> forgotPasswordUsingEmail(email) async {
+  Future<void> forgotPasswordUsingEmail(email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-      //return result sucess to forgot password screen
-      return "Password Reset Email Sent";
     } on FirebaseAuthException catch (e) {
-      print(e);
-      //return error back to display screen
-      return e.message.toString();
+      Failure errorMsg;
+      print(e.code);
+      //error handling based on the firebase documentation
+      //using custom Failure class to format the error into custom error.
+      if (e.code == "invalid-email") {
+        errorMsg = Failure(e.code,
+            message:
+                "Email is not properly formated, please insert an email with correct format",
+            location: "firebase_service_impl.dart");
+      } else if (e.code == "user-not-found") {
+        errorMsg = Failure(e.code,
+            message: "There is no user exist for the email provided",
+            location: "firebase_service_impl.dart");
+      } else {
+        errorMsg = Failure(e.code,
+            message: "Unknown error", location: "firebase_service_impl.dart");
+      }
+      throw errorMsg;
     }
   }
 

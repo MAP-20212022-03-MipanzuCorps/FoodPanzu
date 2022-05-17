@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/services/service.dart';
 import 'package:map_mvvm/failure.dart';
@@ -11,23 +12,27 @@ class forgotPasswordModel extends Viewmodel {
   StreamSubscription? _streamListener;
   bool get isListeningToStream => _streamListener != null;
   String email = '';
-  String msg = '';
+  String status = '';
+
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = false;
   }
 
-  String get _msg => msg;
-  set _msg(value) => update(() async {
-        return msg = value;
-      });
   String get _email => email;
   set _email(value) => update(() async => email = value);
+  String get _status => status;
+  set _status(value) => update(() async => status = value);
+  Future<void> forgotPassword(email) async {
+    try {
+      await update(() async {
+        await _firebaseService.forgotPasswordUsingEmail(email);
 
-  forgotPasswordUsingEmail(email) {
-    update(() async {
-      msg = await _firebaseService.forgotPasswordUsingEmail(email);
-    });
+        status = "done";
+      });
+    } on Failure {
+      rethrow;
+    }
   }
 }

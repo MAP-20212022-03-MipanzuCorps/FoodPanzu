@@ -31,7 +31,9 @@ class Viewmodel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get hasFailure => _failure != null;
+  bool get hasFailure {
+    return _failure != null;
+  }
 
   void stateBusy() => _setBusy();
   void stateFree() => _setBusy(false);
