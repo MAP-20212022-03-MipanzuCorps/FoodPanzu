@@ -23,4 +23,5 @@ class SignUpViewModel extends Viewmodel {
       await update(() async {
         await service.createAccountWithEmailAndPassword(name, email, password);
       });
+  
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
 import 'package:foodpanzu/screens/role_choice/role_choice_screen.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
@@ -22,4 +23,5 @@ final Map<String, WidgetBuilder> routes = {
   RoleChoiceScreen.routeName: (context) => RoleChoiceScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
+  SSMRegScreen.routeName: (context) => SSMRegScreen(),
 };

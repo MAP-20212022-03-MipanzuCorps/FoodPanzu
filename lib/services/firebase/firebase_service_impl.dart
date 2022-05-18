@@ -26,7 +26,8 @@ class fireBaseServiceImpl extends firebaseService {
 
   //Sign up
   @override
-  Future<void> createAccountWithEmailAndPassword(name, email, password) async {
+  Future<void> createAccountWithEmailAndPassword(
+      name, email, password) async {
     try {
       //create user first
       var _user = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -35,12 +36,15 @@ class fireBaseServiceImpl extends firebaseService {
       //add user detail to firestore
       await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
         'name': name,
+        'email' : _user.user!.email,
       });
+      // return "User successfully created";
     } on FirebaseAuthException catch (e) {
       print(e);
       // return e.message.toString();
       //return error back to display screen
       // return e.message.toString();
+      // The email address is already in use by another account.
     }
   }
 
@@ -50,6 +54,7 @@ class fireBaseServiceImpl extends firebaseService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      // return "Successfully sign in";
     } on FirebaseAuthException catch (e) {
       print(e);
       //return error back to display screen
@@ -76,8 +81,14 @@ class fireBaseServiceImpl extends firebaseService {
 // Sign Out
   @override
   Future<String> signOut() async {
-    await _firebaseAuth.signOut();
-    return 'Signed Out Successfully';
+    try {
+      await _firebaseAuth.signOut();
+      return 'Signed Out Successfully';
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      //return error back to display screen
+      return e.message.toString();
+    }
   }
 }
 // Fetch User Information

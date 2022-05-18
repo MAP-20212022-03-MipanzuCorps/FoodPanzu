@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:foodpanzu/models/user_model.dart';
+// import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
