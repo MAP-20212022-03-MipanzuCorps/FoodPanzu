@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 // import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
+import 'package:foodpanzu/screens/home/home_screen.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:foodpanzu/screens/role_choice/role_choice_viewmodel.dart';
 
@@ -51,6 +53,7 @@ class _RoleChoiceState extends State<RoleChoice> {
                 if (_formKey.currentState!.validate()) {
                   role = 'owner';
                   viewmodel.roleChosen(role);
+                  Navigator.pushNamed(context, SSMRegScreen.routeName);
                 }
               },
             ),
@@ -65,6 +68,7 @@ class _RoleChoiceState extends State<RoleChoice> {
                 if (_formKey.currentState!.validate()) {
                   role = 'customer';
                   viewmodel.roleChosen(role);
+                  Navigator.pushNamed(context, HomeScreen.routeName);
                 }
               },
             ),

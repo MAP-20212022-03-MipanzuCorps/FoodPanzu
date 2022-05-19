@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
-import 'package:foodpanzu/size_config.dart';
+// import 'package:foodpanzu/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 // import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
 // import 'package:foodpanzu/enums.dart';
-
-import 'components/body.dart';
+// import 'components/body.dart';
 import 'home_viewmodel.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +19,10 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Center(
+      body:
+
+          // SearchField(),
+          Center(
         child: View<HomeViewModel>(
           builder: (_, viewmodel) => DefaultButton(
             text: "Sign out",
@@ -32,6 +34,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+
       // Body(),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.home),
     );
