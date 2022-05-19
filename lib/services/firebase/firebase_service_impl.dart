@@ -18,7 +18,6 @@ class fireBaseServiceImpl extends firebaseService {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       Failure errorMsg;
-      print(e.code);
       //error handling based on the firebase documentation
       //using custom Failure class to format the error into custom error.
       if (e.code == "invalid-email") {
@@ -41,7 +40,7 @@ class fireBaseServiceImpl extends firebaseService {
   //Sign up
   @override
   Future<void> createAccountWithEmailAndPassword(
-      name, email, password) async {
+      name, email, password, role) async {
     try {
       //create user first
       var _user = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -50,15 +49,22 @@ class fireBaseServiceImpl extends firebaseService {
       //add user detail to firestore
       await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
         'name': name,
-        'email' : _user.user!.email,
+        'email': email,
+        'role': role,
       });
-      // return "User successfully created";
+      // user successfully registered
     } on FirebaseAuthException catch (e) {
-      print(e);
-      // return e.message.toString();
-      //return error back to display screen
-      // return e.message.toString();
-      // The email address is already in use by another account.
+      Failure errorMsg;
+
+      if (e.code == "email-already-in-use") {
+        errorMsg = Failure(e.code,
+            message: "The email address is already in use by another account.",
+            location: "firebase_service_impl.dart");
+      } else {
+        errorMsg = Failure(e.code,
+            message: "Unknown error", location: "firebase_service_impl.dart");
+      }
+      throw errorMsg;
     }
   }
 
@@ -69,22 +75,6 @@ class fireBaseServiceImpl extends firebaseService {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       // return "Successfully sign in";
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      //return error back to display screen
-      // return e.message.toString();
-    }
-  }
-
-  @override
-  Future<void> roleChosen(role) async {
-    try {
-      await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-        {
-          'role': role,
-        },
-        SetOptions(merge: true),
-      );
     } on FirebaseAuthException catch (e) {
       print(e);
       //return error back to display screen
@@ -111,7 +101,7 @@ class fireBaseServiceImpl extends firebaseService {
     try {
       _firebaseAuth.authStateChanges().listen((event) {
         user = event;
-        print(user);
+        // print(user);
       });
     } on FirebaseAuthException catch (e) {
       Failure errorMsg = const Failure("internal-error",
@@ -123,22 +113,26 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  User? getCurremtUser() {
+  User? getCurrentUser() {
     User? user = _firebaseAuth.currentUser;
     return user;
   }
-}
+
 // Fetch User Information
-// Future<String> fetchUserInformation() async {
-//   try {
-//     var snapshot =
-//         await _firebaseFirestore.collection('Users').doc(currentUser.uid).get();
-//     return snapshot.data()?['name'] as String;
-//   } on FirebaseAuthException catch (e) {
-//     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-//   } catch (e) {
-//     throw '${e.toString()} Error Occured!';
-//   }
-// }
-
-
+  // @override
+  // Future<String> fetchRole() async {
+  //   String role = '';
+  //   try {
+  //     var snapshot = await _firebaseFirestore
+  //         .collection('Users')
+  //         .doc(currentUser.uid)
+  //         .get();
+  //     role = snapshot.data()?['role'] as String;
+  //   } on FirebaseAuthException catch (e) {
+  //     // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+  //   } catch (e) {
+  //     throw '${e.toString()} Error Occured!';
+  //   }
+  //   return role;
+  // }
+}

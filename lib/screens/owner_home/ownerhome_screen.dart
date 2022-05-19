@@ -6,16 +6,16 @@ import 'package:map_mvvm/map_mvvm.dart';
 // import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
 // import 'package:foodpanzu/enums.dart';
 // import 'components/body.dart';
-import 'home_viewmodel.dart';
+import 'ownerhome_viewmodel.dart';
 
-class HomeScreen extends StatelessWidget {
+class OwnerHomeScreen extends StatelessWidget {
   static String routeName = "/home";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Customer home',
+          'Owner home',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
 
           // SearchField(),
           Center(
-        child: View<HomeViewModel>(
+        child: View<OwnerHomeViewModel>(
           builder: (_, viewmodel) => DefaultButton(
             text: "Sign out",
             press: () {

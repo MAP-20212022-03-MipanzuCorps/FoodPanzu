@@ -40,6 +40,7 @@ dependencies:
   firebase_core: ^1.17.0
   firebase_auth: ^3.3.18
   cloud_firestore: ^3.1.15
+  enum_to_string: ^2.0.1
   get: ^4.6.3
   map_mvvm:
     path: map_mvvm

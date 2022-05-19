@@ -1,5 +1,5 @@
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
-import 'package:foodpanzu/screens/role_choice/role_choice_viewmodel.dart';
+import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 // import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
@@ -38,7 +38,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
   locator.registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
   locator.registerLazySingleton<SignInViewModel>(() => SignInViewModel());
-  locator.registerLazySingleton<RoleChoiceViewModel>(() => RoleChoiceViewModel());
   locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
+  locator.registerLazySingleton<OwnerHomeViewModel>(() => OwnerHomeViewModel());
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
 }

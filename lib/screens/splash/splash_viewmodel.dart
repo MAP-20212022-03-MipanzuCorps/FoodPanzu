@@ -23,7 +23,7 @@ class SplashViewModel extends Viewmodel {
   }
 
   bool userHasSignIn() {
-    _user = service.getCurremtUser();
+    _user = service.getCurrentUser();
     if (_user == null) {
       return false;
     } else {
