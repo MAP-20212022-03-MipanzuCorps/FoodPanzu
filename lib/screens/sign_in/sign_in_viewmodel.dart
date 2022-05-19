@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 // import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/app/service_locator.dart';
@@ -18,8 +19,14 @@ class SignInViewModel extends Viewmodel {
     notifyListenersOnFailure = false;
   }
 
-  Future<void> signInWithEmailAndPassword(email, password) async =>
+  Future<void> signInWithEmailAndPassword(email, password) async {
+    try {
       await update(() async {
         await service.signInWithEmailAndPassword(email, password);
       });
+      
+    } on Failure {
+      rethrow;
+    }
+  }
 }

@@ -5,6 +5,7 @@ import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/helper/keyboard.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/login_success/login_success_screen.dart';
+import 'package:foodpanzu/ui_utils.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -41,6 +42,19 @@ class _SignFormState extends State<SignForm> {
     }
   }
 
+  Future<void Function()?> _onSignIn(
+    BuildContext context, SignInViewModel viewmodel)async{
+      try {
+        await viewmodel.signInWithEmailAndPassword(email, password);
+        Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      }on Failure catch (f) {
+        final snackbar = SnackBar(content: Text(f.message ?? 'Error'),
+          backgroundColor: Colors.red,);
+      }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -76,19 +90,22 @@ class _SignFormState extends State<SignForm> {
           ),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
-          View<SignInViewModel>(builder: (_,viewmodel) => 
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                viewmodel.signInWithEmailAndPassword(email, password);
-                KeyboardUtil.hideKeyboard(context);
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-              }
-            },
-          ),
+          View<SignInViewModel>(
+            builder: (_, viewmodel) => DefaultButton(
+                text: "Continue",
+                press: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    viewmodel.signInWithEmailAndPassword(email, password);
+                    KeyboardUtil.hideKeyboard(context);
+                    // if all are valid then go to success screen
+                    showSnackBarWhenError(context, () async {
+                      return viewmodel.signInWithEmailAndPassword(email, password);
+                    });
+                    _onSignIn(context, viewmodel);
+                    //Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                  }
+                }),
           ),
         ],
       ),

@@ -70,9 +70,23 @@ class fireBaseServiceImpl extends firebaseService {
           email: email, password: password);
       // return "Successfully sign in";
     } on FirebaseAuthException catch (e) {
-      print(e);
+      Failure errorMsg;
+      print(e.code);
       //return error back to display screen
       // return e.message.toString();
+      if (e.code == "user-not-found") {
+        errorMsg = Failure(e.code,
+            message: "There is no user exist in database",
+            location: "firebase_service_impl.dart");
+      }else if(e.code == "wrong-password"){
+        errorMsg = Failure(e.code,
+            message: "Password not match",
+            location: "firebase_service_impl.dart");
+      }else {
+        errorMsg = Failure(e.code,
+            message: "Unknown error", location: "firebase_service_impl.dart");
+      }
+      throw errorMsg;
     }
   }
 
