@@ -3,6 +3,7 @@ import 'package:foodpanzu/screens/role_choice/role_choice_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:foodpanzu/screens/home/home_viewmodel.dart';
+import 'package:foodpanzu/screens/splash/splash_viewmodel.dart';
 import 'package:map_mvvm/service_locator.dart';
 
 // import '../ui/screens/home/home_viewmodel.dart';
@@ -39,4 +40,5 @@ Future<void> initializeServiceLocator() async {
   locator
       .registerLazySingleton<RoleChoiceViewModel>(() => RoleChoiceViewModel());
   locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
+  locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
 }

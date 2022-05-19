@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
+import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
+import 'package:foodpanzu/screens/splash/splash_viewmodel.dart';
 // import 'package:foodpanzu/screens/splash/components/body.dart';
 import 'package:foodpanzu/size_config.dart';
+import 'package:map_mvvm/map_mvvm.dart';
 
 class SplashScreen extends StatelessWidget {
   static String routeName = "/splash";
@@ -22,17 +25,19 @@ class SplashScreen extends StatelessWidget {
             ),
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            DefaultButton(
-              text: "Continue",
-              press: () {
-                Navigator.pushNamed(context, SignInScreen.routeName);
-              },
-            ),
-          ],
-        ),
+        View<SplashViewModel>(
+          builder: (_, viewModel) => Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              DefaultButton(
+                text: "Continue",
+                press: () {
+                  '${viewModel.userHasSignIn() ? Navigator.pushNamed(context, HomeScreen.routeName) : Navigator.pushNamed(context, SignInScreen.routeName)}';
+                },
+              ),
+            ],
+          ),
+        )
         // SizedBox(height: getProportionateScreenHeight(10)),
       ],
     )

@@ -20,24 +20,16 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // SearchField(),
-            View<HomeViewModel>(
-              builder: (_, viewmodel) => DefaultButton(
-                text: "Sign out",
-                press: () {
-                  viewmodel.signOut();
-                  // if all are valid then go to success screen
-                  Navigator.pushNamed(context, LogOutSuccessScreen.routeName);
-                },
-              ),
-            ),
-          ],
+      body: Center(
+        child: View<HomeViewModel>(
+          builder: (_, viewmodel) => DefaultButton(
+            text: "Sign out",
+            press: () {
+              viewmodel.signOut();
+              // if all are valid then go to success screen
+              Navigator.pushNamed(context, LogOutSuccessScreen.routeName);
+            },
+          ),
         ),
       ),
       // Body(),
