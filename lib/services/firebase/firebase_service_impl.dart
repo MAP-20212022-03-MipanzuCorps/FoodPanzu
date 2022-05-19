@@ -2,7 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:foodpanzu/models/user_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/failure.dart';
 
@@ -74,21 +75,18 @@ class fireBaseServiceImpl extends firebaseService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      // return "Successfully sign in";
     } on FirebaseAuthException catch (e) {
       Failure errorMsg;
-      print(e.code);
       //return error back to display screen
-      // return e.message.toString();
       if (e.code == "user-not-found") {
         errorMsg = Failure(e.code,
             message: "There is no user exist in database",
             location: "firebase_service_impl.dart");
-      }else if(e.code == "wrong-password"){
+      } else if (e.code == "wrong-password") {
         errorMsg = Failure(e.code,
             message: "Password not match",
             location: "firebase_service_impl.dart");
-      }else {
+      } else {
         errorMsg = Failure(e.code,
             message: "Unknown error", location: "firebase_service_impl.dart");
       }
@@ -103,7 +101,7 @@ class fireBaseServiceImpl extends firebaseService {
       await _firebaseAuth.signOut();
       return 'Signed Out Successfully';
     } on FirebaseAuthException catch (e) {
-      print(e);
+      // print(e);
       //return error back to display screen
       return e.message.toString();
     }
@@ -132,21 +130,39 @@ class fireBaseServiceImpl extends firebaseService {
     return user;
   }
 
-// Fetch User Information
   // @override
-  // Future<String> fetchRole() async {
-  //   String role = '';
+  // Future<UserModel?> retrieveUserInfo() async {
   //   try {
-  //     var snapshot = await _firebaseFirestore
+  //     final userDoc = await _firebaseFirestore
   //         .collection('Users')
   //         .doc(currentUser.uid)
   //         .get();
-  //     role = snapshot.data()?['role'] as String;
-  //   } on FirebaseAuthException catch (e) {
-  //     // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
+  //     final userData = userDoc.data();
+  //     return UserModel.fromJson(userData!);
+  //   } on FirebaseException catch (e) {
+  //     print(e);
+  //     // Failure errorMsg = const Failure("internal-error",
+  //     //     message: "Failed to read user from the server",
+  //     //     location: "firebase_service.dart");
+  //     // throw errorMsg;
   //   }
-  //   return role;
+  //   return null;
   // }
+// Fetch User Information
+  @override
+  Future<String> fetchRole() async {
+    String role = '';
+    try {
+      var snapshot = await _firebaseFirestore
+          .collection('Users')
+          .doc(currentUser.uid)
+          .get();
+      role = snapshot.data()?['role'] as String;
+    } on FirebaseAuthException catch (e) {
+      // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+    return role;
+  }
 }

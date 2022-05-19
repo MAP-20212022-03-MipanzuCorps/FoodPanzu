@@ -9,7 +9,7 @@ import 'package:map_mvvm/map_mvvm.dart';
 import 'ownerhome_viewmodel.dart';
 
 class OwnerHomeScreen extends StatelessWidget {
-  static String routeName = "/home";
+  static String routeName = "/ownerhome";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

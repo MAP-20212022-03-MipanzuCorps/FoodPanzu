@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/helper/keyboard.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
-import 'package:foodpanzu/screens/login_success/login_success_screen.dart';
-import 'package:foodpanzu/ui_utils.dart';
+import 'package:foodpanzu/screens/home/home_screen.dart';
+import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -43,17 +43,29 @@ class _SignFormState extends State<SignForm> {
   }
 
   Future<void Function()?> _onSignIn(
-    BuildContext context, SignInViewModel viewmodel)async{
-      try {
-        await viewmodel.signInWithEmailAndPassword(email, password);
-        Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-      }on Failure catch (f) {
-        final snackbar = SnackBar(content: Text(f.message ?? 'Error'),
-          backgroundColor: Colors.red,);
+      BuildContext context, SignInViewModel viewmodel) async {
+    try {
+      await viewmodel.signIn(email, password);
+      if (viewmodel.getrole == 'customer') {
+        Navigator.pushNamed(context, HomeScreen.routeName);
+      } else if (viewmodel.getrole == 'owner') {
+        Navigator.pushNamed(context, OwnerHomeScreen.routeName);
+      } else {
+        final snackbar = SnackBar(
+          content: Text('Error'),
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
+    } on Failure catch (f) {
+      final snackbar = SnackBar(
+        content: Text(f.message ?? 'Error'),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+    return null;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +79,6 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           Row(
             children: [
-              // Checkbox(
-              //   value: remember,
-              //   activeColor: kPrimaryColor,
-              //   onChanged: (value) {
-              //     setState(() {
-              //       remember = value;
-              //     });
-              //   },
-              // ),
-              // Text("Remember me"),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
@@ -96,14 +98,9 @@ class _SignFormState extends State<SignForm> {
                 press: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    viewmodel.signInWithEmailAndPassword(email, password);
                     KeyboardUtil.hideKeyboard(context);
                     // if all are valid then go to success screen
-                    showSnackBarWhenError(context, () async {
-                      return viewmodel.signInWithEmailAndPassword(email, password);
-                    });
                     _onSignIn(context, viewmodel);
-                    //Navigator.pushNamed(context, LoginSuccessScreen.routeName);
                   }
                 }),
           ),

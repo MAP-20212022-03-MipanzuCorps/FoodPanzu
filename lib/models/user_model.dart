@@ -1,7 +1,11 @@
 class UserModel {
   String? userId, email, name, role;
 
-  UserModel({required this.userId,required this.email,required this.name,required this.role});
+  UserModel(
+      {required this.userId,
+      required this.email,
+      required this.name,
+      required this.role});
 
   UserModel.fromJson(Map<dynamic, dynamic> map) {
     if (map == null) {

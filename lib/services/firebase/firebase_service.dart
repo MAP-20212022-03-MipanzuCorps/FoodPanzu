@@ -1,9 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import '../../models/user_model.dart';
-import 'package:map_mvvm/failure.dart';
-
-import '../../models/user_model.dart';
-
+// import 'package:foodpanzu/models/user_model.dart';
 import 'package:map_mvvm/service_stream.dart';
 
 abstract class firebaseService with ServiceStream {
@@ -15,5 +11,6 @@ abstract class firebaseService with ServiceStream {
   User? authStateChanges();
   Future<String> signOut();
   User? getCurrentUser();
-  // Future<String> fetchRole();
+  // Future<UserModel?> retrieveUserInfo();
+  Future<String> fetchRole();
 }
