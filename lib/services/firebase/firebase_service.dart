@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 // import '../../models/user_model.dart';
 import 'package:map_mvvm/failure.dart';
 
@@ -11,6 +12,8 @@ abstract class firebaseService with ServiceStream {
   Future<void> forgotPasswordUsingEmail(email);
   Future<void> createAccountWithEmailAndPassword(name, email, password);
   Future<void> signInWithEmailAndPassword(email, password);
+  User? authStateChanges();
   Future<void> roleChosen(role);
   Future<String> signOut();
+  User? getCurremtUser();
 }

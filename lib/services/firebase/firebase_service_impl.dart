@@ -104,6 +104,29 @@ class fireBaseServiceImpl extends firebaseService {
       return e.message.toString();
     }
   }
+
+  @override
+  User? authStateChanges() {
+    User? user;
+    try {
+      _firebaseAuth.authStateChanges().listen((event) {
+        user = event;
+        print(user);
+      });
+    } on FirebaseAuthException catch (e) {
+      Failure errorMsg = const Failure("internal-error",
+          message: "Failed to read user from the server",
+          location: "firebase_service.dart");
+      throw errorMsg;
+    }
+    return user;
+  }
+
+  @override
+  User? getCurremtUser() {
+    User? user = _firebaseAuth.currentUser;
+    return user;
+  }
 }
 // Fetch User Information
 // Future<String> fetchUserInformation() async {
