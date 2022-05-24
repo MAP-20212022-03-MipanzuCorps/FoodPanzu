@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/app/routes.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
-import 'package:foodpanzu/theme.dart';
+import 'package:foodpanzu/utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

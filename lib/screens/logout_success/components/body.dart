@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
-import 'package:foodpanzu/size_config.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 
 class Body extends StatelessWidget {
   @override

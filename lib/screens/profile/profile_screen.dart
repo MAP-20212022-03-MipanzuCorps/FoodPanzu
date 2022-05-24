@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
-import 'package:foodpanzu/enums.dart';
+import 'package:foodpanzu/utils/enums.dart';
 
 import 'components/body.dart';
 

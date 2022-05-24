@@ -7,9 +7,9 @@ import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
 import 'package:map_mvvm/map_mvvm.dart';
-import '../../../components/default_button.dart';
-import '../../../constants.dart';
-import '../../../size_config.dart';
+import 'package:foodpanzu/components/default_button.dart';
+import 'package:foodpanzu/utils/constants.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 import '../sign_in_viewmodel.dart';
 
 class SignForm extends StatefulWidget {

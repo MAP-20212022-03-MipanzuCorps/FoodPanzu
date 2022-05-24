@@ -8,9 +8,9 @@ import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
-import 'package:foodpanzu/constants.dart';
-import 'package:foodpanzu/size_config.dart';
-import 'package:foodpanzu/enums.dart';
+import 'package:foodpanzu/utils/constants.dart';
+import 'package:foodpanzu/utils/size_config.dart';
+import 'package:foodpanzu/utils/enums.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
-
-import '../constants.dart';
-import '../enums.dart';
+import 'package:foodpanzu/utils/constants.dart';
+import 'package:foodpanzu/utils/enums.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({

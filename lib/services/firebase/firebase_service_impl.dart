@@ -2,8 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:foodpanzu/models/user_model.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/failure.dart';
 
@@ -48,11 +48,20 @@ class fireBaseServiceImpl extends firebaseService {
           email: email, password: password);
 
       //add user detail to firestore
+      if(role=="customer"){
+        await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
+        'name': name,
+        'email': email,
+        'role': role,
+        'restId':'',
+      });
+      }else {
       await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
         'name': name,
         'email': email,
         'role': role,
       });
+      }
       // user successfully registered
     } on FirebaseAuthException catch (e) {
       Failure errorMsg;
@@ -130,24 +139,6 @@ class fireBaseServiceImpl extends firebaseService {
     return user;
   }
 
-  // @override
-  // Future<UserModel?> retrieveUserInfo() async {
-  //   try {
-  //     final userDoc = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     final userData = userDoc.data();
-  //     return UserModel.fromJson(userData!);
-  //   } on FirebaseException catch (e) {
-  //     print(e);
-  //     // Failure errorMsg = const Failure("internal-error",
-  //     //     message: "Failed to read user from the server",
-  //     //     location: "firebase_service.dart");
-  //     // throw errorMsg;
-  //   }
-  //   return null;
-  // }
 // Fetch User Information
   @override
   Future<String> fetchRole() async {

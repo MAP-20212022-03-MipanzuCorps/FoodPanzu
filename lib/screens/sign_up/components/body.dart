@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/constants.dart';
-import 'package:foodpanzu/size_config.dart';
+import 'package:foodpanzu/utils/constants.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 import 'sign_up_form.dart';
 
 class Body extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/no_account_text.dart';
-import '../../../size_config.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 import 'sign_form.dart';
 
 class Body extends StatelessWidget {

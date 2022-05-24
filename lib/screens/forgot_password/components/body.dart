@@ -7,12 +7,10 @@ import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/components/no_account_text.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/components/sign_form.dart';
-import 'package:foodpanzu/size_config.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
-// import 'package:foodpanzu/services/firebase_forget_password.dart';
-
-import '../../../constants.dart';
-import '../../../ui_utils.dart';
+import 'package:foodpanzu/utils/constants.dart';
+import 'package:foodpanzu/utils/ui_utils.dart';
 import '../../sign_in/sign_in_screen.dart';
 
 class Body extends StatelessWidget {

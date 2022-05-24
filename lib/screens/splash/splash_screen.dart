@@ -6,7 +6,7 @@ import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_viewmodel.dart';
 // import 'package:foodpanzu/screens/splash/components/body.dart';
-import 'package:foodpanzu/size_config.dart';
+import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
 class SplashScreen extends StatelessWidget {
