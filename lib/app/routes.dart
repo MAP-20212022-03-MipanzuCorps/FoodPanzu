@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:foodpanzu/screens/add_new_menu/add_new_menu_screen.dart';
+import 'package:foodpanzu/screens/menu_details/menu_details_screen.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
@@ -24,4 +26,6 @@ final Map<String, WidgetBuilder> routes = {
   OwnerHomeScreen.routeName: (context) => OwnerHomeScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   SSMRegScreen.routeName: (context) => SSMRegScreen(),
+  MenuDetailScreen.routeName: (context) => MenuDetailScreen(),
+  AddNewMenuScreen.routeName: (context) => AddNewMenuScreen(),
 };

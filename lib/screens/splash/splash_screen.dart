@@ -32,7 +32,11 @@ class SplashScreen extends StatelessWidget {
               DefaultButton(
                 text: "Continue",
                 press: () {
-                  '${viewModel.userHasSignIn() ? Navigator.pushNamed(context, HomeScreen.routeName) : Navigator.pushNamed(context, SignInScreen.routeName)}';
+                  if (viewModel.userHasSignIn()) {
+                    viewModel.goToHomePageBasedOnRole(context);
+                  } else {
+                    Navigator.pushNamed(context, SignInScreen.routeName);
+                  }
                 },
               ),
             ],

@@ -1,9 +1,13 @@
 class UserModel {
-   dynamic _userId;
-   String _name, _email, _role;
-   String? _restId;
+  dynamic _userId;
+  String _name, _email, _role;
+  String? _restId;
 
- UserModel(
+  String? get restId {
+    return _restId;
+  }
+
+  UserModel(
       {dynamic userId = "",
       String name = '',
       String email = '',
@@ -16,13 +20,13 @@ class UserModel {
         _restId = restId;
 
   UserModel.fromJson(Map<String, dynamic> map)
-    : _userId = map['userId'],
-    _email = map['email'],
-    _name = map['name'],
-    _role = map['role'],
-    _restId = map['restId'];
-  
-  toJson() {
+      : _userId = map['userId'],
+        _email = map['email'],
+        _name = map['name'],
+        _role = map['role'],
+        _restId = map['restId'];
+
+  Map<String, dynamic> toJson() {
     return {
       'userId': _userId,
       'email': _email,

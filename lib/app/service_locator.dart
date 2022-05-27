@@ -1,13 +1,12 @@
+import 'package:foodpanzu/screens/add_new_menu/add_new_menu_viewmodel.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
-// import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
 import 'package:foodpanzu/screens/home/home_viewmodel.dart';
 import 'package:foodpanzu/screens/splash/splash_viewmodel.dart';
 import 'package:map_mvvm/service_locator.dart';
 
-// import '../ui/screens/home/home_viewmodel.dart';
 import 'package:foodpanzu/services/service.dart';
 
 final locator = ServiceLocator.locator;
@@ -32,13 +31,16 @@ Future<void> initializeServiceLocator() async {
 
   // Services
   locator.registerLazySingleton<firebaseService>(() => fireBaseServiceImpl());
-  // locator.registerLazySingleton<firebaseService>(() => fireBaseServiceImpl());
+  locator.registerLazySingleton<FireStorage>(() => FireStorageImpl());
 
   // Viewmodels
-  locator.registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
+  locator
+      .registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
   locator.registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
   locator.registerLazySingleton<SignInViewModel>(() => SignInViewModel());
   locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
   locator.registerLazySingleton<OwnerHomeViewModel>(() => OwnerHomeViewModel());
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
+  locator
+      .registerLazySingleton<AddNewMenuViewModel>(() => AddNewMenuViewModel());
 }
