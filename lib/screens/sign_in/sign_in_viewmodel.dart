@@ -1,6 +1,12 @@
+// ignore_for_file: unused_element
+
 import 'dart:async';
-// import 'package:foodpanzu/screens/home/home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:foodpanzu/app/service_locator.dart';
+import 'package:foodpanzu/models/user_model.dart';
+import 'package:foodpanzu/screens/home/home_screen.dart';
+import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
@@ -10,7 +16,7 @@ class SignInViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   String email = '';
   String password = '';
-  String _role = '';
+  late UserModel currUser;
 
   @override
   void init() async {
@@ -18,14 +24,23 @@ class SignInViewModel extends Viewmodel {
     notifyListenersOnFailure = false;
   }
 
-  String get getrole => _role;
-
   Future<void> signIn(email, password) async => await update(() async {
         try {
-          await service.signInWithEmailAndPassword(email, password);
-          _role = await service.fetchRole();
+          currUser = await service.signInWithEmailAndPassword(email, password);
         } on Failure {
           rethrow;
         }
       });
+
+  void navigator(BuildContext context) {
+    if (currUser.role == "customer") {
+      Navigator.popAndPushNamed(context, HomeScreen.routeName);
+    } else {
+      if (currUser.restId == '') {
+        Navigator.popAndPushNamed(context, RestaurantSignUpScreen.routeName);
+      } else {
+        Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName);
+      }
+    }
+  }
 }

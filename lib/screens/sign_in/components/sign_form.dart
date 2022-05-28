@@ -6,6 +6,7 @@ import 'package:foodpanzu/helper/keyboard.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/utils/constants.dart';
@@ -46,17 +47,8 @@ class _SignFormState extends State<SignForm> {
       BuildContext context, SignInViewModel viewmodel) async {
     try {
       await viewmodel.signIn(email, password);
-      if (viewmodel.getrole == 'customer') {
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      } else if (viewmodel.getrole == 'owner') {
-        Navigator.pushNamed(context, OwnerHomeScreen.routeName);
-      } else {
-        final snackbar = SnackBar(
-          content: Text('Error'),
-          backgroundColor: Colors.red,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      }
+      viewmodel.navigator(context);
+
     } on Failure catch (f) {
       final snackbar = SnackBar(
         content: Text(f.message ?? 'Error'),
@@ -133,6 +125,7 @@ class _SignFormState extends State<SignForm> {
       },
       decoration: InputDecoration(
         labelText: "Password",
+        suffixIconColor: kPrimaryColor,
         hintText: "Enter your password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),

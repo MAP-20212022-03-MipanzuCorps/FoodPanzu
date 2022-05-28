@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
@@ -8,8 +8,7 @@ import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
-
-import '../screens/sign_up/sign_up_screen.dart';
+import 'package:foodpanzu/screens/sign_up/sign_up_screen.dart';
 
 // We use name route
 // All our routes will be available here
@@ -23,5 +22,5 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => HomeScreen(),
   OwnerHomeScreen.routeName: (context) => OwnerHomeScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
-  SSMRegScreen.routeName: (context) => SSMRegScreen(),
+  RestaurantSignUpScreen.routeName: (context) => RestaurantSignUpScreen(),
 };

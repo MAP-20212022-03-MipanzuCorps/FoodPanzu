@@ -32,7 +32,13 @@ const String kShortPassError = "Password is too short";
 const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
+final RegExp zipCodeValidator = RegExp("[0-9]{5}");
+const String kZipCodeNullError = "Please Enter your ZipCode";
+const String kZipCodeInvalidError = "Please Enter valid ZipCode";
+final RegExp addressValidator = RegExp("[A-Za-z0-9'\.\-\s\,]");
 const String kAddressNullError = "Please Enter your address";
+const String kAddressInvalidError = "Please Enter valid address";
+const String kDescNullError = "Please Enter a description of your restaurant";
 const String kRoleNullError = "Please Choose your role";
 
 final otpInputDecoration = InputDecoration(

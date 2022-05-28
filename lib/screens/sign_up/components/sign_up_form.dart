@@ -5,7 +5,7 @@ import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/components/form_error.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
-import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
+import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:foodpanzu/utils/constants.dart';
@@ -49,12 +49,8 @@ class _SignUpFormState extends State<SignUpForm> {
     // ignore: duplicate_ignore
     try {
       await viewmodel.register();
-      if(viewmodel.getrole == "customer") {
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      }else{
-        Navigator.pushNamed(context, OwnerHomeScreen.routeName);
-      }
-      
+      viewmodel.navigator(context);
+            
     } on Failure catch (f) {
       final snackbar = SnackBar(
         content: Text(f.message ?? 'Error'),

@@ -2,8 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:foodpanzu/models/user_model.dart';
+import 'package:foodpanzu/models/restaurant_model.dart';
+import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/failure.dart';
 
@@ -48,20 +48,13 @@ class fireBaseServiceImpl extends firebaseService {
           email: email, password: password);
 
       //add user detail to firestore
-      if(role=="customer"){
-        await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
-        'name': name,
-        'email': email,
-        'role': role,
-        'restId':'',
-      });
-      }else {
       await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
+        'userId': _user.user!.uid,
         'name': name,
         'email': email,
         'role': role,
+        'restId': '',
       });
-      }
       // user successfully registered
     } on FirebaseAuthException catch (e) {
       Failure errorMsg;
@@ -80,11 +73,21 @@ class fireBaseServiceImpl extends firebaseService {
 
   //Sign in
   @override
-  Future<void> signInWithEmailAndPassword(email, password) async {
+  Future<UserModel> signInWithEmailAndPassword(email, password) async {
+    UserModel currUser;
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      var user = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+
+      var snapshot = await _firebaseFirestore
+          .collection('Users')
+          .doc(user.user!.uid)
+          .get();
+
+      currUser = UserModel.fromJson(snapshot.data()!);
+
     } on FirebaseAuthException catch (e) {
+      print(e);
       Failure errorMsg;
       //return error back to display screen
       if (e.code == "user-not-found") {
@@ -101,6 +104,7 @@ class fireBaseServiceImpl extends firebaseService {
       }
       throw errorMsg;
     }
+    return currUser;
   }
 
 // Sign Out
@@ -140,20 +144,53 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
 // Fetch User Information
+  // @override
+  // Future<String> fetchRole() async {
+  //   String role = '';
+  //   try {
+  //     var snapshot = await _firebaseFirestore
+  //         .collection('Users')
+  //         .doc(currentUser.uid)
+  //         .get();
+  //     role = snapshot.data()?['role'] as String;
+  //   } on FirebaseException catch (e) {
+  //     print(e);
+  //     // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+  //   } catch (e) {
+  //     print(e);
+  //     // throw '${e.toString()} Error Occured!';
+  //   }
+  //   return role;
+  // }
+
   @override
-  Future<String> fetchRole() async {
-    String role = '';
+  Future<void> signUpRestaurant(Restaurant restaurant) async {
     try {
-      var snapshot = await _firebaseFirestore
-          .collection('Users')
-          .doc(currentUser.uid)
-          .get();
-      role = snapshot.data()?['role'] as String;
-    } on FirebaseAuthException catch (e) {
-      // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-    } catch (e) {
-      throw '${e.toString()} Error Occured!';
+      //create restaurant doc first
+      var restId = await _firebaseFirestore
+          .collection('Restaurants')
+          .add(restaurant.toJson());
+      _firebaseFirestore.collection('Restaurants').doc(restId.id).update({
+        'restId': restId.id,
+      });
+      //add restaurant id to user
+      _firebaseFirestore.collection('Users').doc(currentUser.uid).update({
+        'restId': restId.id,
+      });
+      //restaurant successfully registered
+    } on FirebaseException catch (e) {
+      print(e);
+      Failure errorMsg;
+
+      // if (e.code == "email-already-in-use") {
+      //   errorMsg = Failure(e.code,
+      //       message: "The email address is already in use by another account.",
+      //       location: "firebase_service_impl.dart");
+      // } else {
+      //   errorMsg = Failure(e.code,
+      //       message: "Unknown error", location: "firebase_service_impl.dart");
+      // }
+      // throw errorMsg;
     }
-    return role;
   }
 }

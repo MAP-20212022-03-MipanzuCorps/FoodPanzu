@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
+import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_screen.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 
@@ -28,7 +29,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Back to Login",
             press: () {
-              Navigator.pushNamed(context, SignInScreen.routeName);
+              Navigator.pushNamedAndRemoveUntil(context, SignInScreen.routeName, ModalRoute.withName(SignInScreen.routeName));
             },
           ),
         ),
