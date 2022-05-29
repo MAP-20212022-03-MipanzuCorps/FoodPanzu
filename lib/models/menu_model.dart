@@ -5,7 +5,7 @@ class Menu {
   String _category, _foodDesc, _foodName, _foodPicture;
   double _foodPrice;
 
-  String? get menu {
+  String? get menuId {
     return _menuId;
   }
 

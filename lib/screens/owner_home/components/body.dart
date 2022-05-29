@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/menu_details/menu_details_screen.dart';
+import 'package:foodpanzu/screens/owner_home/menu_cart_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/utils/size_config.dart';
@@ -70,20 +71,22 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, AddNewMenuScreen.routeName);
             },
           ),
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: viewmodel.hasMenu() ? viewmodel.menuList!.length : 0,
-            shrinkWrap: true,
-            primary: false,
-            itemBuilder: ((context, index) {
-              return MenuCard(
-                  menu: viewmodel.menuList?[index],
-                  onMenuClick: () {
-                    Navigator.pushNamed(context, MenuDetailScreen.routeName);
-                  },
-                  viewmodel: viewmodel);
-            }),
-          )
+          View<MenuListViewModel>(builder: (_, viewmodel) {
+            return ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: viewmodel.hasMenu() ? viewmodel.menuList!.length : 0,
+              shrinkWrap: true,
+              primary: false,
+              itemBuilder: ((context, index) {
+                return MenuCard(
+                    menu: viewmodel.menuList?[index],
+                    onMenuClick: () {
+                      Navigator.pushNamed(context, MenuDetailScreen.routeName);
+                    },
+                    viewmodel: viewmodel);
+              }),
+            );
+          })
         ],
       ),
     );

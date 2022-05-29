@@ -12,7 +12,7 @@ class fireBaseServiceImpl extends firebaseService {
   final _firebaseAuth = FirebaseAuth.instance;
   final _firebaseFirestore = FirebaseFirestore.instance;
   User get currentUser => _firebaseAuth.currentUser!;
-  UserModel? user;
+  static UserModel user = UserModel();
 
   //forgot password
   @override
@@ -254,19 +254,36 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  Stream<QuerySnapshot<Map<String, dynamic>>>? menuListListener() {
-    if (user == null) {
-      return null;
-    } else {
-      Stream<QuerySnapshot<Map<String, dynamic>>>? menuList = _firebaseFirestore
-          .collection("testRestaurant")
-          .doc(user!.restId)
-          .collection("menu")
-          .snapshots();
-      return menuList;
-    }
+  Future<void> initializeUser() async {
+    user = await getUser(currentUser.uid);
   }
 
   @override
-  Stream<QuerySnapshot<Object?>>? get stream => menuListListener();
+  Stream? menuListListener() {
+    // if (user == null) {
+    //   return null;
+    // } else {
+    return _firebaseFirestore
+        .collection("testRestaurant")
+        .doc(user.restId)
+        .collection("menu")
+        .snapshots();
+    // .map((snapShot) => snapShot.docs
+    //     .map((document) => Menu.fromJson(document.data()))
+    //     .toList());
+    // }
+  }
+
+  @override
+  Stream? get stream => menuListListener();
+
+  @override
+  Future<void> deleteMenu(String menuId) async {
+    await _firebaseFirestore
+        .collection("testRestaurant")
+        .doc(user.restId)
+        .collection("menu")
+        .doc(menuId)
+        .delete();
+  }
 }

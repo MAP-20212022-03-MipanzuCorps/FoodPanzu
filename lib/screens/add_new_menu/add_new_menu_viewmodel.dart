@@ -13,16 +13,16 @@ class AddNewMenuViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
-  Menu? _menu;
+  Menu _menu = Menu();
   String? _filePath;
 
   @override
   void init() async {
     super.init();
-    notifyListenersOnFailure = false;
+    notifyListenersOnFailure = true;
   }
 
-  Menu? get menu {
+  Menu get menu {
     return _menu;
   }
 
