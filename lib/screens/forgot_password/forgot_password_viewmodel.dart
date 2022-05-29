@@ -24,6 +24,7 @@ class forgotPasswordModel extends Viewmodel {
   set _email(value) => update(() async => email = value);
   String get _status => status;
   set _status(value) => update(() async => status = value);
+  
   Future<void> forgotPassword(email) async {
     try {
       await update(() async {

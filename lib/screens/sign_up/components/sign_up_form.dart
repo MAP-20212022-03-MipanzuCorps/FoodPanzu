@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/components/form_error.dart';
-import 'package:foodpanzu/screens/home/home_screen.dart';
-import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:foodpanzu/utils/constants.dart';
@@ -86,6 +84,9 @@ class _SignUpFormState extends State<SignUpForm> {
             },
             decoration: InputDecoration(
               labelText: "Full Name",
+              labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
               hintText: "Enter your full name",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
@@ -117,6 +118,9 @@ class _SignUpFormState extends State<SignUpForm> {
             },
             decoration: InputDecoration(
               labelText: "Email",
+              labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
               hintText: "Enter your email",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
@@ -148,6 +152,9 @@ class _SignUpFormState extends State<SignUpForm> {
             },
             decoration: InputDecoration(
               labelText: "Password",
+              labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
               hintText: "Enter your password",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
@@ -180,6 +187,9 @@ class _SignUpFormState extends State<SignUpForm> {
             },
             decoration: InputDecoration(
               labelText: "Confirm Password",
+              labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
               hintText: "Re-enter your password",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),

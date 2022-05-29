@@ -125,6 +125,9 @@ class _SignFormState extends State<SignForm> {
       },
       decoration: InputDecoration(
         labelText: "Password",
+        labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
         suffixIconColor: kPrimaryColor,
         hintText: "Enter your password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -157,6 +160,9 @@ class _SignFormState extends State<SignForm> {
       },
       decoration: InputDecoration(
         labelText: "Email",
+        labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
         hintText: "Enter your email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),

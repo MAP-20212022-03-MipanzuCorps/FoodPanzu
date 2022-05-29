@@ -43,7 +43,6 @@ class _RestaurantFormState extends State<RestaurantForm> {
     try {
       await viewmodel.registerRestaurant();
       Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName);
-
     } on Failure catch (f) {
       final snackbar = SnackBar(
         content: Text(f.message ?? 'Error'),
@@ -79,9 +78,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
             },
             decoration: InputDecoration(
               labelText: "SSM Registration Number",
+              labelStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
               hintText: "Enter the company SSM Number",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+              // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
@@ -104,9 +106,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
             },
             decoration: InputDecoration(
               labelText: "Restaurant Name",
+              labelStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
               hintText: "Enter the restaurant name",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+              // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
@@ -134,9 +139,13 @@ class _RestaurantFormState extends State<RestaurantForm> {
             },
             decoration: InputDecoration(
               labelText: "Address",
+              labelStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
               hintText: "Enter restaurant address",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+              suffixIcon:
+                  CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
@@ -164,9 +173,13 @@ class _RestaurantFormState extends State<RestaurantForm> {
             },
             decoration: InputDecoration(
               labelText: "Zip Code",
+              labelStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
               hintText: "Enter restaurant zip code",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+              suffixIcon:
+                  CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
@@ -189,9 +202,12 @@ class _RestaurantFormState extends State<RestaurantForm> {
             },
             decoration: InputDecoration(
               labelText: "Restaurant Description",
+              labelStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
               hintText: "Enter the restaurant description",
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+              // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
             ),
           ),
           FormError(errors: errors),

@@ -1,13 +1,8 @@
 import 'dart:async';
-
-// import 'package:foodpanzu/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:foodpanzu/services/firebase/firestorage_service.dart';
-import 'package:foodpanzu/services/firebase/firestorage_service_impl.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
 import '../../models/menu_model.dart';
@@ -53,6 +48,7 @@ class OwnerHomeViewModel extends Viewmodel {
         _menuList = await service.getAllMenu(user.restId!);
       } catch (e) {
         //throw something la
+        print(e);
       }
     });
 

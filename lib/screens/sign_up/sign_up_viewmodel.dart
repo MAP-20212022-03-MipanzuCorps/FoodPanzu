@@ -17,7 +17,7 @@ class SignUpViewModel extends Viewmodel {
   String _password = '';
   String _name = '';
   String _role = '';
-  late UserModel currUser;
+  late UserModel? currUser;
 
   @override
   void init() async {
@@ -45,7 +45,7 @@ class SignUpViewModel extends Viewmodel {
       });
 
   void navigator(BuildContext context){
-    if(currUser.role == "customer") {
+    if(currUser?.role == "customer") {
         Navigator.popAndPushNamed(context, HomeScreen.routeName);
       }else{
         Navigator.popAndPushNamed(context, RestaurantSignUpScreen.routeName);

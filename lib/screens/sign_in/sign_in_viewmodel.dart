@@ -16,7 +16,7 @@ class SignInViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   String email = '';
   String password = '';
-  late UserModel currUser;
+  late UserModel? currUser;
 
   @override
   void init() async {
@@ -33,10 +33,10 @@ class SignInViewModel extends Viewmodel {
       });
 
   void navigator(BuildContext context) {
-    if (currUser.role == "customer") {
+    if (currUser?.role == "customer") {
       Navigator.popAndPushNamed(context, HomeScreen.routeName);
     } else {
-      if (currUser.restId == '') {
+      if (currUser?.restId == '') {
         Navigator.popAndPushNamed(context, RestaurantSignUpScreen.routeName);
       } else {
         Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName);
