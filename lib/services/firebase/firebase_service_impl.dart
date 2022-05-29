@@ -201,7 +201,7 @@ class fireBaseServiceImpl extends firebaseService {
   Future<void> addNewMenu(Menu menu, String restaurantId) async {
     try {
       DocumentReference menuDcoument = await _firebaseFirestore
-          .collection("testRestaurant")
+          .collection("Restaurants")
           .doc(restaurantId)
           .collection("menu")
           .add(menu.toJson());
@@ -211,7 +211,7 @@ class fireBaseServiceImpl extends firebaseService {
       //we need to update the field of the newly
       //created document with the generated Id
       _firebaseFirestore
-          .collection("testRestaurant")
+          .collection("Restaurants")
           .doc(restaurantId)
           .collection("menu")
           .doc(menuDcoument.id)
@@ -240,7 +240,7 @@ class fireBaseServiceImpl extends firebaseService {
     try {
       List<Menu> listMenu = [];
       QuerySnapshot querySnapshot = await _firebaseFirestore
-          .collection("testRestaurant")
+          .collection("Restaurants")
           .doc(restaurantId)
           .collection("menu")
           .get();
@@ -264,7 +264,7 @@ class fireBaseServiceImpl extends firebaseService {
     //   return null;
     // } else {
     return _firebaseFirestore
-        .collection("testRestaurant")
+        .collection("Restaurants")
         .doc(user.restId)
         .collection("menu")
         .snapshots();

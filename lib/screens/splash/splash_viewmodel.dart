@@ -13,19 +13,21 @@ class SplashViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   StreamSubscription? _streamListener;
   bool get isListeningToStream => _streamListener != null;
-  UserModel? _user;
-  String? role;
+  // late UserModel _user;
+  String role = '';
 
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
+    // _user = await service.getUser(service.getCurrentUser()!.uid);
+      // role = _user.role;
   }
 
-  updateUserState(currentUser) {
-    _user = service.getUser(currentUser) as UserModel;
-    //trasnform _user into
-  }
+  // updateUserState(currentUser) {
+  //   _user = currentUser;
+  //   //trasnform _user into
+  // }
 
   bool userHasSignIn() {
     if (service.getCurrentUser() == null) {
@@ -36,30 +38,31 @@ class SplashViewModel extends Viewmodel {
   }
 
   void goToHomePageBasedOnRole(BuildContext context) async {
-    update(() async {
-      role = _user?.role;
-      print(role);
-      // role = await service.fetchRole();
-    });
-
+    // update(() async {
+      // _user = await service.getUser(service.getCurrentUser()!.uid);
+      // role = _user.role;
+      role = await service.fetchRole();
+      
+    // });
+print(role);
     if (role == "owner") {
       //return a owner home page
       Navigator.pushNamed(context, OwnerHomeScreen.routeName);
-    } else {
+    } else if(role == "owner") {
       //return a customer home page
-      Navigator.pushNamed(context, HomeScreen.routeName);
+      Navigator.pushNamed(context, OwnerHomeScreen.routeName);
     }
   }
 
-  Future<void> checkUserSignInStatus() async {
-    await update(
-      () async {
-        try {
-          updateUserState(service.authStateChanges());
-        } on Failure {
-          rethrow;
-        }
-      },
-    );
-  }
+  // Future<void> checkUserSignInStatus() async {
+  //   await update(
+  //     () async {
+  //       try {
+  //         updateUserState(service.authStateChanges());
+  //       } on Failure {
+  //         rethrow;
+  //       }
+  //     },
+  //   );
+  // }
 }

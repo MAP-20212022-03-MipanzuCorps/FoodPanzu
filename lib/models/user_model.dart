@@ -4,8 +4,10 @@ class UserModel {
   String? _restId;
 
   //  UserModel(this._userId, this._email, this._name, this._role, this._restId);
-
- UserModel(
+  get role => _role;
+  get restId => _restId;
+  
+  UserModel(
       {dynamic userId = "",
       String name = '',
       String email = '',
@@ -18,12 +20,12 @@ class UserModel {
         _restId = restId;
 
   UserModel.fromJson(Map<String, dynamic> map)
-    :  _userId = map['userId'],
-    _email = map['email'],
-    _name = map['name'],
-    _role = map['role'],
-    _restId = map['restId'];
-  
+      : _userId = map['userId'],
+        _email = map['email'],
+        _name = map['name'],
+        _role = map['role'],
+        _restId = map['restId'];
+
   // toJson() {
   // String? get restId {
   //   return _restId;
@@ -50,8 +52,6 @@ class UserModel {
       'restId': _restId,
     };
   }
-  get role => _role;
-  get restId => _restId;
 }
 
   

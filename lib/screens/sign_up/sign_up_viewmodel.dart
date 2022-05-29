@@ -39,6 +39,7 @@ class SignUpViewModel extends Viewmodel {
           await service.createAccountWithEmailAndPassword(
               _name, _email, _password, _role);
           currUser = await service.signInWithEmailAndPassword(_email, _password);
+          service.initializeUser();
         } on Failure {
           rethrow;
         }

@@ -42,7 +42,14 @@ class _RestaurantFormState extends State<RestaurantForm> {
     // ignore: duplicate_ignore
     try {
       await viewmodel.registerRestaurant();
-      Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => OwnerHomeScreen(),
+        ),
+        (route) => false,
+      );
+      Navigator.popUntil(context, (route) => route.isFirst);
     } on Failure catch (f) {
       final snackbar = SnackBar(
         content: Text(f.message ?? 'Error'),
