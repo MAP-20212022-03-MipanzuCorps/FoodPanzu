@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodpanzu/screens/owner_home/menu_cart_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import '../../../models/menu_model.dart';
@@ -7,7 +8,7 @@ import '../../../widgets/food_category_icon.dart';
 class MenuCard extends StatelessWidget {
   Menu? menu;
   Function onMenuClick;
-  OwnerHomeViewModel viewmodel;
+  MenuListViewModel viewmodel;
 
   MenuCard(
       {super.key,

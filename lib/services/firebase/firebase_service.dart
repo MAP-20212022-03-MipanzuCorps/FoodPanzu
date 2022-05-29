@@ -9,7 +9,7 @@ import 'package:map_mvvm/service_stream.dart';
 
 import '../../models/user_model.dart';
 
-abstract class firebaseService with ServiceStream<QuerySnapshot<Object?>> {
+abstract class firebaseService with ServiceStream {
 // ignore_for_file: camel_case_types
 
   Future<void> forgotPasswordUsingEmail(email);
@@ -23,5 +23,7 @@ abstract class firebaseService with ServiceStream<QuerySnapshot<Object?>> {
   Future<void> addNewMenu(Menu menu, String restaurantId);
   Future<List<Menu>> getAllMenu(String restaurantId);
   Future<UserModel> getUser(String id);
-  Stream<QuerySnapshot<Object?>>? menuListListener();
+  Stream? menuListListener();
+  Future<void> initializeUser();
+  Future<void> deleteMenu(String menuId);
 }

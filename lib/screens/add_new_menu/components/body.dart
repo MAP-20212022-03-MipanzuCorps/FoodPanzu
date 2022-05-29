@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/models/menu_model.dart';
@@ -18,7 +19,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late String foodName, foodDescription, foodPicture, foodCategory;
+  late String foodName, foodDescription, foodPicture;
+  String? foodCategory;
   late String path;
   late double price;
   final pictureController = TextEditingController();
@@ -62,7 +64,7 @@ class _BodyState extends State<Body> {
                             _formKey.currentState!.save();
                             viewmodel.addNewMenu(
                                 Menu(
-                                    category: foodCategory,
+                                    category: foodCategory!,
                                     foodDesc: foodDescription,
                                     foodPrice: price,
                                     foodName: foodName,
@@ -146,22 +148,51 @@ class _BodyState extends State<Body> {
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
-          child: TextFormField(
-            onSaved: (newValue) => foodCategory = newValue!,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Don't leave the field blank!";
-              }
-            },
-            decoration: const InputDecoration(
-              labelText: "FoodCategory",
-              labelStyle: TextStyle(
-                color: Color(0xFFFF7643),
+          child: DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: "FoodCategory",
+                labelStyle: TextStyle(
+                  color: Color(0xFFFF7643),
+                ),
+                hintText: "Enter your food category",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
-              hintText: "Enter your food category",
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-            ),
-          ),
+              value: foodCategory,
+              hint: const Text(
+                'Food Category',
+              ),
+              onChanged: (category) => setState(() => foodCategory = category),
+              validator: (value) => value == null ? 'field required' : null,
+              items: const [
+                DropdownMenuItem(value: "food", child: Text("Food")),
+                DropdownMenuItem(value: "drink", child: Text("Drink"))
+              ]),
+          //     DropdownButton(
+          //   items: [
+          //     DropdownMenuItem(child: Text("Food"), value: "food"),
+          //     DropdownMenuItem(child: Text("Drink"), value: "drink")
+          //   ],
+          //   value: foodCategory,
+          //   onChanged: (String? value) {
+          //     foodCategory = value;
+          //   },
+          // )
+          // TextFormField(
+          //   onSaved: (newValue) => foodCategory = newValue!,
+          //   validator: (value) {
+          //     if (value!.isEmpty) {
+          //       return "Don't leave the field blank!";
+          //     }
+          //   },
+          // decoration: const InputDecoration(
+          //   labelText: "FoodCategory",
+          //   labelStyle: TextStyle(
+          //     color: Color(0xFFFF7643),
+          //   ),
+          //   hintText: "Enter your food category",
+          //   floatingLabelBehavior: FloatingLabelBehavior.always,
+          // ),
+          // ),
         ),
       ],
     );
@@ -173,6 +204,9 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
               if (value!.isEmpty) {
@@ -206,7 +240,6 @@ class _BodyState extends State<Body> {
                 type: FileType.custom,
                 allowedExtensions: ['png', 'jpg'],
               );
-
               if (result == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("No file selected")),
@@ -220,6 +253,11 @@ class _BodyState extends State<Body> {
             controller: pictureController,
             onSaved: (newValue) {
               foodPicture = newValue!;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Don't leave the field blank!";
+              }
             },
             readOnly: true,
             enableInteractiveSelection: true,

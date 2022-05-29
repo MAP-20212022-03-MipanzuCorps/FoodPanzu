@@ -9,6 +9,8 @@ import 'package:map_mvvm/service_locator.dart';
 
 import 'package:foodpanzu/services/service.dart';
 
+import '../screens/owner_home/menu_cart_viewmodel.dart';
+
 final locator = ServiceLocator.locator;
 
 Future<void> initializeServiceLocator() async {
@@ -43,4 +45,5 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
   locator
       .registerLazySingleton<AddNewMenuViewModel>(() => AddNewMenuViewModel());
+  locator.registerLazySingleton<MenuListViewModel>(() => MenuListViewModel());
 }
