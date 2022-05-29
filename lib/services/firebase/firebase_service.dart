@@ -12,11 +12,11 @@ abstract class firebaseService with ServiceStream {
 
   Future<void> forgotPasswordUsingEmail(email);
   Future<void> createAccountWithEmailAndPassword(name, email, password, role);
-  Future<UserModel?> signInWithEmailAndPassword(email, password);
+  Future<UserModel> signInWithEmailAndPassword(email, password);
   User? authStateChanges();
-  Future<String> signOut();
+  Future<void> signOut();
   User? getCurrentUser();
-  Future<String> fetchRole();
+  // Future<String> fetchRole();
   Future<void> signUpRestaurant(Restaurant restaurant);
   Future<void> addNewMenu(Menu menu, String restaurantId);
   Future<List<Menu>> getAllMenu(String restaurantId);

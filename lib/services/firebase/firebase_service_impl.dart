@@ -75,22 +75,15 @@ class fireBaseServiceImpl extends firebaseService {
 
   //Sign in
   @override
-  Future<UserModel?> signInWithEmailAndPassword(email, password) async {
+  Future<UserModel> signInWithEmailAndPassword(email, password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      // var snapshot = await _firebaseFirestore
-      //     .collection('Users')
-      //     .doc(user.user!.uid)
-      //     .get();
-
-      // currUser = UserModel.fromJson(snapshot.data()!);
-
       user = await getUser(currentUser.uid);
       
     } on FirebaseAuthException catch (e) {
-      print(e);
+      // print(e);
       Failure errorMsg;
       //return error back to display screen
       if (e.code == "user-not-found") {
@@ -112,14 +105,15 @@ class fireBaseServiceImpl extends firebaseService {
 
 // Sign Out
   @override
-  Future<String> signOut() async {
+  Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
-      return 'Signed Out Successfully';
+
+      // return 'Signed Out Successfully';
     } on FirebaseAuthException catch (e) {
       // print(e);
       //return error back to display screen
-      return e.message.toString();
+      // return e.message.toString();
     }
   }
 
@@ -142,29 +136,29 @@ class fireBaseServiceImpl extends firebaseService {
 
   @override
   User? getCurrentUser() {
-    User? user = _firebaseAuth.currentUser;
-    return user;
+    User? _user = _firebaseAuth.currentUser;
+    return _user;
   }
 
 // Fetch User role
-  @override
-  Future<String> fetchRole() async {
-    String role = '';
-    try {
-      var snapshot = await _firebaseFirestore
-          .collection('Users')
-          .doc(currentUser.uid)
-          .get();
-      role = snapshot.data()?['role'] as String;
-    } on FirebaseException catch (e) {
-      print(e);
-      // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-    } catch (e) {
-      print(e);
-      // throw '${e.toString()} Error Occured!';
-    }
-    return role;
-  }
+  // @override
+  // Future<String> fetchRole() async {
+  //   String role = '';
+  //   try {
+  //     var snapshot = await _firebaseFirestore
+  //         .collection('Users')
+  //         .doc(currentUser.uid)
+  //         .get();
+  //     role = snapshot.data()?['role'] as String;
+  //   } on FirebaseException catch (e) {
+  //     print(e);
+  //     // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+  //   } catch (e) {
+  //     print(e);
+  //     // throw '${e.toString()} Error Occured!';
+  //   }
+  //   return role;
+  // }
 
   @override
   Future<void> signUpRestaurant(Restaurant restaurant) async {
@@ -182,18 +176,13 @@ class fireBaseServiceImpl extends firebaseService {
       });
       //restaurant successfully registered
     } on FirebaseException catch (e) {
-      print(e);
+      // print(e);
       Failure errorMsg;
 
-      // if (e.code == "email-already-in-use") {
-      //   errorMsg = Failure(e.code,
-      //       message: "The email address is already in use by another account.",
-      //       location: "firebase_service_impl.dart");
-      // } else {
-      //   errorMsg = Failure(e.code,
-      //       message: "Unknown error", location: "firebase_service_impl.dart");
-      // }
-      // throw errorMsg;
+        errorMsg = Failure(e.code,
+            message: e.message,
+            location: "firebase_service_impl.dart");
+      throw errorMsg;
     }
   }
 
@@ -218,6 +207,7 @@ class fireBaseServiceImpl extends firebaseService {
           .update({"menuId": menuDcoument.id});
     } on FirebaseException catch (e) {
       print(e.message);
+      
     }
   }
 
@@ -231,9 +221,25 @@ class fireBaseServiceImpl extends firebaseService {
       }
       return UserModel.fromJson(doc.data()!);
     } on FirebaseException catch (e) {
+
       throw e;
     }
   }
+
+  // @override
+  // Future<Restaurant> getUser(String id) async {
+  //   try {
+  //     var doc = await _firebaseFirestore.collection("Users").doc(id).get();
+  //     if (!doc.exists) {
+  //       //handle error
+  //       //throw something maybe
+  //     }
+  //     return UserModel.fromJson(doc.data()!);
+  //   } on FirebaseException catch (e) {
+
+  //     throw e;
+  //   }
+  // }
 
   @override
   Future<List<Menu>> getAllMenu(String restaurantId) async {
