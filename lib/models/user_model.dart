@@ -1,21 +1,21 @@
 class UserModel {
-   dynamic _userId;
-   String _name, _email, _role;
-   String? _restId;
+  dynamic _userId;
+  String _name, _email, _role;
+  String? _restId;
 
-   UserModel(this._userId, this._email, this._name, this._role, this._restId);
+  //  UserModel(this._userId, this._email, this._name, this._role, this._restId);
 
-//  UserModel(
-//       {dynamic userId = "",
-//       String name = '',
-//       String email = '',
-//       String role = '',
-//       String? restId})
-//       : _userId = userId,
-//         _name = name,
-//         _email = email,
-//         _role = role,
-//         _restId = restId;
+ UserModel(
+      {dynamic userId = "",
+      String name = '',
+      String email = '',
+      String role = '',
+      String? restId})
+      : _userId = userId,
+        _name = name,
+        _email = email,
+        _role = role,
+        _restId = restId;
 
   UserModel.fromJson(Map<String, dynamic> map)
     :  _userId = map['userId'],
@@ -24,7 +24,24 @@ class UserModel {
     _role = map['role'],
     _restId = map['restId'];
   
-  toJson() {
+  // toJson() {
+  // String? get restId {
+  //   return _restId;
+  // }
+
+  // UserModel(
+  //     {dynamic userId = "",
+  //     String name = '',
+  //     String email = '',
+  //     String role = '',
+  //     String? restId})
+  //     : _userId = userId,
+  //       _name = name,
+  //       _email = email,
+  //       _role = role,
+  //       _restId = restId;
+
+  Map<String, dynamic> toJson() {
     return {
       'userId': _userId,
       'email': _email,
