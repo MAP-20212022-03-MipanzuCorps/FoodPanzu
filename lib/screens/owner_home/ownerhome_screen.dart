@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_screen.dart';
 import 'package:foodpanzu/screens/menu_details/menu_details_screen.dart';
 import 'package:foodpanzu/screens/owner_home/components/body.dart';
 import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
+import 'package:foodpanzu/utils/enums.dart';
 // import 'package:foodpanzu/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 // import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
@@ -79,6 +81,7 @@ class OwnerHomeScreen extends StatelessWidget {
               Body(viewmodel: viewmodel),
             ],
           ),
+          bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.home),
         );
       },
     );

@@ -15,7 +15,7 @@ abstract class firebaseService with ServiceStream {
   Stream<User?> authStateChanges();
   Future<String> signOut();
   User? getCurrentUser();
-  Future<String> fetchRole();
+  // Future<String> fetchRole();
   Future<void> signUpRestaurant(Restaurant restaurant);
   Future<void> addNewMenu(Menu menu, String restaurantId);
   Future<List<Menu>> getAllMenu(String restaurantId);

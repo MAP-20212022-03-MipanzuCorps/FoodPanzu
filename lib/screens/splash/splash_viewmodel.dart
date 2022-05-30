@@ -1,11 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
-// import 'package:foodpanzu/services/firebase/firestorage_service.dart';
-// import 'package:get/get.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import '../owner_home/ownerhome_screen.dart';
 
@@ -13,15 +13,13 @@ class SplashViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   StreamSubscription? _streamListener;
   bool get isListeningToStream => _streamListener != null;
-  // late UserModel _user;
+  late UserModel _user;
   String role = '';
 
   @override
   void init() async {
     super.init();
-    notifyListenersOnFailure = true;
-    // _user = await service.getUser(service.getCurrentUser()!.uid);
-      // role = _user.role;
+    notifyListenersOnFailure = false;
   }
 
   // updateUserState(currentUser) {
@@ -38,19 +36,17 @@ class SplashViewModel extends Viewmodel {
   }
 
   void goToHomePageBasedOnRole(BuildContext context) async {
-    // update(() async {
-      // _user = await service.getUser(service.getCurrentUser()!.uid);
-      // role = _user.role;
-      role = await service.fetchRole();
-      
-    // });
-print(role);
+    _user = await service.getUser(service.getCurrentUser()!.uid);
+    role = _user.role;
+
+    print(role);
+
     if (role == "owner") {
       //return a owner home page
       Navigator.pushNamed(context, OwnerHomeScreen.routeName);
-    } else if(role == "owner") {
+    } else {      
       //return a customer home page
-      Navigator.pushNamed(context, OwnerHomeScreen.routeName);
+      Navigator.pushNamed(context, HomeScreen.routeName);
     }
   }
 
