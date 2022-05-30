@@ -37,11 +37,10 @@ class AddNewMenuViewModel extends Viewmodel {
         //get the restaurantId
         var user = await service.getUser(service.getCurrentUser()!.uid);
 
-        // add to firestore
-        service.addNewMenu(menu, user.restId!);
-
         // add to firebase storage
         await storageService.uploadFile(path, menu.foodPicture);
+        // add to firestore
+        await service.addNewMenu(menu, user.restId!);
       } on FirebaseException catch (e) {}
     });
   }

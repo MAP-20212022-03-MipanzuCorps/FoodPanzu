@@ -46,17 +46,22 @@ class fireBaseServiceImpl extends firebaseService {
       name, email, password, role) async {
     try {
       //create user first
-      var _user = await _firebaseAuth.createUserWithEmailAndPassword(
+      var userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       //add user detail to firestore
-      await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
-        'userId': _user.user!.uid,
+      await _firebaseFirestore
+          .collection('Users')
+          .doc(userCredential.user!.uid)
+          .set({
+        'userId': userCredential.user!.uid,
         'name': name,
         'email': email,
         'role': role,
         'restId': '',
       });
+
+      user = await getUser(currentUser.uid);
       // user successfully registered
     } on FirebaseAuthException catch (e) {
       Failure errorMsg;
@@ -80,15 +85,7 @@ class fireBaseServiceImpl extends firebaseService {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      // var snapshot = await _firebaseFirestore
-      //     .collection('Users')
-      //     .doc(user.user!.uid)
-      //     .get();
-
-      // currUser = UserModel.fromJson(snapshot.data()!);
-
       user = await getUser(currentUser.uid);
-      
     } on FirebaseAuthException catch (e) {
       print(e);
       Failure errorMsg;
@@ -124,20 +121,15 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  User? authStateChanges() {
-    User? user;
+  Stream<User?> authStateChanges() {
     try {
-      _firebaseAuth.authStateChanges().listen((event) {
-        user = event;
-        // print(user);
-      });
+      return _firebaseAuth.authStateChanges();
     } on FirebaseAuthException catch (e) {
       Failure errorMsg = const Failure("internal-error",
           message: "Failed to read user from the server",
           location: "firebase_service.dart");
       throw errorMsg;
     }
-    return user;
   }
 
   @override

@@ -61,8 +61,6 @@ class OwnerHomeScreen extends StatelessWidget {
                   InkWell(
                     child: Icon(Icons.settings),
                     onTap: () {
-                      viewmodel.signOut();
-                      // Navigator.pushNamed(context, SignInScreen.routeName);
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -72,6 +70,7 @@ class OwnerHomeScreen extends StatelessWidget {
                         (route) => false,
                       );
                       Navigator.popUntil(context, (route) => route.isFirst);
+                      viewmodel.signOut();
                     },
                   ),
                   const SizedBox(width: 12),

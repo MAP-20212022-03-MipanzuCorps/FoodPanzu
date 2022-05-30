@@ -36,13 +36,16 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<FireStorage>(() => FireStorageImpl());
 
   // Viewmodels
-  locator.registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
+  locator
+      .registerLazySingleton<forgotPasswordModel>(() => forgotPasswordModel());
   locator.registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
   locator.registerLazySingleton<SignInViewModel>(() => SignInViewModel());
   locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
   locator.registerLazySingleton<OwnerHomeViewModel>(() => OwnerHomeViewModel());
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
-  locator.registerLazySingleton<RestaurantViewModel>(() => RestaurantViewModel());
-  locator.registerLazySingleton<AddNewMenuViewModel>(() => AddNewMenuViewModel());
+  locator
+      .registerLazySingleton<RestaurantViewModel>(() => RestaurantViewModel());
+  locator
+      .registerLazySingleton<AddNewMenuViewModel>(() => AddNewMenuViewModel());
   locator.registerLazySingleton<MenuListViewModel>(() => MenuListViewModel());
 }

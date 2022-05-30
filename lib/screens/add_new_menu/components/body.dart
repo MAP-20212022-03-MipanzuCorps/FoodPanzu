@@ -9,6 +9,7 @@ import 'package:foodpanzu/screens/add_new_menu/add_new_menu_viewmodel.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:map_mvvm/view.dart';
+import 'dart:math';
 
 import '../../../utils/constants.dart';
 
@@ -69,7 +70,8 @@ class _BodyState extends State<Body> {
                                     foodDesc: foodDescription,
                                     foodPrice: price,
                                     foodName: foodName,
-                                    foodPicture: foodPicture),
+                                    foodPicture:
+                                        generateRandomString(2) + foodPicture),
                                 path);
                             Navigator.pop(context);
                           }),
@@ -211,7 +213,7 @@ class _BodyState extends State<Body> {
             validator: (value) {
               if (value!.isEmpty) {
                 return "Don't leave the field blank!";
-              }
+              } else {}
             },
             decoration: const InputDecoration(
               labelText: "FoodPrice",
@@ -277,6 +279,14 @@ class _BodyState extends State<Body> {
         ),
       ],
     );
+  }
+
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
   }
 }
 

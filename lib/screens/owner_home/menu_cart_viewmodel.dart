@@ -20,14 +20,6 @@ class MenuListViewModel extends Viewmodel {
   List<Menu> _menuList = [];
   UserModel user = UserModel();
 
-  // List<Menu> trasnformDataToList(Map<String, dynamic> map) {
-  //   List<Menu> menuList = [];
-  //   map.forEach((element) {
-  //     menuList.add(Menu.fromJson(element));
-  //   });
-  //   return menuList;
-  // }
-
   @override
   void init() async {
     super.init();
@@ -36,7 +28,7 @@ class MenuListViewModel extends Viewmodel {
     await update(() async {
       //get the restaurantId
       user = await service.getUser(service.getCurrentUser()!.uid);
-
+      service.initializeUser();
       _menuList = await service.getAllMenu(user.restId!);
     });
 
@@ -45,7 +37,7 @@ class MenuListViewModel extends Viewmodel {
         await update(() async {
           _menuList = [];
           for (var document in data.docs) {
-            menuList!
+            menuList
                 .add(Menu.fromJson(document.data() as Map<String, dynamic>));
           }
         });
@@ -64,13 +56,18 @@ class MenuListViewModel extends Viewmodel {
     _menuList = menuList;
   }
 
-  List<Menu>? get menuList {
+  List<Menu> get menuList {
     return _menuList;
   }
 
-  void getMenu() async {
-    //get the restaurantId
-    _menuList = await service.getAllMenu(user.restId!);
+  bool userAuthenticate() {
+    return service.getCurrentUser() != null;
+  }
+
+  Future<void> emptyList() async {
+    await update(() async {
+      _menuList = [];
+    });
   }
 
   Future<String> getMenuImage(String imageName) {
@@ -79,7 +76,10 @@ class MenuListViewModel extends Viewmodel {
     return imageUrl;
   }
 
-  Stream? menuUpdateListener() {
-    return service.menuListListener();
+  @override
+  void dispose() {
+    _streamListener?.cancel();
+    _streamListener = null;
+    super.dispose();
   }
 }

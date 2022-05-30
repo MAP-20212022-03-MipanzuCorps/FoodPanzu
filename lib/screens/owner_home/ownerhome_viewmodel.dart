@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
@@ -11,6 +12,8 @@ class OwnerHomeViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
+  StreamSubscription? _userListener;
+
   bool get isListeningToStream => _streamListener != null;
   List<Menu> _menuList = [];
   UserModel user = UserModel();
@@ -23,18 +26,17 @@ class OwnerHomeViewModel extends Viewmodel {
     await update(() async {
       //get the restaurantId
       user = await service.getUser(service.getCurrentUser()!.uid);
-
-      _menuList = await service.getAllMenu(user.restId!);
       service.initializeUser();
+      _menuList = await service.getAllMenu(user.restId!);
     });
 
     _streamListener = service.listen(
-      onDone: dispose,
       onData: (data) async {
         await update(() async {
           _menuList = [];
           for (var document in data.docs) {
-            _menuList.add(Menu.fromJson(document.data()));
+            menuList
+                .add(Menu.fromJson(document.data() as Map<String, dynamic>));
           }
         });
       },
@@ -42,34 +44,40 @@ class OwnerHomeViewModel extends Viewmodel {
         catchError(e);
       },
     );
+
+    _userListener = service.authStateChanges().listen((event) async {
+      await update(() async {
+        if (event != null) {
+          user = await service.getUser(event.uid);
+          service.initializeUser();
+          _menuList = await service.getAllMenu(user.restId!);
+          print(user);
+        }
+      });
+    });
   }
 
   bool hasMenu() {
-    return _menuList != null;
+    return _menuList.isNotEmpty;
   }
 
   set menuList(menuList) {
     _menuList = menuList;
   }
 
-  updateMenu(menuList) async {
-    await update(() async {
-      _menuList = menuList;
-    });
-  }
-
-  List<Menu>? get menuList {
+  List<Menu> get menuList {
     return _menuList;
   }
 
-  // Future<List<Menu>?> getMenu() async {
-  //   //get the restaurantId
-  //   await update(() async {
-  //     var usert = await service.getUser(service.getCurrentUser()!.uid);
-  //   _menuList = await service.getAllMenu(user!.restId!);
-  //   });
-  //   print(_menuList);
-  // }
+  bool userAuthenticate() {
+    return service.getCurrentUser() != null;
+  }
+
+  Future<void> emptyList() async {
+    await update(() async {
+      _menuList = [];
+    });
+  }
 
   Future<String> getMenuImage(String imageName) {
     Future<String> imageUrl;
@@ -77,11 +85,22 @@ class OwnerHomeViewModel extends Viewmodel {
     return imageUrl;
   }
 
-  // Stream<List<Menu>>? menuUpdateListener() {
-  //   return service.menuListListener();
-  // }
-
   Future<void> signOut() async => await update(() async {
         await service.signOut();
+        _menuList = [];
+        user = UserModel();
       });
+
+  Stream<User?> currentUser() {
+    return service.authStateChanges();
+  }
+
+  @override
+  void dispose() {
+    _streamListener?.cancel();
+    _streamListener = null;
+    _userListener!.cancel();
+    _userListener = null;
+    super.dispose();
+  }
 }

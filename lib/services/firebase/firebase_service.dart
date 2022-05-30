@@ -6,14 +6,13 @@ import 'package:foodpanzu/models/menu_model.dart';
 import 'package:map_mvvm/service_stream.dart';
 
 abstract class firebaseService with ServiceStream {
-
 // abstract class firebaseService with ServiceStream {
 // ignore_for_file: camel_case_types
 
   Future<void> forgotPasswordUsingEmail(email);
   Future<void> createAccountWithEmailAndPassword(name, email, password, role);
   Future<UserModel?> signInWithEmailAndPassword(email, password);
-  User? authStateChanges();
+  Stream<User?> authStateChanges();
   Future<String> signOut();
   User? getCurrentUser();
   Future<String> fetchRole();

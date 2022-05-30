@@ -13,7 +13,6 @@ import '../../add_new_menu/add_new_menu_screen.dart';
 
 class Body extends StatelessWidget {
   OwnerHomeViewModel viewmodel;
-
   Body({Key? key, required this.viewmodel}) : super(key: key);
 
   @override
@@ -71,21 +70,28 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, AddNewMenuScreen.routeName);
             },
           ),
-          View<MenuListViewModel>(builder: (_, viewmodel) {
-            return ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: viewmodel.hasMenu() ? viewmodel.menuList!.length : 0,
-              shrinkWrap: true,
-              primary: false,
-              itemBuilder: ((context, index) {
-                return MenuCard(
-                    menu: viewmodel.menuList?[index],
-                    onMenuClick: () {
-                      Navigator.pushNamed(context, MenuDetailScreen.routeName);
-                    },
-                    viewmodel: viewmodel);
-              }),
-            );
+          Builder(builder: (context) {
+            if (viewmodel.userAuthenticate()) {
+              return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount:
+                      viewmodel.hasMenu() ? viewmodel.menuList.length : 0,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemBuilder: ((context, index) {
+                    return MenuCard(
+                      menu: viewmodel.menuList[index],
+                      onMenuClick: () {
+                        Navigator.pushNamed(
+                            context, MenuDetailScreen.routeName);
+                      },
+                      downloadUrl: viewmodel
+                          .getMenuImage(viewmodel.menuList[index].foodPicture),
+                    );
+                  }));
+            } else {
+              return Container();
+            }
           })
         ],
       ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/screens/owner_home/menu_cart_viewmodel.dart';
-import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import '../../../models/menu_model.dart';
 import '../../../widgets/food_category_icon.dart';
@@ -8,13 +6,9 @@ import '../../../widgets/food_category_icon.dart';
 class MenuCard extends StatelessWidget {
   Menu? menu;
   Function onMenuClick;
-  MenuListViewModel viewmodel;
+  Future<String>? downloadUrl;
 
-  MenuCard(
-      {super.key,
-      this.menu,
-      required this.onMenuClick,
-      required this.viewmodel});
+  MenuCard({super.key, this.menu, required this.onMenuClick, this.downloadUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +26,7 @@ class MenuCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 //image can be change later when firebase has been set up
                 child: FutureBuilder(
-                  future: viewmodel.getMenuImage(menu!.foodPicture),
+                  future: downloadUrl,
                   builder: (context, AsyncSnapshot<String> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         !snapshot.hasData) {
