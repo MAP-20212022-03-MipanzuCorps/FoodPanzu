@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
+import 'package:foodpanzu/screens/owner_order/owner_order_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:foodpanzu/utils/enums.dart';
@@ -52,8 +53,15 @@ class CustomBottomNavBar extends StatelessWidget {
                     Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName),
               ),
               IconButton(
-                  icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
-                  onPressed: () {}),
+                   icon: SvgPicture.asset(
+                  "assets/icons/Bell.svg",
+                  color: MenuState.favourite == selectedMenu
+                      ? kPrimaryColor
+                      : inActiveIconColor,
+                ),
+                onPressed: () =>
+                    Navigator.popAndPushNamed(context, OwnerOrderScreen.routeName),
+                    ),
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/Dashboard Icon.svg",

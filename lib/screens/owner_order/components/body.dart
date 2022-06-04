@@ -1,0 +1,100 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
+import 'package:foodpanzu/screens/owner_order/components/order_card.dart';
+import 'package:foodpanzu/screens/owner_order/owner_order_viewmodel.dart';
+
+class Body extends StatelessWidget {
+  //const Body({super.key});
+  OwnerOrderViewModel viewmodel;
+  Body({Key? key, required this.viewmodel}) : super(key: key);
+
+//   @override
+//   State<Body> createState() => _BodyState();
+// }
+
+// class _BodyState extends State<Body> {
+  // late OwnerOrderViewModel viewmodel;
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1
+                    )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: TabBar(
+                    indicator: BoxDecoration(color: Color(0xFFFF7643),
+                    borderRadius: BorderRadius.circular(30)), 
+                    unselectedLabelColor: Color(0xFFFF7643), // UnSelected Tab Color
+                    labelColor: Colors.white, // Selected Tab Color
+                    tabs: [
+                    Tab(text: "Upcoming"),
+                    Tab(text: "History",)
+                  ]),
+                ),
+              ),
+              SizedBox(
+                height: 450,
+                child: TabBarView(children: [
+                  // Upcoming tab
+                  Builder(builder: (context) {
+            if (viewmodel.userAuthenticate()) {
+              return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount:
+                      viewmodel.hasMenu() ? viewmodel.orderList.length : 0,
+                  shrinkWrap: true,
+                  primary: false,
+                  itemBuilder: ((context, index) {
+                    return OrderCard(
+                      menu: viewmodel.orderList[index],
+                      onMenuClick: () {},
+                    );
+                  }));
+            } else {
+              return Container();
+            }
+          }),
+          // History tab // not yet siap
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                      child: Center(
+                        child: Text("This is history container",
+                        style: TextStyle(
+                          color: Colors.white,
+                        fontSize: 30,
+                      ),))),
+                  ),
+                ]),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

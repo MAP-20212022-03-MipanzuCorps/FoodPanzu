@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_screen.dart';
+import 'package:foodpanzu/screens/owner_order/owner_order_screen.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_screen.dart';
-import 'package:foodpanzu/screens/menu_details/menu_details_screen.dart';
+import 'package:foodpanzu/screens/edit_menu/edit_menu_screen.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
@@ -32,8 +33,11 @@ final Map<String, WidgetBuilder> routes = {
   OwnerHomeScreen.routeName: (context) => OwnerHomeScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   DashboardScreen.routeName: (context) => DashboardScreen(),
+  OwnerOrderScreen.routeName: (context) => OwnerOrderScreen(),
 
   //menu 
-  MenuDetailScreen.routeName: (context) => MenuDetailScreen(),
+  EditMenuScreen.routeName: (context) => EditMenuScreen(),
   AddNewMenuScreen.routeName: (context) => AddNewMenuScreen(),
+
+
 };

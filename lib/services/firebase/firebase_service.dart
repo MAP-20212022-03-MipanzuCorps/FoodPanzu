@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodpanzu/models/order_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/models/menu_model.dart';
@@ -18,7 +19,9 @@ abstract class firebaseService with ServiceStream {
   // Future<String> fetchRole();
   Future<void> signUpRestaurant(Restaurant restaurant);
   Future<void> addNewMenu(Menu menu, String restaurantId);
+  Future<void> editMenu(Menu menu, String restaurantId);
   Future<List<Menu>> getAllMenu(String restaurantId);
+  Future<List<Order>> getAllOrder(String restaurantId);
   Future<UserModel> getUser(String id);
   Stream? menuListListener();
   Future<void> initializeUser();
