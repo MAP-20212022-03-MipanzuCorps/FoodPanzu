@@ -88,7 +88,23 @@ class _BodyState extends State<Body> {
                             primary: Colors.white,
                             backgroundColor: kPrimaryColor,
                           ),
-                          onPressed: (() {}),
+                          onPressed: (() {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
+                            _formKey.currentState!.save();
+                            viewmodel.editMenu(
+                                Menu(
+                                    menuId: widget.menu.menuId,
+                                    category: foodCategory!,
+                                    foodDesc: foodDescription,
+                                    foodPrice: price,
+                                    foodName: foodName,
+                                    foodPicture:
+                                        generateRandomString(2) + foodPicture),
+                                path);
+                              Navigator.pop(context);
+                          }),
                           child: Text(
                             "Update",
                             style: TextStyle(
@@ -114,6 +130,8 @@ class _BodyState extends State<Body> {
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         TextFormField(
+          controller: TextEditingController()..text = widget.menu.foodName,
+          //onChanged: (text) => {},
           onSaved: (newValue) => foodName = newValue!,
           validator: (value) {
             if (value!.isEmpty) {
@@ -140,6 +158,7 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
+            controller: TextEditingController()..text = widget.menu.foodDesc,
             onSaved: (newValue) => foodDescription = newValue!,
             validator: (value) {
               if (value!.isEmpty) {
@@ -223,6 +242,7 @@ class _BodyState extends State<Body> {
           child: TextFormField(
             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
             keyboardType: TextInputType.numberWithOptions(decimal: true),
+            controller: TextEditingController()..text = widget.menu.foodPrice.toString(),
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
               if (value!.isEmpty) {
