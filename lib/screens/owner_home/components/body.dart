@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/edit_menu/edit_menu_screen.dart';
-import 'package:foodpanzu/screens/owner_home/menu_cart_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/utils/size_config.dart';
@@ -82,9 +81,17 @@ class Body extends StatelessWidget {
                     return MenuCard(
                       menu: viewmodel.menuList[index],
                       onMenuClick: () {
-                        Navigator.pushNamed(
-                            context, EditMenuScreen.routeName);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditMenuScreen(
+                                  menu: viewmodel.menuList[index]),
+                            ));
                       },
+                      // {
+                      //   Navigator.pushNamed(
+                      //       context, EditMenuScreen.routeName);
+                      // },
                       downloadUrl: viewmodel
                           .getMenuImage(viewmodel.menuList[index].foodPicture),
                     );

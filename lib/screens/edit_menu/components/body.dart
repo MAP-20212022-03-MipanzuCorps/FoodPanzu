@@ -16,7 +16,8 @@ import '../../../utils/constants.dart';
 import '../edit_menu_viewmodel.dart';
 
 class Body extends StatefulWidget {
-  const Body({super.key});
+  Menu menu;
+  Body({super.key, required this.menu});
 
   @override
   State<Body> createState() => _BodyState();
@@ -50,8 +51,9 @@ class _BodyState extends State<Body> {
                   SizedBox(height: SizeConfig.screenHeight * 0.04),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Padding(
-                        padding: const EdgeInsets.fromLTRB(0,2,20,0),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 2, 20, 0),
                         child: SizedBox(
                           height: getProportionateScreenHeight(56),
                           width: 100,
@@ -62,7 +64,10 @@ class _BodyState extends State<Body> {
                               primary: Colors.white,
                               backgroundColor: Colors.red,
                             ), // delete button
-                            onPressed: (() {}),
+                            onPressed: (() {
+                              viewmodel.deleteMenu(widget.menu.menuId);
+                              Navigator.pop(context);
+                            }),
                             child: Text(
                               "Delete",
                               style: TextStyle(
@@ -338,4 +343,3 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     return newValue;
   }
 }
-

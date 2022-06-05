@@ -47,6 +47,10 @@ class EditMenuViewModel extends Viewmodel {
   //   });
   // }
 
+  deleteMenu(String menuId) async {
+    await service.deleteMenu(menuId);
+  }
+
   Future<void> editMenu(Menu menu, String path) async {
     await update(() async {
       _menu = menu;

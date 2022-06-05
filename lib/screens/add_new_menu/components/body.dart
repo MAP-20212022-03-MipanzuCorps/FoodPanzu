@@ -170,32 +170,6 @@ class _BodyState extends State<Body> {
                 DropdownMenuItem(value: "food", child: Text("Food")),
                 DropdownMenuItem(value: "drink", child: Text("Drink"))
               ]),
-          //     DropdownButton(
-          //   items: [
-          //     DropdownMenuItem(child: Text("Food"), value: "food"),
-          //     DropdownMenuItem(child: Text("Drink"), value: "drink")
-          //   ],
-          //   value: foodCategory,
-          //   onChanged: (String? value) {
-          //     foodCategory = value;
-          //   },
-          // )
-          // TextFormField(
-          //   onSaved: (newValue) => foodCategory = newValue!,
-          //   validator: (value) {
-          //     if (value!.isEmpty) {
-          //       return "Don't leave the field blank!";
-          //     }
-          //   },
-          // decoration: const InputDecoration(
-          //   labelText: "FoodCategory",
-          //   labelStyle: TextStyle(
-          //     color: Color(0xFFFF7643),
-          //   ),
-          //   hintText: "Enter your food category",
-          //   floatingLabelBehavior: FloatingLabelBehavior.always,
-          // ),
-          // ),
         ),
       ],
     );
@@ -287,6 +261,12 @@ class _BodyState extends State<Body> {
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
         .join();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pictureController.dispose();
   }
 }
 
