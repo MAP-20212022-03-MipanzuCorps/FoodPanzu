@@ -70,12 +70,6 @@ class OwnerHomeViewModel extends Viewmodel {
     return service.getCurrentUser() != null;
   }
 
-  Future<void> emptyList() async {
-    await update(() async {
-      _menuList = [];
-    });
-  }
-
   Future<String> getMenuImage(String imageName) {
     Future<String> imageUrl;
     imageUrl = storageService.downloadUrl(imageName);
@@ -88,15 +82,10 @@ class OwnerHomeViewModel extends Viewmodel {
         user = UserModel();
       });
 
-  Stream<User?> currentUser() {
-    return service.authStateChanges();
-  }
-
   @override
   void dispose() {
     _streamListener?.cancel();
     _streamListener = null;
-
     super.dispose();
   }
 }
