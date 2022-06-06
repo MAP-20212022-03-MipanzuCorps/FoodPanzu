@@ -12,7 +12,6 @@ class OwnerHomeViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
-  StreamSubscription? _userListener;
 
   bool get isListeningToStream => _streamListener != null;
   List<Menu> _menuList = [];
@@ -30,28 +29,26 @@ class OwnerHomeViewModel extends Viewmodel {
       _menuList = await service.getAllMenu(user.restId!);
     });
 
-    _streamListener = service.listen(
-      onData: (data) async {
-        await update(() async {
-          _menuList = [];
-          for (var document in data.docs) {
-            menuList
-                .add(Menu.fromJson(document.data() as Map<String, dynamic>));
-          }
-        });
-      },
-      onError: (e) {
-        catchError(e);
-      },
-    );
-
-    _userListener = service.authStateChanges().listen((event) async {
+    _streamListener = service.authStateChanges().listen((event) async {
       await update(() async {
         if (event != null) {
           user = await service.getUser(event.uid);
           service.initializeUser();
           _menuList = await service.getAllMenu(user.restId!);
-          print(user);
+          _streamListener = service.listen(
+            onData: (data) async {
+              await update(() async {
+                _menuList = [];
+                for (var document in data.docs) {
+                  menuList.add(
+                      Menu.fromJson(document.data() as Map<String, dynamic>));
+                }
+              });
+            },
+            onError: (e) {
+              catchError(e);
+            },
+          );
         }
       });
     });
@@ -99,8 +96,7 @@ class OwnerHomeViewModel extends Viewmodel {
   void dispose() {
     _streamListener?.cancel();
     _streamListener = null;
-    _userListener!.cancel();
-    _userListener = null;
+
     super.dispose();
   }
 }

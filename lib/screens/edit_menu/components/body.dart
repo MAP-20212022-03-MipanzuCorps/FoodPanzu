@@ -6,15 +6,18 @@ import 'package:flutter/services.dart';
 // import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_viewmodel.dart';
+import 'package:foodpanzu/screens/edit_menu/edit_menu_viewmodel.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:map_mvvm/view.dart';
 import 'dart:math';
 
 import '../../../utils/constants.dart';
+import '../edit_menu_viewmodel.dart';
 
 class Body extends StatefulWidget {
-  const Body({super.key});
+  Menu menu;
+  Body({super.key, required this.menu});
 
   @override
   State<Body> createState() => _BodyState();
@@ -30,7 +33,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return View<AddNewMenuViewModel>(
+    return View<EditMenuViewModel>(
       builder: (_, viewmodel) {
         return Form(
           key: _formKey,
@@ -49,6 +52,32 @@ class _BodyState extends State<Body> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 2, 20, 0),
+                        child: SizedBox(
+                          height: getProportionateScreenHeight(56),
+                          width: 100,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              primary: Colors.white,
+                              backgroundColor: Colors.red,
+                            ), // delete button
+                            onPressed: (() {
+                              viewmodel.deleteMenu(widget.menu.menuId);
+                              Navigator.pop(context);
+                            }),
+                            child: Text(
+                              "Delete",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(18),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: getProportionateScreenHeight(56),
                         width: 100,
@@ -64,8 +93,9 @@ class _BodyState extends State<Body> {
                               return;
                             }
                             _formKey.currentState!.save();
-                            viewmodel.addNewMenu(
+                            viewmodel.editMenu(
                                 Menu(
+                                    menuId: widget.menu.menuId,
                                     category: foodCategory!,
                                     foodDesc: foodDescription,
                                     foodPrice: price,
@@ -73,10 +103,10 @@ class _BodyState extends State<Body> {
                                     foodPicture:
                                         generateRandomString(2) + foodPicture),
                                 path);
-                            Navigator.pop(context);
+                              Navigator.pop(context);
                           }),
                           child: Text(
-                            "Save",
+                            "Update",
                             style: TextStyle(
                               fontSize: getProportionateScreenWidth(18),
                               color: Colors.white,
@@ -100,6 +130,8 @@ class _BodyState extends State<Body> {
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         TextFormField(
+          controller: TextEditingController()..text = widget.menu.foodName,
+          //onChanged: (text) => {},
           onSaved: (newValue) => foodName = newValue!,
           validator: (value) {
             if (value!.isEmpty) {
@@ -126,6 +158,7 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
+            controller: TextEditingController()..text = widget.menu.foodDesc,
             onSaved: (newValue) => foodDescription = newValue!,
             validator: (value) {
               if (value!.isEmpty) {
@@ -170,6 +203,32 @@ class _BodyState extends State<Body> {
                 DropdownMenuItem(value: "food", child: Text("Food")),
                 DropdownMenuItem(value: "drink", child: Text("Drink"))
               ]),
+          //     DropdownButton(
+          //   items: [
+          //     DropdownMenuItem(child: Text("Food"), value: "food"),
+          //     DropdownMenuItem(child: Text("Drink"), value: "drink")
+          //   ],
+          //   value: foodCategory,
+          //   onChanged: (String? value) {
+          //     foodCategory = value;
+          //   },
+          // )
+          // TextFormField(
+          //   onSaved: (newValue) => foodCategory = newValue!,
+          //   validator: (value) {
+          //     if (value!.isEmpty) {
+          //       return "Don't leave the field blank!";
+          //     }
+          //   },
+          // decoration: const InputDecoration(
+          //   labelText: "FoodCategory",
+          //   labelStyle: TextStyle(
+          //     color: Color(0xFFFF7643),
+          //   ),
+          //   hintText: "Enter your food category",
+          //   floatingLabelBehavior: FloatingLabelBehavior.always,
+          // ),
+          // ),
         ),
       ],
     );
@@ -183,6 +242,7 @@ class _BodyState extends State<Body> {
           child: TextFormField(
             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
             keyboardType: TextInputType.numberWithOptions(decimal: true),
+            controller: TextEditingController()..text = widget.menu.foodPrice.toString(),
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
               if (value!.isEmpty) {
@@ -203,7 +263,7 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Column foodPictureField(AddNewMenuViewModel viewodel) {
+  Column foodPictureField(EditMenuViewModel viewodel) {
     return Column(
       children: [
         SizedBox(height: SizeConfig.screenHeight * 0.03),
@@ -261,12 +321,6 @@ class _BodyState extends State<Body> {
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
         .join();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pictureController.dispose();
   }
 }
 

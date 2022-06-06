@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:foodpanzu/app/failures.dart';
 import 'package:foodpanzu/services/firebase/firestorage_service.dart';
+import 'package:map_mvvm/map_mvvm.dart';
 
 class FireStorageImpl extends FireStorage {
   final firebaseStorage = FirebaseStorage.instance;
@@ -12,12 +14,18 @@ class FireStorageImpl extends FireStorage {
     try {
       await firebaseStorage.ref(fileName).putFile(file);
     } on FirebaseException catch (e) {
-      throw (e);
+      throw Failure("100",
+          message: e.message, location: "FireStorageImpl.dart");
     }
   }
 
   @override
   Future<String> downloadUrl(String imageName) async {
-    return await firebaseStorage.ref(imageName).getDownloadURL();
+    try {
+      return await firebaseStorage.ref(imageName).getDownloadURL();
+    } on FirebaseException catch (e) {
+      throw Failure("100",
+          message: e.message, location: "FireStorageImpl.dart");
+    }
   }
 }

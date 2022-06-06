@@ -1,11 +1,11 @@
 import 'package:provider/provider.dart';
 
 class Menu {
-  String? _menuId;
+  String _menuId;
   String _category, _foodDesc, _foodName, _foodPicture;
   double _foodPrice;
 
-  String? get menuId {
+  String get menuId {
     return _menuId;
   }
 
@@ -30,7 +30,7 @@ class Menu {
   }
 
   Menu(
-      {String? menuId,
+      {String menuId = '',
       String category = '',
       String foodDesc = '',
       String foodName = '',

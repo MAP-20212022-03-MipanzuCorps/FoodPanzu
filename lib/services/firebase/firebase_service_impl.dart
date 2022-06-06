@@ -2,6 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodpanzu/app/app.dart';
+import 'package:foodpanzu/models/order_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/models/menu_model.dart';
@@ -209,7 +211,27 @@ class fireBaseServiceImpl extends firebaseService {
           .doc(menuDcoument.id)
           .update({"menuId": menuDcoument.id});
     } on FirebaseException catch (e) {
-      print(e.message);
+      throw Failure(e.code,
+          message: "Failed to add menu to the server",
+          location: "firebase_service_impl.dart");
+    }
+  }
+
+  @override
+  Future<void> editMenu(Menu menu, String restaurantId) async {
+    try {
+      await 
+      _firebaseFirestore
+          .collection("Restaurants")
+          .doc(restaurantId)
+          .collection("menu")
+          .doc(menu.menuId)
+          .update(menu.toJson());
+
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: "Failed to add menu to the server",
+          location: "firebase_service_impl.dart");
     }
   }
 
@@ -223,7 +245,9 @@ class fireBaseServiceImpl extends firebaseService {
       }
       return UserModel.fromJson(doc.data()!);
     } on FirebaseException catch (e) {
-      throw e;
+      throw Failure(e.code,
+          message: "Failed to read user from the server",
+          location: "firebase_service.dart");
     }
   }
 
@@ -241,6 +265,26 @@ class fireBaseServiceImpl extends firebaseService {
       });
       return listMenu;
     } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: "Failed to read menu from the server",
+          location: "firebase_service.dart");
+    }
+  }
+
+  @override
+  Future<List<Order>> getAllOrder(String restaurantId) async {
+    try {
+      List<Order> listOrder = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("testOrders")
+          // .doc(restaurantId)
+          // .collection("menu")
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listOrder;
+    } on FirebaseException catch (e) {
       throw e;
     }
   }
@@ -252,18 +296,11 @@ class fireBaseServiceImpl extends firebaseService {
 
   @override
   Stream? menuListListener() {
-    // if (user == null) {
-    //   return null;
-    // } else {
     return _firebaseFirestore
         .collection("Restaurants")
         .doc(user.restId)
         .collection("menu")
         .snapshots();
-    // .map((snapShot) => snapShot.docs
-    //     .map((document) => Menu.fromJson(document.data()))
-    //     .toList());
-    // }
   }
 
   @override
@@ -271,11 +308,17 @@ class fireBaseServiceImpl extends firebaseService {
 
   @override
   Future<void> deleteMenu(String menuId) async {
-    await _firebaseFirestore
-        .collection("testRestaurant")
-        .doc(user.restId)
-        .collection("menu")
-        .doc(menuId)
-        .delete();
+    try {
+      await _firebaseFirestore
+          .collection("Restaurants")
+          .doc(user.restId)
+          .collection("menu")
+          .doc(menuId)
+          .delete();
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: "Cannot perform delete operation",
+          location: "firebase_service_impl.dart");
+    }
   }
 }
