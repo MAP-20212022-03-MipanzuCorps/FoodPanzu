@@ -27,23 +27,27 @@ class SplashScreen extends StatelessWidget {
           builder: (_, viewModel) => Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              DefaultButton(
-                text: "Continue",
-                press: () {
-                  if (viewModel.userHasSignIn()) {
-                    viewModel.goToHomePageBasedOnRole(context);
-                  } else {
-                    Navigator.pushNamed(context, SignInScreen.routeName);
-                  }
-                },
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: DefaultButton(
+                    text: "Continue",
+                    press: () {
+                      if (viewModel.userHasSignIn()) {
+                        viewModel.goToHomePageBasedOnRole(context);
+                      } else {
+                        Navigator.pushNamed(context, SignInScreen.routeName);
+                      }
+                    },
+                  ),
+                ),
               ),
             ],
           ),
         )
-        // SizedBox(height: getProportionateScreenHeight(10)),
       ],
     )
-        // Body(),
+
         );
   }
 }

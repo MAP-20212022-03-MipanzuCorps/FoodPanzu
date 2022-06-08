@@ -11,7 +11,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Dashboard"),),
+      appBar: AppBar(title: const Text("Dashboard", style: TextStyle(color: Colors.black)),),
     body: Body(),
     bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.dashboard),
     );
