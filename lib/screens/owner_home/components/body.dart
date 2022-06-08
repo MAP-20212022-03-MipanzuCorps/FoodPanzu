@@ -70,35 +70,26 @@ class Body extends StatelessWidget {
             },
           ),
           Builder(builder: (context) {
-            if (viewmodel.userAuthenticate()) {
-              return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount:
-                      viewmodel.hasMenu() ? viewmodel.menuList.length : 0,
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: ((context, index) {
-                    return MenuCard(
-                      menu: viewmodel.menuList[index],
-                      onMenuClick: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditMenuScreen(
-                                  menu: viewmodel.menuList[index]),
-                            ));
-                      },
-                      // {
-                      //   Navigator.pushNamed(
-                      //       context, EditMenuScreen.routeName);
-                      // },
-                      downloadUrl: viewmodel
-                          .getMenuImage(viewmodel.menuList[index].foodPicture),
-                    );
-                  }));
-            } else {
-              return Container();
-            }
+            return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: viewmodel.hasMenu() ? viewmodel.menuList.length : 0,
+                shrinkWrap: true,
+                primary: false,
+                itemBuilder: ((context, index) {
+                  return MenuCard(
+                    menu: viewmodel.menuList[index],
+                    onMenuClick: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EditMenuScreen(menu: viewmodel.menuList[index]),
+                          ));
+                    },
+                    downloadUrl: viewmodel
+                        .getMenuImage(viewmodel.menuList[index].foodPicture),
+                  );
+                }));
           })
         ],
       ),

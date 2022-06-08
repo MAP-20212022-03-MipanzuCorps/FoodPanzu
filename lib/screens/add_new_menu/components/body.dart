@@ -181,7 +181,18 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
-            inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
+            inputFormatters: [
+              DecimalTextInputFormatter(decimalRange: 2),
+              FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                try {
+                  final text = newValue.text;
+                  if (text.isNotEmpty) double.parse(text);
+                  return newValue;
+                } catch (e) {}
+                return oldValue;
+              }),
+            ],
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
