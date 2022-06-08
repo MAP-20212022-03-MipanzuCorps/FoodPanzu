@@ -17,7 +17,7 @@ class ProfileViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   String _name = '';
   String _userPic = '';
-  var _imageUrl;
+  dynamic _imageUrl;
   String _filepath = '';
   late UserModel user;
 

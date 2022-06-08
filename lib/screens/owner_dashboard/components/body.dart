@@ -54,6 +54,7 @@ class _BodyState extends State<Body> {
                             'Restaurant Status :',
                             style: TextStyle(color: Colors.black),
                           ),
+                          SizedBox(width: 20,),
                           CupertinoSwitch(
                               value: viewmodel.getStatus,
                               activeColor: kPrimaryColor,
@@ -64,12 +65,12 @@ class _BodyState extends State<Body> {
                                 });
                               }),
                           SizedBox(
-                            height: 15.0,
+                            width: 15.0,
                           ),
                           Text(
                             viewmodel.getStats,
                             style:
-                                TextStyle(color: kPrimaryColor, fontSize: 10.0),
+                                TextStyle(color: kPrimaryColor, fontSize: 15.0),
                           ),
                         ],
                       ),
