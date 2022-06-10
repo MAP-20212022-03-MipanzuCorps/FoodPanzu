@@ -3,15 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
-import 'package:foodpanzu/screens/owner_dashboard/dashboard_screen.dart';
-import 'package:foodpanzu/screens/owner_home/ownerhome_screen.dart';
-import 'package:foodpanzu/screens/owner_order/owner_order_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:foodpanzu/utils/enums.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
-  const CustomBottomNavBar({
+class CustBottomNavBar extends StatelessWidget {
+  const CustBottomNavBar({
     Key? key,
     required this.selectedMenu,
   }) : super(key: key);
@@ -44,34 +41,41 @@ class CustomBottomNavBar extends StatelessWidget {
             children: [
               IconButton(
                 icon: SvgPicture.asset(
-                  "assets/icons/Plus Icon.svg",
+                  "assets/icons/Shop Icon.svg",
                   color: MenuState.home == selectedMenu
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
                 onPressed: () =>
-                    Navigator.popAndPushNamed(context, OwnerHomeScreen.routeName),
+                    Navigator.popAndPushNamed(context, HomeScreen.routeName),
               ),
               IconButton(
                    icon: SvgPicture.asset(
-                  "assets/icons/Bell.svg",
+                  "assets/icons/Heart Icon.svg",
                   color: MenuState.favourite == selectedMenu
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
-                onPressed: () =>
-                    Navigator.popAndPushNamed(context, OwnerOrderScreen.routeName),
-                    ),
+                onPressed: () {}
+                ),
               IconButton(
                 icon: SvgPicture.asset(
-                  "assets/icons/Dashboard Icon.svg",
-                  color: MenuState.dashboard == selectedMenu
+                  "assets/icons/qr code.svg",
+                  color: MenuState.qrcode == selectedMenu
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
-                onPressed: () =>
-                    Navigator.popAndPushNamed(context, DashboardScreen.routeName),
+                onPressed: () {}
               ),
+              IconButton(
+                   icon: SvgPicture.asset(
+                  "assets/icons/order history.svg",
+                  color: MenuState.orders == selectedMenu
+                      ? kPrimaryColor
+                      : inActiveIconColor,
+                ),
+                onPressed: () {}
+                ),
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/User Icon.svg",

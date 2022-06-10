@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
+import 'package:foodpanzu/components/owner_navbar.dart';
+import 'package:foodpanzu/components/cust_navbar.dart';
 import 'package:foodpanzu/screens/profile/profile_viewmodel.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:foodpanzu/utils/enums.dart';
@@ -29,7 +30,14 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: Body(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
+      bottomNavigationBar: View<ProfileViewModel>(
+        builder: (_,viewmodel) {
+          if(viewmodel.user.role == 'customer')
+          return CustBottomNavBar(selectedMenu: MenuState.profile);
+          else
+          return OwnerBottomNavBar(selectedMenu: MenuState.profile);
+        }
+      ),
     );
   }
 }
