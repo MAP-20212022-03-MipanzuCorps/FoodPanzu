@@ -31,7 +31,6 @@ class _BodyState extends State<Body> {
   final pictureController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return View<EditMenuViewModel>(
@@ -186,14 +185,10 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
-            enabled: false,
+            readOnly: true,
             controller: TextEditingController()..text = widget.menu.category,
             onSaved: (newValue) => foodCategory = newValue!,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Don't leave the field blank!";
-              }
-            },
+            validator: (value) => value == null ? 'field required' : null,
             decoration: const InputDecoration(
               labelText: "FoodCategory",
               labelStyle: TextStyle(
@@ -202,12 +197,7 @@ class _BodyState extends State<Body> {
               hintText: "Enter the food description",
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
-              onChanged: (category) => foodCategory = category,
-              validator: (value) => value == null ? 'field required' : null,
-              items: const [
-                DropdownMenuItem(value: "food", child: Text("Food")),
-                DropdownMenuItem(value: "drink", child: Text("Drink"))
-              ]
+            onChanged: (category) => foodCategory = category,
           ),
         ),
       ],
