@@ -23,7 +23,8 @@ class Body extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Text('Where would you like to eat?', style: TextStyle(color: Colors.black, fontSize: 30,),),
                 ),
-                Text('Restaurants list', style: TextStyle(color: Colors.black, fontSize: 20,),),
+                SizedBox(height: getProportionateScreenWidth(20)),
+                // Text('Restaurants list', style: TextStyle(color: Colors.black, fontSize: 20,),),
                 
                 RestaurantList(),
 

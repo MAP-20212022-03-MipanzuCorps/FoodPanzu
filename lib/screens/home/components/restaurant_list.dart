@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/screens/home/home_viewmodel.dart';
+import 'package:foodpanzu/utils/constants.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
 class RestaurantList extends StatefulWidget {
@@ -27,11 +28,11 @@ class _RestaurantListState extends State<RestaurantList> {
           child: ListView.builder(
             itemCount: viewmodel.restaurantList!.length,
             itemBuilder: (_, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                
-                  height: 20,
-                  width: 50,
+              padding: const EdgeInsets.symmetric(horizontal:20, vertical: 15),
+              child: Container(
+                decoration: BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.circular(2)),              
+                  height: 100,
+                  width: double.infinity,
                   child: Text('${viewmodel.restaurantList![index].restName}')),
             ),
             physics: const AlwaysScrollableScrollPhysics(),

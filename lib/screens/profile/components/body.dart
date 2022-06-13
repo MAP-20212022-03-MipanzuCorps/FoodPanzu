@@ -23,12 +23,11 @@ class _BodyState extends State<Body> {
       await viewmodel.updateProfile();
 
       var snackbar = SnackBar(
-        content: Text('Update Successful'),
-        backgroundColor: Colors.red,
+        content: Text('Updated Successful'),
+        backgroundColor: Color.fromARGB(255, 0, 100, 52),
       );
 
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
-
     } on Failure catch (e) {
       final snackbar = SnackBar(
         content: Text(e.message ?? 'Error'),
@@ -41,54 +40,63 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      child: Form(
-        key: _formKey,
-        child: View<ProfileViewModel>(
-          builder: (_, viewmodel) => Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ProfilePic(),
-                SizedBox(height: 30),
-                TextFormField(
-                  initialValue: '${viewmodel.user.name}',
-                  onSaved: (newValue) => viewmodel.name = newValue,
-                  onChanged: (value) {
-                    if (value.isNotEmpty) {}
-                    viewmodel.name = value;
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Name cannot be null";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: "Full Name",
-                    labelStyle: TextStyle(
-                      color: kPrimaryColor,
+    return View<ProfileViewModel>(
+      builder: (_, viewmodel) => RefreshIndicator(
+        onRefresh: () {
+          setState(() {
+            viewmodel.refreshPage();
+          });
+          return Future<void>.delayed(const Duration(seconds: 1));
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ProfilePic(),
+                  SizedBox(height: 30),
+                  TextFormField(
+                    initialValue: '${viewmodel.user.name}',
+                    onSaved: (newValue) => viewmodel.name = newValue,
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {}
+                      viewmodel.name = value;
+                    },
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Name cannot be null";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Full Name",
+                      labelStyle: TextStyle(
+                        color: kPrimaryColor,
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      suffixIcon:
+                          CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
                     ),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    suffixIcon:
-                        CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
                   ),
-                ),
-                SizedBox(height: 20),
-                Text('${viewmodel.user.email}'),
-                SizedBox(height: 20),
-                DefaultButton(
-                  text: "Update",
-                  press: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // if all are valid then go to success screen
-                      _onUpdate(viewmodel);
-                    }
-                  },
-                ),
-              ],
+                  SizedBox(height: 20),
+                  Text('${viewmodel.user.email}'),
+                  SizedBox(height: 20),
+                  DefaultButton(
+                    text: "Update",
+                    press: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        // if all are valid then go to success screen
+                        _onUpdate(viewmodel);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
