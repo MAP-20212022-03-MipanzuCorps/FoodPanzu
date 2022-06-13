@@ -26,10 +26,6 @@ class AddNewMenuViewModel extends Viewmodel {
     return _menu;
   }
 
-  String? get picture {
-    return _filePath;
-  }
-
   Future<void> addNewMenu(Menu menu, String path) async {
     await update(() async {
       _menu = menu;
@@ -38,7 +34,7 @@ class AddNewMenuViewModel extends Viewmodel {
         var user = await service.getUser(service.getCurrentUser()!.uid);
 
         // add to firebase storage
-        await storageService.uploadFile(path, menu.foodPicture);
+        await storageService.uploadFile(path, menu.foodPicture, user.restId);
         // add to firestore
         await service.addNewMenu(menu, user.restId!);
       } on FirebaseException catch (e) {}

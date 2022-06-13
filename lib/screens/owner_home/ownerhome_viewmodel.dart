@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodpanzu/app/service_locator.dart';
+import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:foodpanzu/services/firebase/firestorage_service.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
 import '../../models/menu_model.dart';
@@ -16,6 +18,7 @@ class OwnerHomeViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   List<Menu> _menuList = [];
   UserModel user = UserModel();
+  Restaurant? restaurant;
 
   @override
   void init() async {
@@ -35,20 +38,29 @@ class OwnerHomeViewModel extends Viewmodel {
           user = await service.getUser(event.uid);
           service.initializeUser();
           _menuList = await service.getAllMenu(user.restId!);
-          _streamListener = service.listen(
-            onData: (data) async {
-              await update(() async {
-                _menuList = [];
-                for (var document in data.docs) {
-                  menuList.add(
-                      Menu.fromJson(document.data() as Map<String, dynamic>));
-                }
-              });
-            },
-            onError: (e) {
-              catchError(e);
-            },
-          );
+          _streamListener = service.menuListListener()!.listen((data) async {
+            await update(() async {
+              _menuList = [];
+              for (var document in data.docs) {
+                menuList.add(
+                    Menu.fromJson(document.data() as Map<String, dynamic>));
+              }
+            });
+          });
+          // _streamListener = service.listen(
+          // onData: (data) async {
+          //   await update(() async {
+          //     _menuList = [];
+          //     for (var document in data.docs) {
+          //       menuList.add(
+          //           Menu.fromJson(document.data() as Map<String, dynamic>));
+          //     }
+          //   });
+          // },
+          // onError: (e) {
+          //   catchError(e);
+          // },
+          // );
         }
       });
     });
@@ -75,6 +87,10 @@ class OwnerHomeViewModel extends Viewmodel {
     imageUrl = storageService.downloadUrl(imageName);
     return imageUrl;
   }
+
+  // void getRestaurant() async {
+  //   restaurant = await service.getRestaurant();
+  // }
 
   Future<void> signOut() async => await update(() async {
         await service.signOut();

@@ -47,8 +47,12 @@ class EditMenuViewModel extends Viewmodel {
   //   });
   // }
 
-  deleteMenu(String menuId) async {
-    await service.deleteMenu(menuId);
+  deleteMenu(Menu menu) async {
+    //delete from firestore
+    await service.deleteMenu(menu.menuId);
+
+    //delete from firebase storage
+    await storageService.deleteFile(menu.foodPicture);
   }
 
   Future<void> editMenu(Menu menu, String path) async {
@@ -59,7 +63,7 @@ class EditMenuViewModel extends Viewmodel {
         var user = await service.getUser(service.getCurrentUser()!.uid);
 
         // add to firebase storage
-        await storageService.uploadFile(path, menu.foodPicture);
+        await storageService.uploadFile(path, menu.foodPicture, user.restId);
         // add to firestore
         await service.editMenu(menu, user.restId!);
       } on FirebaseException catch (e) {}

@@ -65,7 +65,7 @@ class _BodyState extends State<Body> {
                               backgroundColor: Colors.red,
                             ), // delete button
                             onPressed: (() {
-                              viewmodel.deleteMenu(widget.menu.menuId);
+                              viewmodel.deleteMenu(widget.menu);
                               Navigator.pop(context);
                             }),
                             child: Text(
@@ -100,10 +100,11 @@ class _BodyState extends State<Body> {
                                     foodDesc: foodDescription,
                                     foodPrice: price,
                                     foodName: foodName,
+                                    restId: widget.menu.restId,
                                     foodPicture:
                                         generateRandomString(2) + foodPicture),
                                 path);
-                              Navigator.pop(context);
+                            Navigator.pop(context);
                           }),
                           child: Text(
                             "Update",
@@ -197,7 +198,7 @@ class _BodyState extends State<Body> {
               hint: const Text(
                 'Food Category',
               ),
-              onChanged: (category) => setState(() => foodCategory = category),
+              onChanged: (category) => foodCategory = category,
               validator: (value) => value == null ? 'field required' : null,
               items: const [
                 DropdownMenuItem(value: "food", child: Text("Food")),
@@ -242,7 +243,8 @@ class _BodyState extends State<Body> {
           child: TextFormField(
             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
             keyboardType: TextInputType.numberWithOptions(decimal: true),
-            controller: TextEditingController()..text = widget.menu.foodPrice.toString(),
+            controller: TextEditingController()
+              ..text = widget.menu.foodPrice.toString(),
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
               if (value!.isEmpty) {
