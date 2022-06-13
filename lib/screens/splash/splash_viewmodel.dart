@@ -42,8 +42,6 @@ class SplashViewModel extends Viewmodel {
     role = _user.role;
     restId = _user.restId;
 
-    print(role);
-
     if (role == "owner") {
       if(restId == ""){
         Navigator.pushNamed(context, RestaurantSignUpScreen.routeName);

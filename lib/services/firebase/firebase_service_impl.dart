@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, no_leading_underscores_for_local_identifiers
+// ignore_for_file: camel_case_types, no_leading_underscores_for_local_identifiers, avoid_print, unused_catch_clause
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,29 +135,99 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
+  Stream? streamUser() {
+    try {
+      return _firebaseFirestore
+          .collection('Users')
+          .doc(currentUser.uid)
+          .snapshots();
+    } on FirebaseException catch (e) {
+      print(e);
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service_impl.dart");
+    }
+  }
+
+  @override
+  Future<void> editProfile(name, userPic) async {
+    try {
+      await _firebaseFirestore.collection('Users').doc(currentUser.uid).update({
+        'name': name,
+        'userPic': userPic,
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service_impl.dart");
+    }
+  }
+
+  @override
+  Future<UserModel> getUser(String id) async {
+    try {
+      var doc = await _firebaseFirestore.collection("Users").doc(id).get();
+      if (!doc.exists) {
+        //handle error
+        //throw something maybe
+      }
+      return UserModel.fromJson(doc.data()!);
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: "Failed to read user from the server",
+          location: "firebase_service.dart");
+    }
+  }
+
+  @override
   User? getCurrentUser() {
     User? user = _firebaseAuth.currentUser;
     return user;
   }
 
-// Fetch User role
   @override
-  Future<String> fetchRole() async {
-    String role = '';
+  Future<void> initializeUser() async {
+    user = await getUser(currentUser.uid);
+  }
+
+//restaurant services
+  @override
+  Future<Restaurant> getRestaurant() async {
     try {
-      var snapshot = await _firebaseFirestore
-          .collection('Users')
-          .doc(currentUser.uid)
+      var doc = await _firebaseFirestore
+          .collection('Restaurants')
+          .doc(user.restId)
           .get();
-      role = snapshot.data()?['role'] as String;
+      return Restaurant.fromJson(doc.data()!);
     } on FirebaseException catch (e) {
       print(e);
-      // throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-    } catch (e) {
-      print(e);
-      // throw '${e.toString()} Error Occured!';
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service_impl.dart");
     }
-    return role;
+  }
+
+  @override
+  Future<void> openClose(restStatus) async {
+    try {
+      if (restStatus == false) {
+        await _firebaseFirestore
+            .collection('Restaurants')
+            .doc(user.restId)
+            .update({
+          'status': true,
+        });
+      } else {
+        await _firebaseFirestore
+            .collection('Restaurants')
+            .doc(user.restId)
+            .update({
+          'status': false,
+        });
+      }
+    } on FirebaseException catch (e) {
+      print(e);
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service_impl.dart");
+    }
   }
 
   @override
@@ -177,20 +247,12 @@ class fireBaseServiceImpl extends firebaseService {
       //restaurant successfully registered
     } on FirebaseException catch (e) {
       print(e);
-      Failure errorMsg;
-
-      // if (e.code == "email-already-in-use") {
-      //   errorMsg = Failure(e.code,
-      //       message: "The email address is already in use by another account.",
-      //       location: "firebase_service_impl.dart");
-      // } else {
-      //   errorMsg = Failure(e.code,
-      //       message: "Unknown error", location: "firebase_service_impl.dart");
-      // }
-      // throw errorMsg;
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service_impl.dart");
     }
   }
 
+  //menu services
   @override
   Future<void> addNewMenu(Menu menu, String restaurantId) async {
     try {
@@ -232,22 +294,6 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  Future<UserModel> getUser(String id) async {
-    try {
-      var doc = await _firebaseFirestore.collection("Users").doc(id).get();
-      if (!doc.exists) {
-        //handle error
-        //throw something maybe
-      }
-      return UserModel.fromJson(doc.data()!);
-    } on FirebaseException catch (e) {
-      throw Failure(e.code,
-          message: "Failed to read user from the server",
-          location: "firebase_service.dart");
-    }
-  }
-
-  @override
   Future<List<Menu>> getAllMenu(String restaurantId) async {
     try {
       List<Menu> listMenu = [];
@@ -264,29 +310,6 @@ class fireBaseServiceImpl extends firebaseService {
           message: "Failed to read menu from the server",
           location: "firebase_service.dart");
     }
-  }
-
-  @override
-  Future<List<Order>> getAllOrder(String restaurantId) async {
-    try {
-      List<Order> listOrder = [];
-      QuerySnapshot querySnapshot = await _firebaseFirestore
-          .collection("testOrders")
-          // .doc(restaurantId)
-          // .collection("menu")
-          .get();
-      querySnapshot.docs.forEach((element) {
-        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
-      });
-      return listOrder;
-    } on FirebaseException catch (e) {
-      throw e;
-    }
-  }
-
-  @override
-  Future<void> initializeUser() async {
-    user = await getUser(currentUser.uid);
   }
 
   @override
@@ -308,6 +331,25 @@ class fireBaseServiceImpl extends firebaseService {
       throw Failure(e.code,
           message: "Cannot perform delete operation",
           location: "firebase_service_impl.dart");
+    }
+  }
+
+//order services
+  @override
+  Future<List<Order>> getAllOrder(String restaurantId) async {
+    try {
+      List<Order> listOrder = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("testOrders")
+          // .doc(restaurantId)
+          // .collection("menu")
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listOrder;
+    } on FirebaseException catch (e) {
+      throw e;
     }
   }
 }

@@ -46,6 +46,7 @@ dependencies:
     path: map_mvvm
   firebase_storage: ^10.2.16
   file_picker: ^4.6.0
+  confirm_dialog: ^1.0.1
 
 dev_dependencies:
   flutter_test:
