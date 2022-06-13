@@ -14,6 +14,7 @@ class EditMenuViewModel extends Viewmodel {
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
   Menu _menu = Menu();
+  String menuPath = "menu";
   String? _filePath;
 
   @override
@@ -63,7 +64,8 @@ class EditMenuViewModel extends Viewmodel {
         var user = await service.getUser(service.getCurrentUser()!.uid);
 
         // add to firebase storage
-        await storageService.uploadFile(path, menu.foodPicture, user.restId);
+        await storageService.uploadFile(
+            path, menuPath + "/" + menu.restId + "/" + menu.foodPicture);
         // add to firestore
         await service.editMenu(menu, user.restId!);
       } on FirebaseException catch (e) {}

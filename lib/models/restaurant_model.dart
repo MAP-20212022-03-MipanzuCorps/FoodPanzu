@@ -38,6 +38,4 @@ class Restaurant {
   }
 
   get restStatus => _status;
-  get restName => _restName;
-
 }
