@@ -28,4 +28,10 @@ class FireStorageImpl extends FireStorage {
           message: e.message, location: "FireStorageImpl.dart");
     }
   }
+
+  @override
+  deleteFile(String ref) async {
+    // TODO: implement deleteFile
+    await firebaseStorage.ref(ref).delete();
+  }
 }
