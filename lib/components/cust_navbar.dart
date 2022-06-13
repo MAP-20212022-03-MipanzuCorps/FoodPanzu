@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:foodpanzu/screens/cust_order/cust_order_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
 import 'package:foodpanzu/utils/constants.dart';
@@ -50,32 +51,31 @@ class CustBottomNavBar extends StatelessWidget {
                     Navigator.popAndPushNamed(context, HomeScreen.routeName),
               ),
               IconButton(
-                   icon: SvgPicture.asset(
-                  "assets/icons/Heart Icon.svg",
-                  color: MenuState.favourite == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,
-                ),
-                onPressed: () {}
-                ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/Heart Icon.svg",
+                    color: MenuState.favourite == selectedMenu
+                        ? kPrimaryColor
+                        : inActiveIconColor,
+                  ),
+                  onPressed: () {}),
               IconButton(
-                icon: SvgPicture.asset(
-                  "assets/icons/qr code.svg",
-                  color: MenuState.qrcode == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,
-                ),
-                onPressed: () {}
-              ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/qr code.svg",
+                    color: MenuState.qrcode == selectedMenu
+                        ? kPrimaryColor
+                        : inActiveIconColor,
+                  ),
+                  onPressed: () {}),
               IconButton(
-                   icon: SvgPicture.asset(
-                  "assets/icons/order history.svg",
-                  color: MenuState.orders == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,
-                ),
-                onPressed: () {}
-                ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/order history.svg",
+                    color: MenuState.orders == selectedMenu
+                        ? kPrimaryColor
+                        : inActiveIconColor,
+                  ),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, CustOrderScreen.routeName);
+                  }),
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/User Icon.svg",

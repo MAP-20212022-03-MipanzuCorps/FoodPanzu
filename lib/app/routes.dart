@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:foodpanzu/models/menu_model.dart';
+import 'package:foodpanzu/screens/cust_order/cust_order_screen.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_screen.dart';
 import 'package:foodpanzu/screens/owner_order/owner_order_screen.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
@@ -37,4 +38,7 @@ final Map<String, WidgetBuilder> routes = {
   //menu
   EditMenuScreen.routeName: (context) => EditMenuScreen(menu: Menu()),
   AddNewMenuScreen.routeName: (context) => AddNewMenuScreen(),
+
+  //Customer Order
+  CustOrderScreen.routeName: (context) => CustOrderScreen(),
 };

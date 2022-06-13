@@ -5,6 +5,7 @@ class UserModel {
   String _name, _email, _role, _userPic;
   String? _restId;
 
+  get userId => _userId;
   get role => _role;
   get restId => _restId;
   get name => _name;
