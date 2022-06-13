@@ -7,8 +7,6 @@ import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:foodpanzu/services/firebase/firestorage_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
-import '../../models/menu_model.dart';
-
 class OwnerOrderViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
@@ -17,53 +15,43 @@ class OwnerOrderViewModel extends Viewmodel {
 
   bool get isListeningToStream => _streamListener != null;
   List<Order> _orderList = [];
+  List<Order>? orderLists;
   UserModel user = UserModel();
-
+  UserModel resId = UserModel();
+  String res="";
+  String name="";
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
-
+    //await update(() async => orderLists = await service.getAllOrder());
     await update(() async {
-      //get the restaurantId
       user = await service.getUser(service.getCurrentUser()!.uid);
+      res = user.restId;
       service.initializeUser();
-      _orderList = await service.getAllOrder(user.restId!);
+      _orderList = await service.getAllOrder(user.restId);
+      orderLists = await service.getAllOrder(user.restId);
     });
+  }
 
-    _streamListener = service.listen(
-      onData: (data) async {
-        await update(() async {
-          _orderList = [];
-          for (var document in data.docs) {
-            orderList
-                .add(Order.fromJson(document.data() as Map<String, dynamic>));
-          }
-        });
-      },
-      onError: (e) {
-        catchError(e);
-      },
-    );
+  String getRes() {
+    return res;
+  }
 
-    _userListener = service.authStateChanges().listen((event) async {
-      await update(() async {
-        if (event != null) {
-          user = await service.getUser(event.uid);
-          service.initializeUser();
-          _orderList = await service.getAllOrder(user.restId!);
-          print(user);
-        }
-      });
-    });
+  Future<void> getOrder(String resId) async {
+    try {
+      _orderList = await service.getAllOrder(resId);
+    } on Failure {
+      rethrow;
+    }
   }
 
   bool hasMenu() {
-    return _orderList.isNotEmpty;
+    return orderList.isNotEmpty;
   }
 
   set orderList(orderList) {
-    _orderList = orderList;
+    orderLists = orderList;
   }
 
   List<Order> get orderList {
@@ -88,14 +76,5 @@ class OwnerOrderViewModel extends Viewmodel {
 
   Stream<User?> currentUser() {
     return service.authStateChanges();
-  }
-
-  @override
-  void dispose() {
-    _streamListener?.cancel();
-    _streamListener = null;
-    _userListener!.cancel();
-    _userListener = null;
-    super.dispose();
   }
 }
