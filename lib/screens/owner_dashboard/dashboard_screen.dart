@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
+import 'package:foodpanzu/components/owner_navbar.dart';
 import 'package:foodpanzu/utils/enums.dart';
 
 import 'components/body.dart';
@@ -13,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Dashboard", style: TextStyle(color: Colors.black)),),
     body: Body(),
-    bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.dashboard),
+    bottomNavigationBar: OwnerBottomNavBar(selectedMenu: MenuState.dashboard),
     );
     
   }

@@ -1,53 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/home/home_viewmodel.dart';
-import 'package:foodpanzu/screens/logout_success/logout_success_screen.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
+import 'home_header.dart';
+import 'restaurant_list.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // SearchField(),
-          View<HomeViewModel>(
-            builder: (_, viewmodel) => DefaultButton(
-              text: "Sign out",
-              press: () {
-                viewmodel.signOut();
-                // if all are valid then go to success screen
-                Navigator.pushNamed(context, LogOutSuccessScreen.routeName);
-              },
-            ),
-          ),
-        ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: View<HomeViewModel>(
+          builder: (_,viewmodel) {
+            return Column(
+              children: [
+                SizedBox(height: getProportionateScreenHeight(20)),
+                HomeHeader(),
+                SizedBox(height: getProportionateScreenWidth(10)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Text('Where would you like to eat?', style: TextStyle(color: Colors.black, fontSize: 30,),),
+                ),
+                SizedBox(height: getProportionateScreenWidth(20)),
+                // Text('Restaurants list', style: TextStyle(color: Colors.black, fontSize: 20,),),
+                
+                RestaurantList(),
+
+              ],
+            );
+          }
+        ),
       ),
     );
-    // Container(
-    //   // child: SingleChildScrollView(
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.end,
-    //     children: [
-    //       View<HomeViewModel>(
-    //         builder: (_, viewmodel) => DefaultButton(
-    //           text: "Sign out",
-    //           press: () {
-    //             viewmodel.signOut();
-    //             // if all are valid then go to success screen
-    //             Navigator.pushNamed(context, LogOutSuccessScreen.routeName);
-    //           },
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    //   // ),
-    // );
   }
 }

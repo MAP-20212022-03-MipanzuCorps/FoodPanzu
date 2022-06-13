@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
+import 'package:foodpanzu/components/owner_navbar.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_order/components/body.dart';
 import 'package:foodpanzu/screens/owner_order/owner_order_viewmodel.dart';
@@ -21,7 +21,7 @@ class OwnerOrderScreen extends StatelessWidget {
         ),
       ),
       body: Body(viewmodel: viewmodel),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.favourite),
+      bottomNavigationBar: OwnerBottomNavBar(selectedMenu: MenuState.favourite),
     );
    });
   }

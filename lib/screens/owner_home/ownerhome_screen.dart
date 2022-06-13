@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/components/coustom_bottom_nav_bar.dart';
+import 'package:foodpanzu/components/owner_navbar.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_screen.dart';
 import 'package:foodpanzu/screens/owner_home/components/body.dart';
@@ -81,7 +81,7 @@ class OwnerHomeScreen extends StatelessWidget {
             ],
           ),
           bottomNavigationBar:
-              const CustomBottomNavBar(selectedMenu: MenuState.home),
+              const OwnerBottomNavBar(selectedMenu: MenuState.home),
         );
       },
     );

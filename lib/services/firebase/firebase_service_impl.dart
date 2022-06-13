@@ -231,6 +231,24 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
+  Future<List<Restaurant>> getAllRestaurant() async{
+    try {
+      List<Restaurant> restaurantList = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("Restaurants")
+          .get();
+      querySnapshot.docs.forEach((element) {
+        restaurantList.add(Restaurant.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return restaurantList;
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: e.message,
+          location: "firebase_service.dart");
+    }
+  }
+
+  @override
   Future<void> signUpRestaurant(Restaurant restaurant) async {
     try {
       //create restaurant doc first
@@ -336,20 +354,22 @@ class fireBaseServiceImpl extends firebaseService {
 
 //order services
   @override
-  Future<List<Order>> getAllOrder(String restaurantId) async {
+  Future<List<Order>> getAllOrder(String resId) async {
     try {
       List<Order> listOrder = [];
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
-          // .doc(restaurantId)
-          // .collection("menu")
+          .where('restId', isEqualTo: resId)
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
       });
       return listOrder;
     } on FirebaseException catch (e) {
-      throw e;
+      throw Failure(e.code,
+          message: e.message,
+          location: "firebase_service.dart");
     }
   }
+  
 }

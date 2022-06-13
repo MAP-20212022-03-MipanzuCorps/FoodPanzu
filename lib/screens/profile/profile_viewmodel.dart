@@ -26,10 +26,8 @@ class ProfileViewModel extends Viewmodel {
     super.init();
     notifyListenersOnFailure = true;
 
-    await update(() async => user = await service.getUser(service.getCurrentUser()!.uid));
-    // _streamListener = service.streamUser()!.listen((event) {
-    //   user = event as UserModel;
-    // });
+    await update(() async =>
+        user = await service.getUser(service.getCurrentUser()!.uid));
 
     _imageUrl = await storageService.downloadUrl(user.userPic);
     _userPic = user.userPic;
@@ -44,6 +42,13 @@ class ProfileViewModel extends Viewmodel {
   String get getuserpic => _userPic;
   get getpic => _imageUrl;
   String get getfilepath => _filepath;
+
+  Future<void> refreshPage() async {
+    user = await service.getUser(service.getCurrentUser()!.uid);
+
+    _imageUrl = await storageService.downloadUrl(user.userPic);
+    _userPic = user.userPic;
+  }
 
   Future<void> updateProfile() async => await update(() async {
         try {
@@ -70,11 +75,4 @@ class ProfileViewModel extends Viewmodel {
           rethrow;
         }
       });
-
-  @override
-  void dispose() {
-    _streamListener?.cancel();
-    _streamListener = null;
-    super.dispose();
-  }
 }
