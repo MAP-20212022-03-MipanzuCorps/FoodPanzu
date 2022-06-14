@@ -30,10 +30,11 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Body(),
       bottomNavigationBar: View<ProfileViewModel>(builder: (_, viewmodel) {
-        if (viewmodel.user.role == 'customer')
+        if (viewmodel.user.role == 'customer') {
           return CustBottomNavBar(selectedMenu: MenuState.profile);
-        else
+        } else {
           return OwnerBottomNavBar(selectedMenu: MenuState.profile);
+        }
       }),
     );
   }

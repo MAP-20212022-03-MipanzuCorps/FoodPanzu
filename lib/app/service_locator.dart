@@ -1,9 +1,6 @@
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_viewmodel.dart';
-<<<<<<< HEAD
 import 'package:foodpanzu/screens/add_order/add_order_viewmodel.dart';
-=======
 import 'package:foodpanzu/screens/cust_order/cust_order_viewmodel.dart';
->>>>>>> 60f4ddbbfbf349aa8d609d567eeb6d9526efa49b
 import 'package:foodpanzu/screens/edit_menu/edit_menu_viewmodel.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_viewmodel.dart';
@@ -55,14 +52,13 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
   locator
       .registerLazySingleton<RestaurantViewModel>(() => RestaurantViewModel());
-  locator
-      .registerLazySingleton<RestaurantMenuViewModel>(() => RestaurantMenuViewModel());
+  locator.registerLazySingleton<RestaurantMenuViewModel>(
+      () => RestaurantMenuViewModel());
   locator
       .registerLazySingleton<AddNewMenuViewModel>(() => AddNewMenuViewModel());
   locator.registerLazySingleton<EditMenuViewModel>(() => EditMenuViewModel());
   locator.registerLazySingleton<ProfileViewModel>(() => ProfileViewModel());
   locator.registerLazySingleton<DashboardViewModel>(() => DashboardViewModel());
   locator.registerLazySingleton<AddOrderViewModel>(() => AddOrderViewModel());
-  locator
-      .registerLazySingleton<CustOrderViewModel>(() => CustOrderViewModel());
+  locator.registerLazySingleton<CustOrderViewModel>(() => CustOrderViewModel());
 }

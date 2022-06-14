@@ -29,14 +29,26 @@ class _RestaurantListState extends State<RestaurantList> {
           child: ListView.builder(
             itemCount: viewmodel.restaurantList!.length,
             itemBuilder: (_, index) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal:20, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: GestureDetector(
-                onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantMenuScreen(restaurant: viewmodel.restaurantList![index]))),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RestaurantMenuScreen(
+                      restaurant: viewmodel.restaurantList![index],
+                      menuList: viewmodel
+                          .getMenuList(viewmodel.restaurantList![index].restId),
+                    ),
+                  ),
+                ),
                 child: Container(
-                  decoration: BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.circular(2)),              
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(2)),
                     height: 100,
                     width: double.infinity,
-                    child: Text('${viewmodel.restaurantList![index].restName}')),
+                    child:
+                        Text('${viewmodel.restaurantList![index].restName}')),
               ),
             ),
             physics: const AlwaysScrollableScrollPhysics(),

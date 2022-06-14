@@ -29,8 +29,8 @@ class ProfileViewModel extends Viewmodel {
     await update(() async =>
         user = await service.getUser(service.getCurrentUser()!.uid));
 
-    _imageUrl = await storageService.downloadUrl(user.userPic);
-    _userPic = user.userPic;
+    // _imageUrl = await storageService.downloadUrl(user.userPic);
+    // _userPic = user.userPic;
 
     await service.initializeUser();
   }
@@ -45,9 +45,10 @@ class ProfileViewModel extends Viewmodel {
 
   Future<void> refreshPage() async {
     user = await service.getUser(service.getCurrentUser()!.uid);
-
-    _imageUrl = await storageService.downloadUrl(user.userPic);
-    _userPic = user.userPic;
+    if (user.userPic != '') {
+      _imageUrl = await storageService.downloadUrl(user.userPic);
+      _userPic = user.userPic;
+    }
   }
 
   Future<void> updateProfile() async => await update(() async {

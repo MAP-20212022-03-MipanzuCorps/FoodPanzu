@@ -2,6 +2,7 @@ import 'dart:async';
 
 // import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/app/service_locator.dart';
+import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
@@ -33,5 +34,9 @@ class HomeViewModel extends Viewmodel {
     } on Failure {
       rethrow;
     }
+  }
+
+  Future<List<Menu>> getMenuList(String restId) async {
+    return await service.getAllMenu(restId);
   }
 }

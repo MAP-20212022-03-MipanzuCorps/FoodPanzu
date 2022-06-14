@@ -12,7 +12,7 @@ class RestaurantMenuViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
-
+  bool initialState = true;
   bool get isListeningToStream => _streamListener != null;
 
   List<Menu> _menuList = [];
@@ -22,7 +22,15 @@ class RestaurantMenuViewModel extends Viewmodel {
   void setrestaurant(Restaurant newRest) {
     restaurant = newRest;
   }
- 
+
+  bool isInitialState() {
+    return initialState;
+  }
+
+  void launchedStated() {
+    initialState = false;
+  }
+
   @override
   void init() async {
     super.init();
@@ -32,10 +40,10 @@ class RestaurantMenuViewModel extends Viewmodel {
       user = await service.getUser(service.getCurrentUser()!.uid);
       service.initializeUser();
     });
-
   }
 
-  bool hasMenu() {
+  bool hasMenu(String restId) {
+    getRestaurantMenu(restId);
     return _menuList.isNotEmpty;
   }
 
@@ -43,8 +51,10 @@ class RestaurantMenuViewModel extends Viewmodel {
     return _menuList;
   }
 
-  Future<void> getRestaurantMenu(restId) async{
+  Future<void> getRestaurantMenu(restId) async {
+    // update(() async {
     _menuList = await service.getAllMenu(restId);
+    // });
   }
 
   Future<String> getMenuImage(String imageName) {
