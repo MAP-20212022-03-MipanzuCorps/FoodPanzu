@@ -39,5 +39,6 @@ abstract class firebaseService with ServiceStream {
 
 //order services
   Future<List<Order>> getAllOrder(String restaurantId);
+  Future<List<Order>> getAllCustOrder(String userId);
 
 }

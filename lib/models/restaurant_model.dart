@@ -21,10 +21,6 @@ class Restaurant {
         _restPicture = map['restPicture'],
         _status = map['status'];
 
-  get restName {
-    return _restName;
-  }
-
   toJson() {
     return {
       'ssmNumber': _ssmNumber,
@@ -38,4 +34,7 @@ class Restaurant {
   }
 
   get restStatus => _status;
+  get restName => _restName;
+  get restId => _restId;
+
 }
