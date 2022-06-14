@@ -70,7 +70,7 @@ class OwnerHomeScreen extends StatelessWidget {
                         ),
                         (route) => false,
                       );
-                      Navigator.popUntil(context, (route) => route.isFirst);
+                      // Navigator.popUntil(context, (route) => route.isFirst);
                       viewmodel.signOut();
                     },
                   ),

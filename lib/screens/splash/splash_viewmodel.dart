@@ -2,8 +2,11 @@
 
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/app/service_locator.dart';
+import 'package:foodpanzu/screens/add_order/add_order_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
@@ -24,11 +27,6 @@ class SplashViewModel extends Viewmodel {
     notifyListenersOnFailure = false;
   }
 
-  // updateUserState(currentUser) {
-  //   _user = currentUser;
-  //   //trasnform _user into
-  // }
-
   bool userHasSignIn() {
     if (service.getCurrentUser() == null) {
       return false;
@@ -43,27 +41,15 @@ class SplashViewModel extends Viewmodel {
     restId = _user.restId;
 
     if (role == "owner") {
-      if(restId == ""){
+      if (restId == "") {
         Navigator.pushNamed(context, RestaurantSignUpScreen.routeName);
-      } else{
+      } else {
         //return a owner home page
         Navigator.pushNamed(context, OwnerHomeScreen.routeName);
       }
-    } else {      
+    } else {
       //return a customer home page
       Navigator.pushNamed(context, HomeScreen.routeName);
     }
   }
-
-  // Future<void> checkUserSignInStatus() async {
-  //   await update(
-  //     () async {
-  //       try {
-  //         updateUserState(service.authStateChanges());
-  //       } on Failure {
-  //         rethrow;
-  //       }
-  //     },
-  //   );
-  // }
 }

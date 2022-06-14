@@ -16,28 +16,25 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile", style: TextStyle(color: kSecondaryColor)),
-        actions: [View<ProfileViewModel>(
-          builder: (_,viewmodel) {
+        actions: [
+          View<ProfileViewModel>(builder: (_, viewmodel) {
             return InkWell(
-                        child: SvgPicture.asset("assets/icons/Log out.svg"),
-                        onTap: () {
-                          viewmodel.signOut(context);
-                        },
-                      );
-          }
-        ),
-                  const SizedBox(width: 12),
+              child: SvgPicture.asset("assets/icons/Log out.svg"),
+              onTap: () {
+                viewmodel.signOut(context);
+              },
+            );
+          }),
+          const SizedBox(width: 12),
         ],
       ),
       body: Body(),
-      bottomNavigationBar: View<ProfileViewModel>(
-        builder: (_,viewmodel) {
-          if(viewmodel.user.role == 'customer')
+      bottomNavigationBar: View<ProfileViewModel>(builder: (_, viewmodel) {
+        if (viewmodel.user.role == 'customer')
           return CustBottomNavBar(selectedMenu: MenuState.profile);
-          else
+        else
           return OwnerBottomNavBar(selectedMenu: MenuState.profile);
-        }
-      ),
+      }),
     );
   }
 }
