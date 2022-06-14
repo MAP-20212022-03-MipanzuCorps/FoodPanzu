@@ -15,6 +15,7 @@ class fireBaseServiceImpl extends firebaseService {
   final _firebaseFirestore = FirebaseFirestore.instance;
   User get currentUser => _firebaseAuth.currentUser!;
   static UserModel user = UserModel();
+  String restaurantId = '';
 
   //forgot password
   @override
@@ -191,11 +192,20 @@ class fireBaseServiceImpl extends firebaseService {
 
 //restaurant services
   @override
-  Future<Restaurant> getRestaurant() async {
+  void initializeRestaurant(rest)
+  {
+    restaurantId = rest;
+  }
+
+  @override
+  String getRestId() => restaurantId;
+
+  @override
+  Future<Restaurant> getRestaurant(restId) async {
     try {
       var doc = await _firebaseFirestore
           .collection('Restaurants')
-          .doc(user.restId)
+          .doc(restId)
           .get();
       return Restaurant.fromJson(doc.data()!);
     } on FirebaseException catch (e) {

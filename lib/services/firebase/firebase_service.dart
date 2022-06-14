@@ -24,8 +24,10 @@ abstract class firebaseService with ServiceStream {
   Future<UserModel> getUser(String id);
 
 //restaurant services
+  void initializeRestaurant(rest);
+  String getRestId();
   Future<void> signUpRestaurant(Restaurant restaurant);
-  Future<Restaurant> getRestaurant();
+  Future<Restaurant> getRestaurant(restId);
   Future<List<Restaurant>> getAllRestaurant();
   Future<void> openClose(restStatus);
 

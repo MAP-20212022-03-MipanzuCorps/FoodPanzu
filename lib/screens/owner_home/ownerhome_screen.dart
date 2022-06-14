@@ -18,72 +18,70 @@ class OwnerHomeScreen extends StatelessWidget {
   static String routeName = "/ownerhome";
   @override
   Widget build(BuildContext context) {
-    return View<OwnerHomeViewModel>(
-      builder: (_, viewmodel) {
-        return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 200,
-                floating: true,
-                pinned: true,
-                collapsedHeight: 80,
-                flexibleSpace: FlexibleSpaceBar(
-                    background: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/pizza.png"),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.centerLeft),
-                      ),
+    return Scaffold(
+      body: View<OwnerHomeViewModel>(
+        builder: (_, viewmodel) => CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 200,
+              floating: true,
+              pinned: true,
+              collapsedHeight: 80,
+              flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/images/pizza.png"),
+                          fit: BoxFit.cover,
+                          alignment: Alignment.centerLeft),
                     ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          "West Stop",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 47, 44, 44),
-                          ),
-                        ),
-                        Text(
-                          "Western Hub",
-                          style: TextStyle(color: Color(0xFFFF7643)),
-                        ),
-                      ],
-                    )
-                    // titlePadding: EdgeInsets.only(left: 500),
-                    ),
-                //title: Text('My App Bar'),
-                leading: AppBar(),
-                //actions for sign out later on
-                actions: [
-                  InkWell(
-                    child: Icon(Icons.settings),
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              LogOutSuccessScreen(),
-                        ),
-                        (route) => false,
-                      );
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      viewmodel.signOut();
-                    },
                   ),
-                  const SizedBox(width: 12),
-                ],
-              ),
-              Body(viewmodel: viewmodel),
-            ],
-          ),
-          bottomNavigationBar:
-              const OwnerBottomNavBar(selectedMenu: MenuState.home),
-        );
-      },
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Text(
+                        "West Stop",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 47, 44, 44),
+                        ),
+                      ),
+                      Text(
+                        "Western Hub",
+                        style: TextStyle(color: Color(0xFFFF7643)),
+                      ),
+                    ],
+                  )
+                  // titlePadding: EdgeInsets.only(left: 500),
+                  ),
+              //title: Text('My App Bar'),
+              leading: AppBar(),
+              //actions for sign out later on
+              actions: [
+                InkWell(
+                  child: Icon(Icons.settings),
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            LogOutSuccessScreen(),
+                      ),
+                      (route) => false,
+                    );
+                    // Navigator.popUntil(context, (route) => route.isFirst);
+                    // viewmodel.signOut();
+                  },
+                ),
+                const SizedBox(width: 12),
+              ],
+            ),
+            Body(viewmodel: viewmodel),
+          ],
+        ),
+      ),
+      bottomNavigationBar:
+          const OwnerBottomNavBar(selectedMenu: MenuState.home),
     );
   }
 }
