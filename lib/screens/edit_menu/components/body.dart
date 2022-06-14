@@ -31,7 +31,6 @@ class _BodyState extends State<Body> {
   final pictureController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return View<EditMenuViewModel>(
@@ -66,7 +65,7 @@ class _BodyState extends State<Body> {
                               backgroundColor: Colors.red,
                             ), // delete button
                             onPressed: (() {
-                              viewmodel.deleteMenu(widget.menu.menuId);
+                              viewmodel.deleteMenu(widget.menu);
                               Navigator.pop(context);
                             }),
                             child: Text(
@@ -101,10 +100,11 @@ class _BodyState extends State<Body> {
                                     foodDesc: foodDescription,
                                     foodPrice: price,
                                     foodName: foodName,
+                                    restId: widget.menu.restId,
                                     foodPicture:
                                         generateRandomString(2) + foodPicture),
                                 path);
-                              Navigator.pop(context);
+                            Navigator.pop(context);
                           }),
                           child: Text(
                             "Update",
@@ -185,14 +185,10 @@ class _BodyState extends State<Body> {
         SizedBox(height: SizeConfig.screenHeight * 0.03),
         Container(
           child: TextFormField(
-            enabled: false,
+            readOnly: true,
             controller: TextEditingController()..text = widget.menu.category,
             onSaved: (newValue) => foodCategory = newValue!,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Don't leave the field blank!";
-              }
-            },
+            validator: (value) => value == null ? 'field required' : null,
             decoration: const InputDecoration(
               labelText: "FoodCategory",
               labelStyle: TextStyle(
@@ -201,7 +197,9 @@ class _BodyState extends State<Body> {
               hintText: "Enter the food description",
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
-          )),
+            onChanged: (category) => foodCategory = category,
+          ),
+        ),
       ],
     );
   }
@@ -214,7 +212,8 @@ class _BodyState extends State<Body> {
           child: TextFormField(
             inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
             keyboardType: TextInputType.numberWithOptions(decimal: true),
-            controller: TextEditingController()..text = widget.menu.foodPrice.toString(),
+            controller: TextEditingController()
+              ..text = widget.menu.foodPrice.toString(),
             onSaved: (newValue) => price = double.parse(newValue!),
             validator: (value) {
               if (value!.isEmpty) {

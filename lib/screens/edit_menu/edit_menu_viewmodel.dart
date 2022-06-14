@@ -14,6 +14,7 @@ class EditMenuViewModel extends Viewmodel {
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
   Menu _menu = Menu();
+  String menuPath = "menu";
   String? _filePath;
 
   @override
@@ -47,8 +48,12 @@ class EditMenuViewModel extends Viewmodel {
   //   });
   // }
 
-  deleteMenu(String menuId) async {
-    await service.deleteMenu(menuId);
+  deleteMenu(Menu menu) async {
+    //delete from firestore
+    await service.deleteMenu(menu.menuId);
+
+    //delete from firebase storage
+    await storageService.deleteFile(menu.foodPicture);
   }
 
   Future<void> editMenu(Menu menu, String path) async {
@@ -59,7 +64,8 @@ class EditMenuViewModel extends Viewmodel {
         var user = await service.getUser(service.getCurrentUser()!.uid);
 
         // add to firebase storage
-        await storageService.uploadFile(path, menu.foodPicture);
+        await storageService.uploadFile(
+            path, menuPath + "/" + menu.restId + "/" + menu.foodPicture);
         // add to firestore
         await service.editMenu(menu, user.restId!);
       } on FirebaseException catch (e) {}

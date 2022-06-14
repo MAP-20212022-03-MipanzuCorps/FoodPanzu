@@ -164,7 +164,7 @@ class _BodyState extends State<Body> {
               hint: const Text(
                 'Food Category',
               ),
-              onChanged: (category) => setState(() => foodCategory = category),
+              onChanged: (category) => foodCategory = category,
               validator: (value) => value == null ? 'field required' : null,
               items: const [
                 DropdownMenuItem(value: "food", child: Text("Food")),
