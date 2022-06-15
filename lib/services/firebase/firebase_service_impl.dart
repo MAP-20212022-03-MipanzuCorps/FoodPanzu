@@ -370,6 +370,27 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('restId', isEqualTo: resId)
+          .where('orderStatus',isEqualTo: 'Cooking')
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listOrder;
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: e.message,
+          location: "firebase_service.dart");
+    }
+  }
+
+  @override
+  Future<List<Order>> getAllOrderHistory(String resId) async {
+    try {
+      List<Order> listOrder = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("testOrders")
+          .where('restId', isEqualTo: resId)
+          .where('orderStatus',isEqualTo: "Completed")
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
@@ -389,6 +410,27 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('userId', isEqualTo: id)
+          .where('orderStatus',isEqualTo: 'Cooking')
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listOrder;
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: e.message,
+          location: "firebase_service.dart");
+    }
+  }
+
+  @override
+  Future<List<Order>> getAllCustOrderHistory(String id) async {
+    try {
+      List<Order> listOrder = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("testOrders")
+          .where('userId', isEqualTo: id)
+          .where('orderStatus',isEqualTo: 'Completed')
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));

@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/screens/cust_order/components/order_card.dart';
 import 'package:foodpanzu/screens/cust_order/cust_order_viewmodel.dart';
+import 'package:foodpanzu/widgets/emptyWidget.dart';
 import 'package:map_mvvm/view.dart';
 
 class Body extends StatefulWidget {
@@ -17,6 +17,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -48,52 +49,74 @@ class _BodyState extends State<Body> {
                 ),
               ),
               SizedBox(
-                height: 450,
+                height: height - 295,
                 child: TabBarView(children: [
                   // Upcoming tab
 
                   View<CustOrderViewModel>(
-                    builder: (_, viewmodel) => RefreshIndicator(
-                      onRefresh: () {
-                        setState(() {
-                          viewmodel.getOrder(widget.viewmodel.getId());
-                        });
-                        return Future<void>.delayed(const Duration(seconds: 1));
-                      },
-                      color: Colors.orange,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: widget.viewmodel.hasMenu()
-                            ? widget.viewmodel.orderList.length
-                            : 0,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemBuilder: ((_, index) => OrderCard(
-                              menu: widget.viewmodel.orderList[index],
-                              onMenuClick: () {},
-                            )),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                      ),
-                    )),
+                      builder: (_, viewmodel) => RefreshIndicator(
+                            onRefresh: () {
+                              setState(() {
+                                viewmodel.getOrder(widget.viewmodel.getId());
+                              });
+                              return Future<void>.delayed(
+                                  const Duration(seconds: 1));
+                            },
+                            color: Colors.orange,
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: widget.viewmodel.hasOrder()
+                                  ? widget.viewmodel.orderList.length
+                                  : 1,
+                              shrinkWrap: true,
+                              primary: false,
+                              itemBuilder: ((_, index) {
+                                if (widget.viewmodel.hasOrder()) {
+                                  return OrderCard(
+                                    menu: widget.viewmodel.orderList[index],
+                                    onMenuClick: () {},
+                                  );
+                                } else
+                                  // ignore: curly_braces_in_flow_control_structures
+                                  return EmptyListWidget();
+                              }),
+                              physics: const AlwaysScrollableScrollPhysics(),
+                            ),
+                          )),
 
                   // History tab // not yet siap
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            color: Colors.deepPurple,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                            child: Text(
-                          "This is history container",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                          ),
-                        ))),
-                  ),
+                  View<CustOrderViewModel>(
+                      builder: (_, viewmodel) {
+                        return RefreshIndicator(
+                            onRefresh: () {
+                              setState(() {
+                                viewmodel.getOrderHis(widget.viewmodel.getId());
+                              });
+                              return Future<void>.delayed(
+                                  const Duration(seconds: 1));
+                            },
+                            color: Colors.orange,
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: widget.viewmodel.hasOrderHis()
+                                  ? widget.viewmodel.orderHisList.length
+                                  : 1,
+                              shrinkWrap: true,
+                              primary: false,
+                              itemBuilder: ((_, index) {
+                                if (widget.viewmodel.hasOrderHis()) {
+                                  return OrderCard(
+                                    menu: widget.viewmodel.orderHisList[index],
+                                    onMenuClick: () {},
+                                  );
+                                } else
+                                  // ignore: curly_braces_in_flow_control_structures
+                                  return EmptyListWidget();
+                              }),
+                              physics: const AlwaysScrollableScrollPhysics(),
+                            ),
+                          );
+                      }),
                 ]),
               )
             ],
