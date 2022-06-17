@@ -32,6 +32,10 @@ class Order {
     return _orderStatus;
   }
 
+  set orderStatus(String newOrderStatus) {
+    _orderStatus = newOrderStatus;
+  }
+
   double get totalPrice {
     return _totalPrice;
   }
@@ -42,6 +46,10 @@ class Order {
 
   String get tableNumber {
     return _tableNumber;
+  }
+
+  set tableNumber(String tableNumber) {
+    _tableNumber = tableNumber;
   }
 
   List<String>? get orderItems {

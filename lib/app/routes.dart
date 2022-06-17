@@ -46,5 +46,5 @@ final Map<String, WidgetBuilder> routes = {
   //order
   AddOrderScreen.routeName: (context) => AddOrderScreen(menu: Menu()),
   CustOrderScreen.routeName: (context) => CustOrderScreen(),
-  CartScreen.routeName: (context) => const CartScreen(),
+  CartScreen.routeName: (context) => CartScreen(),
 };

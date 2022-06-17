@@ -46,17 +46,10 @@ class AddOrderViewModel extends Viewmodel {
     Order? cart;
     OrderItem? newOrderItems;
 
-    List<Order> orderList =
-        await service.getAllCustOrder(service.getCurrentUser()!.uid);
-    if (orderList.isNotEmpty) {
-      for (var order in orderList) {
-        //order status with status "cart" means the order is still pending, not yet confirmed by the customer.
-        //only once paid, the status will change to cooking to indicate that the order is being prepared.
-        if (order.orderStatus == "cart") {
-          cart = order;
-        }
-      }
-    }
+    //order status with status "cart" means the order is still pending, not yet confirmed by the customer.
+    //only once paid, the status will change to cooking to indicate that the order is being prepared.
+    cart = await service.getPendingOrder(service.getCurrentUser()!.uid);
+
     //check the customer cart, if the menu is from the same restaurant, create a new order item and add it into cart
     if (cart != null) {
       if (cart.restId != menu.restId) {
@@ -79,7 +72,8 @@ class AddOrderViewModel extends Viewmodel {
           userId: service.getCurrentUser()!.uid,
           //table number will be fixed later when QR code feature is alive, for now it is hardcoded
           tableNumber: "1",
-          orderStatus: "cart");
+          orderStatus: "cart",
+          orderItems: []);
 
       String orderId = await service.createOrder(cart);
       cart.orderId = orderId;
@@ -87,19 +81,43 @@ class AddOrderViewModel extends Viewmodel {
     newOrderItems = (OrderItem(
         menuId: menu.menuId, quantity: quantity, orderId: cart.orderId));
     double totalPrice = cart.totalPrice;
-    //update the new orderId and total price in the cart
-    String newOrderItemId = await service.addOrderItem(newOrderItems);
+    bool sameMenu = false;
+
     if (cart.orderItems != null) {
-      cart.orderItems!.add(newOrderItemId);
+      //if the added menu is already in the cart, then just increase the quantity and update the price
+      for (String orderItemId in cart.orderItems!) {
+        OrderItem orderItem = await service.getOrderItem(orderItemId);
+        if (orderItem.menuId == menu.menuId) {
+          orderItem.quantity += quantity;
+          await service.updateOrderItem(orderItem);
+          // totalPrice += menu.foodPrice * quantity;
+          // cart!.totalPrice = totalPrice;
+          // await service.updateOrder(cart);
+          sameMenu = true;
+          break;
+        }
+      }
+
+      if (sameMenu == false) {
+        //if the added menu is not in the cart, then add it into the cart
+        //update the new orderId in the cart
+        String newOrderItemId = await service.addOrderItem(newOrderItems);
+        cart.orderItems!.add(newOrderItemId);
+      }
     } else {
+      //update the new orderId and total price in the cart
+      String newOrderItemId = await service.addOrderItem(newOrderItems);
       cart.orderItems = [newOrderItemId];
     }
-    // List<String> orderItems = cart.orderItems;
-    // orderItems.add(newOrderItemId);
-    // cart.orderItems = orderItems;
     cart.totalPrice = totalPrice + menu.foodPrice * quantity;
 
     //update cart in the database
     service.updateOrder(cart);
+  }
+
+  @override
+  void dispose() {
+    _streamListener?.cancel();
+    super.dispose();
   }
 }

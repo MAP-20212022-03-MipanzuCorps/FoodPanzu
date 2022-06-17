@@ -38,14 +38,19 @@ abstract class firebaseService with ServiceStream {
   Future<List<Menu>> getAllMenu(String restaurantId);
   Stream? menuListListener();
   Future<void> deleteMenu(String menuId);
+  Future<Menu> getMenu(String menuId);
 
 //order services
   Future<List<Order>> getAllOrder(String restaurantId);
   Future<List<Order>> getAllOrderHistory(String restaurantId);
   Future<List<Order>> getAllCustOrder(String userId);
+  Future<Order?> getPendingOrder(String userId);
   Future<String> addOrderItem(OrderItem orderItem);
   Future<void> deleteOrderItem(String orderItemId);
+  Future<OrderItem> getOrderItem(String orderItemId);
+  Future<void> updateOrderItem(OrderItem orderItem);
   Future<void> updateOrder(Order order);
   Future<String> createOrder(Order order);
   Future<List<Order>> getAllCustOrderHistory(String restaurantId);
+  Stream<QuerySnapshot<Map<String, dynamic>>> orderListListener(String userId);
 }

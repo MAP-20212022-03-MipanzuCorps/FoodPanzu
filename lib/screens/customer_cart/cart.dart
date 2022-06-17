@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/screens/customer_Cart/components/body.dart';
+import 'package:foodpanzu/screens/customer_cart/components/body.dart';
 
 class CartScreen extends StatelessWidget {
   static String routeName = "/cart";

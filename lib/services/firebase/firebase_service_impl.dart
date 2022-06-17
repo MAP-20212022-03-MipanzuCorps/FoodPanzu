@@ -367,7 +367,7 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('restId', isEqualTo: resId)
-          .where('orderStatus',isEqualTo: 'Cooking')
+          .where('orderStatus', isEqualTo: 'Cooking')
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
@@ -375,8 +375,7 @@ class fireBaseServiceImpl extends firebaseService {
       return listOrder;
     } on FirebaseException catch (e) {
       throw Failure(e.code,
-          message: e.message,
-          location: "firebase_service.dart");
+          message: e.message, location: "firebase_service.dart");
     }
   }
 
@@ -387,7 +386,7 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('restId', isEqualTo: resId)
-          .where('orderStatus',isEqualTo: "Completed")
+          .where('orderStatus', isEqualTo: "Completed")
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
@@ -406,7 +405,7 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('userId', isEqualTo: id)
-          .where('orderStatus',isEqualTo: 'Cooking')
+          .where('orderStatus', isEqualTo: 'Cooking')
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
@@ -414,8 +413,7 @@ class fireBaseServiceImpl extends firebaseService {
       return listOrder;
     } on FirebaseException catch (e) {
       throw Failure(e.code,
-          message: e.message,
-          location: "firebase_service.dart");
+          message: e.message, location: "firebase_service.dart");
     }
   }
 
@@ -426,7 +424,7 @@ class fireBaseServiceImpl extends firebaseService {
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
           .where('userId', isEqualTo: id)
-          .where('orderStatus',isEqualTo: 'Completed')
+          .where('orderStatus', isEqualTo: 'Completed')
           .get();
       querySnapshot.docs.forEach((element) {
         listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
@@ -467,11 +465,7 @@ class fireBaseServiceImpl extends firebaseService {
       await _firebaseFirestore
           .collection("testOrders")
           .doc(order.orderId)
-          .update({
-        "restId": order.restId,
-        "totalPrice": order.totalPrice,
-        "orderItems": order.orderItems,
-      });
+          .update(order.toJson());
     } on FirebaseException catch (e) {
       throw Failure(e.code,
           message: e.message, location: "firebase_service.dart");
@@ -511,5 +505,47 @@ class fireBaseServiceImpl extends firebaseService {
       throw Failure(e.code,
           message: e.message, location: "firebase_service.dart");
     }
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> orderListListener(String userId) {
+    return _firebaseFirestore
+        .collection("testOrders")
+        .where("userId", isEqualTo: userId)
+        .where("orderStatus", isEqualTo: 'cart')
+        .snapshots();
+  }
+
+  @override
+  Future<OrderItem> getOrderItem(String orderItemId) async {
+    DocumentSnapshot orderItem =
+        await _firebaseFirestore.collection("orderitem").doc(orderItemId).get();
+    return OrderItem.fromJson(orderItem.data() as Map<String, dynamic>);
+  }
+
+  @override
+  Future<Menu> getMenu(String menuId) async {
+    DocumentSnapshot menu =
+        await _firebaseFirestore.collection("menu").doc(menuId).get();
+    return Menu.fromJson(menu.data() as Map<String, dynamic>);
+  }
+
+  @override
+  Future<void> updateOrderItem(OrderItem orderItem) async {
+    await _firebaseFirestore
+        .collection("orderitem")
+        .doc(orderItem.orderItemId)
+        .update(orderItem.toJson());
+  }
+
+  @override
+  Future<Order?> getPendingOrder(String userId) async {
+    QuerySnapshot order = await _firebaseFirestore
+        .collection("testOrders")
+        .where("userId", isEqualTo: userId)
+        .where("orderStatus", isEqualTo: 'cart')
+        .get();
+    if (order.docs.isEmpty) return null;
+    return Order.fromJson(order.docs[0].data() as Map<String, dynamic>);
   }
 }

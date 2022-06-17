@@ -8,6 +8,18 @@ class OrderItem {
     return _orderItemId;
   }
 
+  String get menuId {
+    return _menuId;
+  }
+
+  int get quantity {
+    return _quantity;
+  }
+
+  set quantity(int value) {
+    _quantity = value;
+  }
+
   OrderItem(
       {String orderItemId = "",
       String menuId = '',
