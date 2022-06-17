@@ -24,7 +24,7 @@ class FireStorageImpl extends FireStorage {
     try {
       return await firebaseStorage.ref(imageName).getDownloadURL();
     } on FirebaseException catch (e) {
-      throw Failure("100",
+      throw Failure(e.code,
           message: e.message, location: "FireStorageImpl.dart");
     }
   }

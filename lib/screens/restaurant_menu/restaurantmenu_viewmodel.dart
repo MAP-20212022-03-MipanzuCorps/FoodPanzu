@@ -12,7 +12,7 @@ class RestaurantMenuViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
-
+  bool initialState = true;
   bool get isListeningToStream => _streamListener != null;
 
   List<Menu> _menuList = [];
@@ -34,6 +34,7 @@ class RestaurantMenuViewModel extends Viewmodel {
   }
 
   bool hasMenu() {
+    // getRestaurantMenu(restId);
     return _menuList.isNotEmpty;
   }
 

@@ -39,4 +39,8 @@ class HomeViewModel extends Viewmodel {
     //   if (restaurant.restStatus == false) restaurantList!.remove(restaurant);
     // }
   }
+
+  Future<List<Menu>> getMenuList(String restId) async {
+    return await service.getAllMenu(restId);
+  }
 }

@@ -6,6 +6,13 @@ import 'package:map_mvvm/map_mvvm.dart';
 import 'restaurantmenu_viewmodel.dart';
 
 class RestaurantMenuScreen extends StatelessWidget {
+  // static String routeName = "/restaurant_menu";
+  // RestaurantMenuScreen(
+  //     {super.key, required this.restaurant, required this.menuList});
+
+  // Restaurant restaurant;
+  // Future<List<Menu>> menuList;
+
   static String routeName = "/restaurantmenu";
   RestaurantMenuScreen({super.key});
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/screens/restaurant_menu/components/restaurant_menulist.dart';
+import 'package:foodpanzu/models/menu_model.dart';
+import 'package:foodpanzu/models/restaurant_model.dart';
+import 'package:foodpanzu/screens/add_order/add_order_screen.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 // import 'restaurant_menulist.dart';
@@ -13,6 +16,11 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Column(
@@ -24,7 +32,7 @@ class _BodyState extends State<Body> {
                 Container(
                   padding: const EdgeInsets.only(right: 20),
                   child: const Text("Sort by: "),
-                ),
+    ),
                 const Text(
                   "Category",
                   style: TextStyle(color: Color(0xFFFF7643)),
@@ -55,7 +63,14 @@ class _BodyState extends State<Body> {
                             itemBuilder: ((context, index) {
                               return MenuListCard(
                                 menu: viewmodel.menuList[index],
-                                onMenuClick: () {},
+                                onMenuClick: () {Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddOrderScreen(
+                              menu: viewmodel.menuList[index],
+                            ),
+                          ),
+                        );},
                                 downloadUrl: viewmodel.getMenuImage(
                                     viewmodel.menuList[index].foodPicture),
                               );

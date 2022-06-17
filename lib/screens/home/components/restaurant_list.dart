@@ -30,6 +30,16 @@ class _RestaurantListState extends State<RestaurantList> {
             itemBuilder: (_, index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: GestureDetector(
+                // onTap: () => Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RestaurantMenuScreen(
+                //       restaurant: viewmodel.restaurantList![index],
+                //       menuList: viewmodel
+                //           .getMenuList(viewmodel.restaurantList![index].restId),
+                //     ),
+                //   ),
+                // ),
                 onTap: () {
                   viewmodel
                       .setRestaurant(viewmodel.restaurantList![index].restId);

@@ -25,6 +25,14 @@ class ProfileViewModel extends Viewmodel {
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
+
+    await update(() async =>
+       _user = await service.getUser(service.getCurrentUser()!.uid));
+
+    // _imageUrl = await storageService.downloadUrl(user.userPic);
+    // _userPic = user.userPic;
+
+    // await service.initializeUser();
   }
 
   set name(value) => update(() async => _name = value);
@@ -52,7 +60,6 @@ class ProfileViewModel extends Viewmodel {
   }
 
   Future<UserModel> getUser() async {
-    // await update(() async =>
     _user = (await service.getUser(service.getCurrentUser()!.uid)).copyWith();
     return _user;
   }
