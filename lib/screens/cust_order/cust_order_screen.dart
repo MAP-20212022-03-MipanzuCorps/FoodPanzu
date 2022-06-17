@@ -9,8 +9,6 @@ class CustOrderScreen extends StatelessWidget {
   static String routeName = "/cust_order";
   @override
   Widget build(BuildContext context) {
-    return View<CustOrderViewModel>(
-      builder: (_, viewmodel) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -19,9 +17,10 @@ class CustOrderScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black54, fontSize: 18),
         ),
       ),
-      body: Body(viewmodel: viewmodel),
+      body: View<CustOrderViewModel>(
+      builder: (_, viewmodel) => Body(viewmodel: viewmodel),),
       bottomNavigationBar: CustBottomNavBar(selectedMenu: MenuState.orders),
     );
-   });
+   
   }
 }

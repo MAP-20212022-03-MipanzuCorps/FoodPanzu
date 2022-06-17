@@ -18,17 +18,10 @@ class RestaurantMenuViewModel extends Viewmodel {
   List<Menu> _menuList = [];
   UserModel user = UserModel();
   late Restaurant restaurant;
+  // String restaurantId = '';
 
   void setrestaurant(Restaurant newRest) {
     restaurant = newRest;
-  }
-
-  bool isInitialState() {
-    return initialState;
-  }
-
-  void launchedStated() {
-    initialState = false;
   }
 
   @override
@@ -39,11 +32,13 @@ class RestaurantMenuViewModel extends Viewmodel {
     await update(() async {
       user = await service.getUser(service.getCurrentUser()!.uid);
       service.initializeUser();
+      _menuList = await service.getAllMenu(restaurant.restId);
+      print(_menuList.length);
     });
   }
 
   bool hasMenu(String restId) {
-    getRestaurantMenu(restId);
+    // getRestaurantMenu(restId);
     return _menuList.isNotEmpty;
   }
 
@@ -51,10 +46,22 @@ class RestaurantMenuViewModel extends Viewmodel {
     return _menuList;
   }
 
-  Future<void> getRestaurantMenu(restId) async {
-    // update(() async {
-    _menuList = await service.getAllMenu(restId);
-    // });
+  // Future<void> getRestaurantMenu(restId) async {
+  //   // update(() async {
+  //   _menuList = await service.getAllMenu(restId);
+  //   // });
+  void setRestaurant(restaurantId) async {
+    await update(() async {
+      restaurant = await service.getRestaurant(restaurantId);
+    });
+  }
+
+  Future<void> getRestaurantMenu() async {
+    await update(() async {
+      // restaurant = await service.getRestaurant(service.getRestId());
+      print(restaurant.restId);
+      _menuList = await service.getAllMenu(restaurant.restId);
+    });
   }
 
   Future<String> getMenuImage(String imageName) {

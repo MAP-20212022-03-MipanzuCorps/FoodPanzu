@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodpanzu/models/order_item_model.dart';
 import 'package:foodpanzu/models/order_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
@@ -20,15 +21,16 @@ abstract class firebaseService with ServiceStream {
   User? getCurrentUser();
   Future<void> initializeUser();
   Stream? streamUser();
-  Future<void> editProfile(name,userPic);
+  Future<void> editProfile(name, userPic);
   Future<UserModel> getUser(String id);
 
 //restaurant services
+  void initializeRestaurant(rest);
+  String getRestId();
   Future<void> signUpRestaurant(Restaurant restaurant);
-  Future<Restaurant> getRestaurant();
+  Future<Restaurant> getRestaurant(restId);
   Future<List<Restaurant>> getAllRestaurant();
   Future<void> openClose(restStatus);
-
 
 //menu services
   Future<void> addNewMenu(Menu menu, String restaurantId);
@@ -40,5 +42,8 @@ abstract class firebaseService with ServiceStream {
 //order services
   Future<List<Order>> getAllOrder(String restaurantId);
   Future<List<Order>> getAllCustOrder(String userId);
-
+  Future<String> addOrderItem(OrderItem orderItem);
+  Future<void> deleteOrderItem(String orderItemId);
+  Future<void> updateOrder(Order order);
+  Future<String> createOrder(Order order);
 }

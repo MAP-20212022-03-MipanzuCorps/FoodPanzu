@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
+import 'package:foodpanzu/models/user_model.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
@@ -12,13 +13,16 @@ class DashboardViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   bool _restStatus = false;
   late Restaurant restaurant;
+  UserModel user = UserModel();
 
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
 
-    await update(() async => restaurant = await service.getRestaurant());
+    user = await service.getUser(service.getCurrentUser()!.uid);
+    await update(
+        () async => restaurant = await service.getRestaurant(user.restId));
     _restStatus = restaurant.restStatus;
   }
 

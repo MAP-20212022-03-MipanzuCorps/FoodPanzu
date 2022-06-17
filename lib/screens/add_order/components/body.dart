@@ -86,13 +86,13 @@ class Body extends StatelessWidget {
                               ),
                             ),
                             onTap: () {
-                              // Function to remove quantity menu from the order item
-                              // viewmodel.removeMenu(menu);
+                              //function to minus quantity number
+                              viewmodel.decreaseQuantity();
                             },
                           ),
                           const SizedBox(width: 10),
-                          const Text(
-                            "02",
+                          Text(
+                            viewmodel.quantity.toString(),
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
@@ -115,7 +115,8 @@ class Body extends StatelessWidget {
                               ),
                             ),
                             onTap: () {
-                              //function to add order item to the order
+                              //function to add quantity number
+                              viewmodel.increaseQuantity();
                             },
                           ),
                         ],
@@ -129,37 +130,64 @@ class Body extends StatelessWidget {
             Text(menu.foodDesc),
             SizedBox(height: SizeConfig.screenHeight * 0.05),
             Center(
-              child: Container(
-                height: SizeConfig.screenHeight * 0.055,
-                width: SizeConfig.screenWidth * 0.35,
-                decoration: BoxDecoration(
-                    color: Color(0xFFFF7643),
-                    borderRadius: BorderRadius.circular(30)),
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 10, left: 5),
-                      height: SizeConfig.screenHeight * 0.038,
-                      width: SizeConfig.screenWidth * 0.08,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                      child: const Icon(
-                        Icons.shopping_bag,
-                        color: Color(0xFFFF7643),
-                        size: 18,
+              child: InkWell(
+                child: Container(
+                  height: SizeConfig.screenHeight * 0.055,
+                  width: SizeConfig.screenWidth * 0.35,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFFF7643),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(right: 10, left: 5),
+                        height: SizeConfig.screenHeight * 0.038,
+                        width: SizeConfig.screenWidth * 0.08,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.white),
+                        child: const Icon(
+                          Icons.shopping_bag,
+                          color: Color(0xFFFF7643),
+                          size: 18,
+                        ),
                       ),
-                    ),
-                    const Text(
-                      "ADD TO CART",
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                      const Text(
+                        "ADD TO CART",
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  if (viewmodel.quantity > 0) {
+                    viewmodel.addIntoCart(menu);
+                    if (viewmodel.hasFailure) {
+                      final snackbar = SnackBar(
+                        content: Text(viewmodel.failure!.message ?? 'Error'),
+                        backgroundColor: Colors.red,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    } else {
+                      const snackbar = SnackBar(
+                        content: Text('Successfully add menu'),
+                        backgroundColor: Color(0xFFFF7643),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      Navigator.pop(context);
+                    }
+                  } else {
+                    const snackbar = SnackBar(
+                      content: Text('Please select quantity'),
+                      backgroundColor: Colors.red,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                },
               ),
             )
           ],

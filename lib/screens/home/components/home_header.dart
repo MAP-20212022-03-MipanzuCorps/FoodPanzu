@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodpanzu/screens/customer_Cart/cart.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
@@ -18,9 +19,10 @@ class HomeHeader extends StatelessWidget {
         children: [
           SearchField(),
           IconBtnWithCounter(
-            svgSrc: "assets/icons/Cart Icon.svg",
-            press: () {}
-          ),
+              svgSrc: "assets/icons/Cart Icon.svg",
+              press: () {
+                Navigator.pushNamed(context, CartScreen.routeName);
+              }),
         ],
       ),
     );

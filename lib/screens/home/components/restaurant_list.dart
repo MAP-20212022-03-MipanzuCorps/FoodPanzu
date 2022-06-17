@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/screens/home/home_viewmodel.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_screen.dart';
+import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
@@ -31,16 +32,22 @@ class _RestaurantListState extends State<RestaurantList> {
             itemBuilder: (_, index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RestaurantMenuScreen(
-                      restaurant: viewmodel.restaurantList![index],
-                      menuList: viewmodel
-                          .getMenuList(viewmodel.restaurantList![index].restId),
-                    ),
-                  ),
-                ),
+                // onTap: () => Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RestaurantMenuScreen(
+                //       restaurant: viewmodel.restaurantList![index],
+                //       menuList: viewmodel
+                //           .getMenuList(viewmodel.restaurantList![index].restId),
+                //     ),
+                //   ),
+                // ),
+                onTap: () {
+                  viewmodel
+                      .setRestaurant(viewmodel.restaurantList![index].restId);
+                  Navigator.pushNamed(context, RestaurantMenuScreen.routeName);
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantMenuScreen(restaurant: viewmodel.restaurantList![index])));
+                },
                 child: Container(
                     decoration: BoxDecoration(
                         color: kPrimaryColor,
