@@ -14,7 +14,6 @@ class RestaurantList extends StatefulWidget {
 }
 
 class _RestaurantListState extends State<RestaurantList> {
-
   @override
   Widget build(BuildContext context) {
     // return Container();
@@ -23,9 +22,7 @@ class _RestaurantListState extends State<RestaurantList> {
         height: 500,
         child: RefreshIndicator(
           onRefresh: () {
-            setState(() {
-              viewmodel.getRestaurantList();
-            });
+            viewmodel.getRestaurantList();
             return Future<void>.delayed(const Duration(seconds: 1));
           },
           child: ListView.builder(
@@ -34,9 +31,9 @@ class _RestaurantListState extends State<RestaurantList> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: GestureDetector(
                 onTap: () {
-                  viewmodel.setRestaurant(viewmodel.restaurantList![index].restId);
+                  viewmodel
+                      .setRestaurant(viewmodel.restaurantList![index].restId);
                   Navigator.pushNamed(context, RestaurantMenuScreen.routeName);
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantMenuScreen(restaurant: viewmodel.restaurantList![index])));
                 },
                 child: Container(
                     decoration: BoxDecoration(

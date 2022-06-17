@@ -13,31 +13,37 @@ class ProfileScreen extends StatelessWidget {
   static String routeName = "/profile";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile", style: TextStyle(color: kSecondaryColor)),
-        actions: [View<ProfileViewModel>(
-          builder: (_,viewmodel) {
-            return InkWell(
+    return View<ProfileViewModel>(builder: (_, viewmodel) {
+      return FutureBuilder(
+          future: viewmodel.getUser(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Scaffold(
+                  appBar: AppBar(
+                    title: const Text("Profile",
+                        style: TextStyle(color: kSecondaryColor)),
+                    actions: [
+                      InkWell(
                         child: SvgPicture.asset("assets/icons/Log out.svg"),
                         onTap: () {
                           viewmodel.signOut(context);
                         },
-                      );
-          }
-        ),
-                  const SizedBox(width: 12),
-        ],
-      ),
-      body: Body(),
-      bottomNavigationBar: View<ProfileViewModel>(
-        builder: (_,viewmodel) {
-          if(viewmodel.user.role == 'customer')
-          return CustBottomNavBar(selectedMenu: MenuState.profile);
-          else
-          return OwnerBottomNavBar(selectedMenu: MenuState.profile);
-        }
-      ),
-    );
+                      ),
+                      const SizedBox(width: 12),
+                    ],
+                  ),
+                  body: Body(),
+                  bottomNavigationBar:
+                      View<ProfileViewModel>(builder: (_, viewmodel) {
+                    if (viewmodel.user.role == 'customer')
+                      return CustBottomNavBar(selectedMenu: MenuState.profile);
+                    else
+                      return OwnerBottomNavBar(selectedMenu: MenuState.profile);
+                  }));
+            }
+          });
+    });
   }
 }

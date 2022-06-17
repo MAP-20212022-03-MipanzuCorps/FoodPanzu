@@ -62,6 +62,7 @@ class fireBaseServiceImpl extends firebaseService {
         'email': email,
         'role': role,
         'restId': '',
+        'userPic': '',
       });
 
       user = await getUser(currentUser.uid);
@@ -191,14 +192,6 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
 //restaurant services
-  @override
-  void initializeRestaurant(rest)
-  {
-    restaurantId = rest;
-  }
-
-  @override
-  String getRestId() => restaurantId;
 
   @override
   Future<Restaurant> getRestaurant(restId) async {
@@ -259,7 +252,7 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  Future<void> signUpRestaurant(Restaurant restaurant) async {
+  Future<String> signUpRestaurant(Restaurant restaurant) async {
     try {
       //create restaurant doc first
       var restId = await _firebaseFirestore
@@ -267,11 +260,14 @@ class fireBaseServiceImpl extends firebaseService {
           .add(restaurant.toJson());
       _firebaseFirestore.collection('Restaurants').doc(restId.id).update({
         'restId': restId.id,
+        'userId': currentUser.uid,
+        'restPicture': "restaurant/" + restId.id + "/" + restaurant.restPictrure,
       });
       //add restaurant id to user
       _firebaseFirestore.collection('Users').doc(currentUser.uid).update({
         'restId': restId.id,
       });
+      return restId.id;
       //restaurant successfully registered
     } on FirebaseException catch (e) {
       print(e);

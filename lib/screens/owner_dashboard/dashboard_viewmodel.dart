@@ -19,11 +19,11 @@ class DashboardViewModel extends Viewmodel {
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
-
-    user = await service.getUser(service.getCurrentUser()!.uid);
-    await update(
-        () async => restaurant = await service.getRestaurant(user.restId));
-    _restStatus = restaurant.restStatus;
+    await update(() async {
+      user = await service.getUser(service.getCurrentUser()!.uid);
+      restaurant = await service.getRestaurant(user.restId);
+      _restStatus = restaurant.restStatus;
+    });
   }
 
   set restStatus(value) => update(() async => _restStatus = value);

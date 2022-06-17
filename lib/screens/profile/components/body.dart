@@ -43,9 +43,7 @@ class _BodyState extends State<Body> {
     return View<ProfileViewModel>(
       builder: (_, viewmodel) => RefreshIndicator(
         onRefresh: () {
-          setState(() {
             viewmodel.refreshPage();
-          });
           return Future<void>.delayed(const Duration(seconds: 1));
         },
         child: SingleChildScrollView(

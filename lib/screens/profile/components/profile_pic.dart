@@ -37,10 +37,20 @@ class _ProfilePicState extends State<ProfilePic> {
                   fit: BoxFit.cover,
                 ),
               )
-            else if (viewmodel.getpic != null)
-              ClipOval(child: Image.network(viewmodel.getpic, fit: BoxFit.cover,))
             else
-              ClipOval(child: Image.asset("assets/images/Profile Image.png")),
+              ClipOval(
+                  child: FutureBuilder(
+                      future: viewmodel.getProfilePic(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Image.asset("assets/images/Profile Image.png");
+                        } else {
+                          return Image.network(
+                            viewmodel.getpic,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      })),
             Positioned(
               right: -16,
               bottom: 0,

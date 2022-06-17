@@ -1,5 +1,9 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, non_constant_identifier_names, use_build_context_synchronously
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/components/custom_surfix_icon.dart';
 import 'package:foodpanzu/components/default_button.dart';
 import 'package:foodpanzu/components/form_error.dart';
@@ -18,7 +22,9 @@ class RestaurantForm extends StatefulWidget {
 
 class _RestaurantFormState extends State<RestaurantForm> {
   final _formKey = GlobalKey<FormState>();
+  final pictureController = TextEditingController();
 
+  PlatformFile? pickedFile;
   final List<String?> errors = [];
 
   void addError({String? error}) {
@@ -215,6 +221,52 @@ class _RestaurantFormState extends State<RestaurantForm> {
               hintText: "Enter the restaurant description",
               floatingLabelBehavior: FloatingLabelBehavior.always,
               // suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+            ),
+          ),
+
+          SizedBox(height: SizeConfig.screenHeight * 0.03),
+          Container(
+            child: TextFormField(
+              onTap: () async {
+                //use file picker to get image from devices
+                final result = await FilePicker.platform.pickFiles(
+                  allowMultiple: false,
+                  type: FileType.custom,
+                  allowedExtensions: ['png', 'jpg'],
+                );
+                if (result == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("No file selected")),
+                  );
+
+                  return null;
+                }
+                viewmodel.filepath = result.files.single.path!;
+                pictureController.text = result.files.single.name;
+              },
+              controller: pictureController,
+              onSaved: (newValue) {
+                viewmodel.restPicture = newValue!;
+              },
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Don't leave the field blank!";
+                }
+              },
+              readOnly: true,
+              enableInteractiveSelection: true,
+              decoration: const InputDecoration(
+                suffixIcon: Padding(
+                  padding: EdgeInsets.only(right: 15.0),
+                  child: Icon(Icons.upload),
+                ),
+                labelText: "Restaurant Picture",
+                labelStyle: TextStyle(
+                  color: Color(0xFFFF7643),
+                ),
+                hintText: "Insert your picture",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
             ),
           ),
           FormError(errors: errors),

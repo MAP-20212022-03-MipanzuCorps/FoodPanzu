@@ -17,22 +17,14 @@ class ProfileViewModel extends Viewmodel {
   bool get isListeningToStream => _streamListener != null;
   String _name = '';
   String _userPic = '';
-  dynamic _imageUrl;
   String _filepath = '';
-  late UserModel user;
+  dynamic _imageUrl;
+  late UserModel _user;
 
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
-
-    await update(() async =>
-        user = await service.getUser(service.getCurrentUser()!.uid));
-
-    _imageUrl = await storageService.downloadUrl(user.userPic);
-    _userPic = user.userPic;
-
-    await service.initializeUser();
   }
 
   set name(value) => update(() async => _name = value);
@@ -42,18 +34,40 @@ class ProfileViewModel extends Viewmodel {
   String get getuserpic => _userPic;
   get getpic => _imageUrl;
   String get getfilepath => _filepath;
+  UserModel get user => _user;
 
   Future<void> refreshPage() async {
-    user = await service.getUser(service.getCurrentUser()!.uid);
+    await update(() async {
+      _user = await service.getUser(service.getCurrentUser()!.uid);
 
-    _imageUrl = await storageService.downloadUrl(user.userPic);
-    _userPic = user.userPic;
+      _imageUrl = await storageService.downloadUrl(_user.userPic);
+      _userPic = _user.userPic;
+    });
+  }
+
+  Future<dynamic> getProfilePic() async {
+    _imageUrl = await storageService.downloadUrl(_user.userPic);
+    _userPic = _user.userPic;
+    return _imageUrl;
+  }
+
+  Future<UserModel> getUser() async {
+    // await update(() async =>
+    _user = (await service.getUser(service.getCurrentUser()!.uid)).copyWith();
+    return _user;
   }
 
   Future<void> updateProfile() async => await update(() async {
         try {
-          await service.editProfile(_name, _userPic);
-          await storageService.uploadFile(_filepath, _userPic);
+          if (_userPic == _user.userPic) {
+            await service.editProfile(_name, _userPic);
+            await storageService.uploadFile(_filepath, _userPic);
+          } else {
+            await service.editProfile(
+                _name, "user/" + _user.userId + "/" + _userPic);
+            await storageService.uploadFile(
+                _filepath, "user/" + _user.userId + "/" + _userPic);
+          }
         } on Failure {
           rethrow;
         }
@@ -62,6 +76,7 @@ class ProfileViewModel extends Viewmodel {
   Future<void> signOut(context) async => await update(() async {
         try {
           await service.signOut();
+          _user = UserModel();
 
           Navigator.pushAndRemoveUntil(
             context,

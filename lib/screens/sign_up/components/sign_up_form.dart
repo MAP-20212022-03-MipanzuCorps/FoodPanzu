@@ -22,7 +22,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   String? conform_password;
 
-  Role? role = Role.customer;
+  String? role;
 
   final List<String?> errors = [];
 
@@ -208,12 +208,12 @@ class _SignUpFormState extends State<SignUpForm> {
               ListTile(
                 title: const Text('Customer'),
                 leading: Radio(
-                  value: Role.customer,
+                  value: 'customer',
                   groupValue: role,
-                  onChanged: (Role? value) {
+                  onChanged: (value) {
                     setState(() {
-                      role = value;
-                      viewmodel.role = EnumToString.convertToString(value);
+                      role = value.toString();
+                      viewmodel.role = role;
                     });
                   },
                 ),
@@ -221,12 +221,12 @@ class _SignUpFormState extends State<SignUpForm> {
               ListTile(
                 title: const Text('Owner'),
                 leading: Radio(
-                  value: Role.owner,
+                  value: 'owner',
                   groupValue: role,
-                  onChanged: (Role? value) {
+                  onChanged: (value) {
                     setState(() {
-                      role = value;
-                      viewmodel.role = EnumToString.convertToString(value);
+                      role = value.toString();
+                      viewmodel.role = role;
                     });
                   },
                 ),

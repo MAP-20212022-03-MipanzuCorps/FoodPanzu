@@ -15,7 +15,6 @@ class HomeViewModel extends Viewmodel {
   StreamSubscription? _streamListener;
   bool get isListeningToStream => _streamListener != null;
 
-  List<Menu> _menuList = [];
   List<Restaurant>? restaurantList;
 
   @override
@@ -33,24 +32,11 @@ class HomeViewModel extends Viewmodel {
     menuviewmodel.setRestaurant(restId);
   }
 
-  List<Menu> get menuList => _menuList;
-
-  Future<void> getRestaurantMenu(String restId) async {
-    // await update(() async {
-    // });
-    // restaurant = await service.getRestaurant(service.getRestId());
-    // print(restaurant.restName);
-    _menuList = await service.getAllMenu(restId);
-  }
-
   Future<void> getRestaurantList() async {
-    try {
-      restaurantList = await service.getAllRestaurant();
-      // for (var restaurant in restaurantList!) {
-      //   if (restaurant.restStatus == false) restaurantList!.remove(restaurant);
-      // }
-    } on Failure {
-      rethrow;
-    }
+    await update(() async => restaurantList = await service.getAllRestaurant());
+
+    // for (var restaurant in restaurantList!) {
+    //   if (restaurant.restStatus == false) restaurantList!.remove(restaurant);
+    // }
   }
 }

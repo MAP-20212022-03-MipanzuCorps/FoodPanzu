@@ -17,8 +17,8 @@ class RestaurantMenuViewModel extends Viewmodel {
 
   List<Menu> _menuList = [];
   UserModel user = UserModel();
-  late Restaurant restaurant;
-  // String restaurantId = '';
+  late Restaurant _restaurant;
+  String restaurantId = '';
 
   @override
   void init() async {
@@ -41,18 +41,16 @@ class RestaurantMenuViewModel extends Viewmodel {
     return _menuList;
   }
 
-  void setRestaurant(restaurantId) async {
-    await update(() async {
-      restaurant = await service.getRestaurant(restaurantId);
-    });
+  Restaurant get restaurant => _restaurant;
+
+  void setRestaurant(restId) async {
+    await update(() async =>
+    _restaurant = await service.getRestaurant(restId));
   }
 
-  Future<void> getRestaurantMenu() async {
-    await update(() async {
-      // restaurant = await service.getRestaurant(service.getRestId());
-      print(restaurant.restId);
+  Future<List<Menu>> getRestaurantMenu() async {
       _menuList = await service.getAllMenu(restaurant.restId);
-    });
+      return _menuList;
   }
 
   Future<String> getMenuImage(String imageName) {

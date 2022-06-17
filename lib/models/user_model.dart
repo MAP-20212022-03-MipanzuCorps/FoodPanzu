@@ -11,14 +11,14 @@ class UserModel {
   get name => _name;
   get email => _email;
   get userPic => _userPic;
-  
+
   UserModel(
       {dynamic userId = "",
       String name = '',
       String email = '',
       String role = '',
       String? restId,
-      String userPic=''})
+      String userPic = ''})
       : _userId = userId,
         _name = name,
         _email = email,
@@ -44,4 +44,19 @@ class UserModel {
       'userPic': _userPic,
     };
   }
+
+  UserModel copyWith(
+          {dynamic userId,
+          String? name,
+          String? email,
+          String? role,
+          String? restId,
+          String? userPic}) =>
+      UserModel(
+          userId: userId ?? _userId,
+          name: name ?? _name,
+          email: email ?? _email,
+          role: role ?? _role,
+          restId: restId ?? _restId,
+          userPic: userPic ?? _userPic);
 }
