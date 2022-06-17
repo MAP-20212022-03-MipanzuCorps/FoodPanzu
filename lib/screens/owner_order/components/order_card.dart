@@ -56,15 +56,6 @@ class OrderCard extends StatelessWidget {
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-                  
-                  // gradient: LinearGradient(
-                  //   begin: Alignment.bottomCenter,
-                  //   end: Alignment.topCenter,
-                  //   colors: [
-                  //     Colors.black.withOpacity(0.5),
-                  //     Colors.transparent,
-                  //   ],
-                  // ),
                 ),
               ),
             ),
@@ -183,7 +174,7 @@ class OrderCard extends StatelessWidget {
                       color: Color(0xFFFF7643)),
                   child: 
                   Text(
-                         "Complete Order",
+                         "View Order",
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

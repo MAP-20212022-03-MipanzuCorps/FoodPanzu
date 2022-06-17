@@ -17,6 +17,7 @@ class CartViewModel extends Viewmodel {
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
   Order? cart;
+  List<OrderItem>? orderItem;
 
   bool hasOrderItem() {
     return cart?.orderItems?.isNotEmpty ?? false;

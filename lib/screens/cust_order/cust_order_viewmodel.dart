@@ -14,7 +14,7 @@ class CustOrderViewModel extends Viewmodel {
 
   bool get isListeningToStream => _streamListener != null;
   List<Order> _orderList = [];
-  List<Order>? orderLists;
+  List<Order> _orderHisList = [];
   UserModel user = UserModel();
   UserModel custId = UserModel();
   String id="";
@@ -28,7 +28,7 @@ class CustOrderViewModel extends Viewmodel {
       user = await service.getUser(service.getCurrentUser()!.uid);
       id = user.userId;
       _orderList = await service.getAllCustOrder(user.userId);
-      orderLists = await service.getAllCustOrder(user.userId);
+      _orderHisList = await service.getAllCustOrderHistory(user.userId);
     });
   }
 
@@ -45,16 +45,29 @@ class CustOrderViewModel extends Viewmodel {
     }
   }
 
-  bool hasMenu() {
-    return orderList.isNotEmpty;
+  Future<void> getOrderHis(String uid) async {
+    try {
+      _orderHisList = await service.getAllCustOrderHistory(uid);
+    } on Failure {
+      rethrow;
+    }
   }
 
-  set orderList(orderList) {
-    orderLists = orderList;
+  bool hasOrder() {
+    return _orderList.isNotEmpty;
   }
+  bool hasOrderHis() {
+    return _orderHisList.isNotEmpty;
+  }
+
+
 
   List<Order> get orderList {
     return _orderList;
+  }
+
+  List<Order> get orderHisList {
+    return _orderHisList;
   }
 
   bool userAuthenticate() {

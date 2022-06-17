@@ -15,7 +15,8 @@ class OwnerOrderViewModel extends Viewmodel {
 
   bool get isListeningToStream => _streamListener != null;
   List<Order> _orderList = [];
-  List<Order>? orderLists;
+  List<Order> _orderHisList = [];
+  
   UserModel user = UserModel();
   UserModel resId = UserModel();
   String res="";
@@ -30,7 +31,7 @@ class OwnerOrderViewModel extends Viewmodel {
       res = user.restId;
       service.initializeUser();
       _orderList = await service.getAllOrder(user.restId);
-      orderLists = await service.getAllOrder(user.restId);
+      _orderHisList = await service.getAllOrderHistory(user.restId);
     });
   }
 
@@ -45,17 +46,26 @@ class OwnerOrderViewModel extends Viewmodel {
       rethrow;
     }
   }
-
-  bool hasMenu() {
-    return orderList.isNotEmpty;
+  Future<void> getOrderHis(String resId) async {
+    try {
+      _orderHisList = await service.getAllOrderHistory(resId);
+    } on Failure {
+      rethrow;
+    }
   }
 
-  set orderList(orderList) {
-    orderLists = orderList;
+  bool hasOrder() {
+    return _orderList.isNotEmpty;
+  }
+  bool hasOrderHis() {
+    return _orderHisList.isNotEmpty;
   }
 
   List<Order> get orderList {
     return _orderList;
+  }
+  List<Order> get orderHisList {
+    return _orderHisList;
   }
 
   bool userAuthenticate() {
