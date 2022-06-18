@@ -103,7 +103,7 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         Text(
-                          "RM${viewmodel.cart != null ? viewmodel.cart!.totalPrice.toStringAsFixed(2) : 0.00}",
+                          "RM${viewmodel.cart != null ? viewmodel.cart!.totalPrice.toStringAsFixed(2) : "0.00"}",
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,

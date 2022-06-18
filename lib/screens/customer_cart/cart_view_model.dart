@@ -106,14 +106,17 @@ class CartViewModel extends Viewmodel {
     }
   }
 
-  void removeOrderItem(int index) {
-    update(() async {
+  Future<void> removeOrderItem(int index) async {
+    await update(() async {
       OrderItem orderItem = _orderItems![index];
       _orderItems!.removeAt(index);
       await service.deleteOrderItem(orderItem.orderItemId);
       //update cart in the databsae
       // if (cart!.orderItems != null) {
       cart!.orderItems!.remove(orderItem.orderItemId);
+      cart!.totalPrice =
+          cart!.totalPrice - (menuList[index].foodPrice * orderItem.quantity);
+      menuList.removeAt(index);
       await service.updateOrder(cart!);
       // }
     });
@@ -124,7 +127,6 @@ class CartViewModel extends Viewmodel {
       update(() async {
         cart!.tableNumber = tableNumber;
         await service.updateOrder(cart!);
-        print(tableNumber);
       });
     }
   }
