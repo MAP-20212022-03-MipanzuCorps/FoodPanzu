@@ -236,7 +236,7 @@ class fireBaseServiceImpl extends firebaseService {
     try {
       List<Restaurant> restaurantList = [];
       QuerySnapshot querySnapshot =
-          await _firebaseFirestore.collection("Restaurants").get();
+          await _firebaseFirestore.collection("Restaurants").where("status", isEqualTo: true).get();
       querySnapshot.docs.forEach((element) {
         restaurantList
             .add(Restaurant.fromJson(element.data() as Map<String, dynamic>));
@@ -314,7 +314,6 @@ class fireBaseServiceImpl extends firebaseService {
     }
   }
 
-
   @override
   Future<List<Menu>> getAllRestaurantMenu(String restaurantId) async {
     try {
@@ -333,14 +332,13 @@ class fireBaseServiceImpl extends firebaseService {
           location: "firebase_service.dart");
     }
   }
-  
+
   @override
   Future<List<Menu>> getAllMenu() async {
     try {
       List<Menu> listMenu = [];
-      QuerySnapshot querySnapshot = await _firebaseFirestore
-          .collection("menu")
-          .get();
+      QuerySnapshot querySnapshot =
+          await _firebaseFirestore.collection("menu").get();
       querySnapshot.docs.forEach((element) {
         listMenu.add(Menu.fromJson(element.data() as Map<String, dynamic>));
       });
@@ -351,6 +349,7 @@ class fireBaseServiceImpl extends firebaseService {
           location: "firebase_service.dart");
     }
   }
+
   @override
   Stream? menuListListener() {
     return _firebaseFirestore

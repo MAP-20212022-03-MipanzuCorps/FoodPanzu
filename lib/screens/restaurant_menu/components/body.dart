@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/screens/customer_cart/cart.dart';
 import 'package:foodpanzu/screens/restaurant_menu/components/header.dart';
 import 'package:foodpanzu/screens/restaurant_menu/components/restaurant_menulist.dart';
 import 'package:foodpanzu/screens/add_order/add_order_screen.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
 import 'package:foodpanzu/utils/constants.dart';
-import 'package:foodpanzu/widgets/cart_button.dart';
 import 'package:foodpanzu/widgets/emptyWidget.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
