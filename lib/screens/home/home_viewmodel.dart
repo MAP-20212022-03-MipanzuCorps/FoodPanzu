@@ -41,7 +41,7 @@ class HomeViewModel extends Viewmodel {
     menuviewmodel.setRestaurant(restId);
   }
 
-  Future<void>? refreshPage() async {
+  Future<void> refreshPage() async {
     await update(() async {
     _restaurantList = await service.getAllRestaurant();
     _menuList = await service.getAllMenu();
