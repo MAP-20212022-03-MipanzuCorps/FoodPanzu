@@ -258,7 +258,7 @@ class fireBaseServiceImpl extends firebaseService {
       _firebaseFirestore.collection('Restaurants').doc(restId.id).update({
         'restId': restId.id,
         'userId': currentUser.uid,
-        'restPicture': "restaurant/" + restId.id + "/" + restaurant.restPictrure,
+        'restPicture': "restaurant/" + restId.id + "/" + restaurant.restPicture,
       });
       //add restaurant id to user
       _firebaseFirestore.collection('Users').doc(currentUser.uid).update({
@@ -314,8 +314,9 @@ class fireBaseServiceImpl extends firebaseService {
     }
   }
 
+
   @override
-  Future<List<Menu>> getAllMenu(String restaurantId) async {
+  Future<List<Menu>> getAllRestaurantMenu(String restaurantId) async {
     try {
       List<Menu> listMenu = [];
       QuerySnapshot querySnapshot = await _firebaseFirestore
@@ -332,7 +333,24 @@ class fireBaseServiceImpl extends firebaseService {
           location: "firebase_service.dart");
     }
   }
-
+  
+  @override
+  Future<List<Menu>> getAllMenu() async {
+    try {
+      List<Menu> listMenu = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("menu")
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listMenu.add(Menu.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listMenu;
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: "Failed to read menu from the server",
+          location: "firebase_service.dart");
+    }
+  }
   @override
   Stream? menuListListener() {
     return _firebaseFirestore

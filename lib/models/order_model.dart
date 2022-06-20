@@ -81,7 +81,7 @@ class Order {
         _restId = map['restId'],
         _userId = map['userId'],
         _orderStatus = map['orderStatus'],
-        _totalPrice = map['totalPrice'],
+        _totalPrice = map['totalPrice'] + .0,
         _tableNumber = map['tableNumber'],
         _orderItems = List<String>.from(map['orderItems']);
 

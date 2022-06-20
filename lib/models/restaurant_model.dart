@@ -37,7 +37,7 @@ class Restaurant {
   }
 
   get restStatus => _status;
-  get restPictrure => _restPicture;
+  get restPicture => _restPicture;
   get restName => _restName;
   get restDesc => _restDesc;
   get restId => _restId;

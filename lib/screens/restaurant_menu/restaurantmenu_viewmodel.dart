@@ -19,6 +19,7 @@ class RestaurantMenuViewModel extends Viewmodel {
   UserModel user = UserModel();
   late Restaurant _restaurant;
   String restaurantId = '';
+  dynamic _imageUrl;
 
   @override
   void init() async {
@@ -28,13 +29,12 @@ class RestaurantMenuViewModel extends Viewmodel {
     await update(() async {
       user = await service.getUser(service.getCurrentUser()!.uid);
       service.initializeUser();
-      _menuList = await service.getAllMenu(restaurant.restId);
+      _menuList = await service.getAllRestaurantMenu(restaurant.restId);
       print(_menuList.length);
     });
   }
 
   bool hasMenu() {
-    // getRestaurantMenu(restId);
     return _menuList.isNotEmpty;
   }
 
@@ -42,16 +42,22 @@ class RestaurantMenuViewModel extends Viewmodel {
     return _menuList;
   }
 
+  get getRestPic => _imageUrl;
+
   Restaurant get restaurant => _restaurant;
 
   void setRestaurant(restId) async {
-    await update(() async =>
-    _restaurant = await service.getRestaurant(restId));
+    await update(() async => _restaurant = await service.getRestaurant(restId));
   }
 
   Future<List<Menu>> getRestaurantMenu() async {
-      _menuList = await service.getAllMenu(restaurant.restId);
-      return _menuList;
+    _menuList = await service.getAllRestaurantMenu(restaurant.restId);
+    return _menuList;
+  }
+
+  Future<dynamic> getRestaurantPicture() async {
+    _imageUrl = await storageService.downloadUrl(_restaurant.restPicture);
+    return _imageUrl;
   }
 
   Future<String> getMenuImage(String imageName) {

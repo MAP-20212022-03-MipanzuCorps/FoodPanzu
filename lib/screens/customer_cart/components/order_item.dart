@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+// import 'package:foodpanzu/components/alert_dialog.dart';
 import 'package:foodpanzu/models/order_item_model.dart';
 import 'package:foodpanzu/screens/customer_cart/cart_view_model.dart';
 import 'package:foodpanzu/utils/size_config.dart';
@@ -97,7 +98,93 @@ class OrderItemCard extends StatelessWidget {
                         color: Color(0xFFFF7643),
                       ),
                       onTap: () {
-                        viewmodel.removeOrderItem(index);
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              title: const Text(
+                                "Delete Item",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontWeight: FontWeight.w800),
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                              content: Container(
+                                height: 100,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    const Text(
+                                      "Are you sure you want to delete this item?",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 15),
+                                      height: 40,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          TextButton(
+                                            child: const Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          const VerticalDivider(
+                                            color: Color.fromARGB(
+                                                255, 222, 222, 222),
+                                            thickness: 1,
+                                          ),
+                                          TextButton(
+                                            child: const Text(
+                                              "Continue",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            onPressed: () {
+                                              viewmodel.removeOrderItem(index);
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              // actions: [
+                              // TextButton(
+                              //   child: const Text("Cancel"),
+                              //   onPressed: () {
+                              //     Navigator.of(context).pop();
+                              //   },
+                              // ),
+                              // TextButton(
+                              //   child: const Text("Continue"),
+                              //   onPressed: () {
+                              //     viewmodel.removeOrderItem(index);
+                              //     Navigator.of(context).pop();
+                              //   },
+                              // ),
+                              // ],
+                            );
+                          },
+                        );
                       },
                     ),
                     Row(
@@ -167,7 +254,7 @@ class OrderItemCard extends StatelessWidget {
       return Text(
         textAlign: TextAlign.center,
         "No order made yet, go to menu to make order",
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w800,
         ),

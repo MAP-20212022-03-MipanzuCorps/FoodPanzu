@@ -6,41 +6,66 @@ import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
 import 'package:foodpanzu/services/firebase/firebase_service.dart';
+import 'package:foodpanzu/services/firebase/firestorage_service.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
 class HomeViewModel extends Viewmodel {
   firebaseService get service => locator<firebaseService>();
+  FireStorage get storageService => locator<FireStorage>();
   RestaurantMenuViewModel get menuviewmodel =>
       locator<RestaurantMenuViewModel>();
-  StreamSubscription? _streamListener;
-  bool get isListeningToStream => _streamListener != null;
-
-  List<Restaurant>? restaurantList;
+  List<Restaurant>? _restaurantList;
+  dynamic _imageUrl;
+  List<Menu> _menuList = [];
 
   @override
   void init() async {
     super.init();
     notifyListenersOnFailure = true;
 
-    await update(() async => restaurantList = await service.getAllRestaurant());
-    // for (var restaurant in restaurantList!) {
-    //   if (restaurant.restStatus == false) restaurantList!.remove(restaurant);
-    // }
+    await update(() async => _restaurantList = await service.getAllRestaurant());
   }
+
+    bool hasMenu() {
+    return _menuList.isNotEmpty;
+  }
+
+  List<Menu> get menuList => _menuList;
+
+  get getpic => _imageUrl;
+  List<Restaurant>? get restaurantList => _restaurantList;
+
+  bool hasRestaurant() => restaurantList!.isNotEmpty;
 
   void setRestaurant(restId) {
     menuviewmodel.setRestaurant(restId);
   }
 
-  Future<void> getRestaurantList() async {
-    await update(() async => restaurantList = await service.getAllRestaurant());
+  Future<void>? refreshPage() async {
+    await update(() async {
+    _restaurantList = await service.getAllRestaurant();
+    _menuList = await service.getAllMenu();
 
-    // for (var restaurant in restaurantList!) {
-    //   if (restaurant.restStatus == false) restaurantList!.remove(restaurant);
-    // }
+    } )
+;  }
+
+  Future<List<Restaurant>> getRestaurantList() async {
+    return _restaurantList = await service.getAllRestaurant();
   }
 
-  Future<List<Menu>> getMenuList(String restId) async {
-    return await service.getAllMenu(restId);
+    Future<String> getMenuImage(String imageName) {
+    Future<String> imageUrl;
+    imageUrl = storageService.downloadUrl(imageName);
+    return imageUrl;
+  }
+
+  Future<List<Menu>> getMenuList() async {
+    return _menuList = await service.getAllMenu();
+  }
+
+  Future<dynamic> getRestaurantPicture(String imageName) async {
+    _imageUrl = await storageService.downloadUrl(imageName);
+    // if (_imageUrl == null) return null;
+    return _imageUrl;
   }
 }

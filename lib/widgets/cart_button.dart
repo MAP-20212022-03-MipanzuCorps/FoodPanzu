@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 
-class IconBtnWithCounter extends StatelessWidget {
-  const IconBtnWithCounter({
+class CartButton extends StatelessWidget {
+  const CartButton({
     Key? key,
     required this.svgSrc,
     this.numOfitem = 0,
@@ -28,7 +28,7 @@ class IconBtnWithCounter extends StatelessWidget {
             height: getProportionateScreenWidth(46),
             width: getProportionateScreenWidth(46),
             decoration: BoxDecoration(
-              color: kSecondaryColor.withOpacity(0.1),
+              color: Colors.white,
               shape: BoxShape.circle,
             ),
             child: SvgPicture.asset(svgSrc),

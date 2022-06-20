@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodpanzu/screens/customer_cart/cart_view_model.dart';
 import 'package:foodpanzu/screens/customer_cart/components/order_item.dart';
+import 'package:foodpanzu/screens/customer_cart/components/payment_success.dart';
 import 'package:foodpanzu/utils/size_config.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 
@@ -102,7 +103,7 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         Text(
-                          "RM${viewmodel.cart != null ? viewmodel.cart!.totalPrice.toStringAsFixed(2) : 0.00}",
+                          "RM${viewmodel.cart != null ? viewmodel.getSubTotalItem().toStringAsFixed(2) : "0.00"}",
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -126,8 +127,8 @@ class _BodyState extends State<Body> {
                     padding: const EdgeInsets.only(bottom: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Tax and Fees",
                           style: TextStyle(
                             color: Colors.black,
@@ -136,8 +137,8 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         Text(
-                          "RM 0.00",
-                          style: TextStyle(
+                          "RM${viewmodel.cart != null ? (viewmodel.cart!.totalPrice - viewmodel.getSubTotalItem()).toStringAsFixed(2) : "0.00"}",
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
@@ -165,7 +166,7 @@ class _BodyState extends State<Body> {
                           textBaseline: TextBaseline.alphabetic,
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
-                            Text(
+                            const Text(
                               "Total",
                               style: TextStyle(
                                 color: Colors.black,
@@ -178,7 +179,7 @@ class _BodyState extends State<Body> {
                             ),
                             Text(
                               "(${viewmodel.hasOrderItem() ? viewmodel.cart!.orderItems!.length.toString() : "0"} items )",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color.fromARGB(255, 167, 166, 166),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -223,6 +224,12 @@ class _BodyState extends State<Body> {
                         //Change order/cart status to cooking
                         if (viewmodel.hasOrder()) {
                           viewmodel.changeOrderStatus();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PaymentSucess(),
+                            ),
+                          );
                         } else {
                           const snackbar = SnackBar(
                             content: Text('Please add item in the cart'),
@@ -257,6 +264,9 @@ class _BodyState extends State<Body> {
                         //Change order/cart status to cooking
                         if (viewmodel.hasOrder()) {
                           viewmodel.changeOrderStatus();
+                          MaterialPageRoute(
+                            builder: (context) => const PaymentSucess(),
+                          );
                         } else {
                           const snackbar = SnackBar(
                             content: Text('Please add item in the cart'),

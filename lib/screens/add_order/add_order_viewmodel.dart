@@ -109,7 +109,8 @@ class AddOrderViewModel extends Viewmodel {
       String newOrderItemId = await service.addOrderItem(newOrderItems);
       cart.orderItems = [newOrderItemId];
     }
-    cart.totalPrice = totalPrice + menu.foodPrice * quantity;
+    //1.06 indicate taxed being charge to the customer
+    cart.totalPrice = totalPrice + (menu.foodPrice * quantity * 1.06);
 
     //update cart in the database
     service.updateOrder(cart);
