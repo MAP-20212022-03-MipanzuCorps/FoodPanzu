@@ -103,7 +103,7 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         Text(
-                          "RM${viewmodel.cart != null ? viewmodel.cart!.totalPrice.toStringAsFixed(2) : "0.00"}",
+                          "RM${viewmodel.cart != null ? viewmodel.getSubTotalItem().toStringAsFixed(2) : "0.00"}",
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
@@ -127,8 +127,8 @@ class _BodyState extends State<Body> {
                     padding: const EdgeInsets.only(bottom: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           "Tax and Fees",
                           style: TextStyle(
                             color: Colors.black,
@@ -137,8 +137,8 @@ class _BodyState extends State<Body> {
                           ),
                         ),
                         Text(
-                          "RM 0.00",
-                          style: TextStyle(
+                          "RM${viewmodel.cart != null ? (viewmodel.cart!.totalPrice - viewmodel.getSubTotalItem()).toStringAsFixed(2) : "0.00"}",
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w800,

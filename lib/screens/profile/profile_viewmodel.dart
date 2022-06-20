@@ -27,7 +27,7 @@ class ProfileViewModel extends Viewmodel {
     notifyListenersOnFailure = true;
 
     await update(() async =>
-       _user = await service.getUser(service.getCurrentUser()!.uid));
+        _user = await service.getUser(service.getCurrentUser()!.uid));
 
     // _imageUrl = await storageService.downloadUrl(user.userPic);
     // _userPic = user.userPic;
@@ -54,6 +54,9 @@ class ProfileViewModel extends Viewmodel {
   }
 
   Future<dynamic> getProfilePic() async {
+    if (_user.userPic == null || _user.userPic == '') {
+      return null;
+    }
     _imageUrl = await storageService.downloadUrl(_user.userPic);
     _userPic = _user.userPic;
     return _imageUrl;

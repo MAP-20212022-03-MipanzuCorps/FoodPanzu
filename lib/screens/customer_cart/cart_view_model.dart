@@ -80,12 +80,14 @@ class CartViewModel extends Viewmodel {
   Future<void> increaseQuantity(int index) async {
     await update(() async {
       OrderItem orderItem = _orderItems![index];
+      int prevQuantity = orderItem.quantity;
       orderItem.quantity++;
       //update the quantity in the database
       await service.updateOrderItem(orderItem);
       //update total price for order in the database
       Menu menu = await service.getMenu(orderItem.menuId);
-      cart!.totalPrice = (orderItem.quantity * menu.foodPrice);
+      cart!.totalPrice = cart!.totalPrice +
+          ((orderItem.quantity - prevQuantity) * menu.foodPrice * 1.06);
       await service.updateOrder(cart!);
     });
   }
@@ -95,11 +97,14 @@ class CartViewModel extends Viewmodel {
     //only allow update if quantity is greater than 1
     if (orderItem.quantity > 1) {
       await update(() async {
+        int prevQuantity = orderItem.quantity;
         orderItem.quantity--;
         //update the quantity in the database
         //update total price for order in the database
         Menu menu = await service.getMenu(orderItem.menuId);
-        cart!.totalPrice = (orderItem.quantity * menu.foodPrice);
+        //1.06 indicate 6% taxed being charged to customer
+        cart!.totalPrice = cart!.totalPrice -
+            ((prevQuantity - orderItem.quantity) * menu.foodPrice * 1.06);
         await service.updateOrder(cart!);
         await service.updateOrderItem(orderItem);
       });
@@ -114,8 +119,8 @@ class CartViewModel extends Viewmodel {
       //update cart in the databsae
       // if (cart!.orderItems != null) {
       cart!.orderItems!.remove(orderItem.orderItemId);
-      cart!.totalPrice =
-          cart!.totalPrice - (menuList[index].foodPrice * orderItem.quantity);
+      cart!.totalPrice = cart!.totalPrice -
+          (menuList[index].foodPrice * orderItem.quantity * 1.06);
       menuList.removeAt(index);
       await service.updateOrder(cart!);
       // }
@@ -129,6 +134,15 @@ class CartViewModel extends Viewmodel {
         await service.updateOrder(cart!);
       });
     }
+  }
+
+  double getSubTotalItem() {
+    double subTotal = 0;
+    orderItems!.forEach((orderItem) {
+      subTotal += orderItem.quantity *
+          menuList[orderItems!.indexOf(orderItem)].foodPrice;
+    });
+    return subTotal;
   }
 
   void changeOrderStatus() {
