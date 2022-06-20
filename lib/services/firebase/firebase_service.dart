@@ -33,7 +33,8 @@ abstract class firebaseService with ServiceStream {
 //menu services
   Future<void> addNewMenu(Menu menu, String restaurantId);
   Future<void> editMenu(Menu menu, String restaurantId);
-  Future<List<Menu>> getAllMenu(String restaurantId);
+  Future<List<Menu>> getAllRestaurantMenu(String restaurantId);
+  Future<List<Menu>> getAllMenu();
   Stream? menuListListener();
   Future<void> deleteMenu(String menuId);
   Future<Menu> getMenu(String menuId);

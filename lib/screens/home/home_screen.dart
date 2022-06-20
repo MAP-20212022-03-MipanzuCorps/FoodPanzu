@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Body(),
-      bottomNavigationBar: CustBottomNavBar(selectedMenu: MenuState.home),
+      bottomNavigationBar: const CustBottomNavBar(selectedMenu: MenuState.home),
     );
   }
 }

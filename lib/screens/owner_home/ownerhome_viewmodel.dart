@@ -29,7 +29,7 @@ class OwnerHomeViewModel extends Viewmodel {
       //get the restaurantId
       user = await service.getUser(service.getCurrentUser()!.uid);
       service.initializeUser();
-      _menuList = await service.getAllMenu(user.restId!);
+      _menuList = await service.getAllRestaurantMenu(user.restId!);
     });
 
     _streamListener = service.authStateChanges().listen((event) async {
@@ -37,7 +37,7 @@ class OwnerHomeViewModel extends Viewmodel {
         if (event != null) {
           user = await service.getUser(event.uid);
           service.initializeUser();
-          _menuList = await service.getAllMenu(user.restId!);
+          _menuList = await service.getAllRestaurantMenu(user.restId!);
           _streamListener = service.menuListListener()!.listen((data) async {
             await update(() async {
               _menuList = [];
