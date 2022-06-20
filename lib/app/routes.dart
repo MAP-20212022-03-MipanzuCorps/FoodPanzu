@@ -2,9 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/screens/add_order/add_order_screen.dart';
 import 'package:foodpanzu/screens/cust_order/cust_order_screen.dart';
+import 'package:foodpanzu/screens/cust_view_order/cust_view_order_screen.dart';
 import 'package:foodpanzu/screens/customer_Cart/cart.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_screen.dart';
 import 'package:foodpanzu/screens/owner_order/owner_order_screen.dart';
+import 'package:foodpanzu/screens/owner_view_order/owner_view_order_screen.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_screen.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_signup_screen.dart';
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_screen.dart';
@@ -46,5 +48,8 @@ final Map<String, WidgetBuilder> routes = {
   //order
   AddOrderScreen.routeName: (context) => AddOrderScreen(menu: Menu()),
   CustOrderScreen.routeName: (context) => CustOrderScreen(),
+  OwnerOrderScreen.routeName: (context) => OwnerOrderScreen(),
   CartScreen.routeName: (context) => CartScreen(),
+  CustViewOrder.routeName: (context) => CustViewOrder(),
+  OwnerViewOrder.routeName: (context) => OwnerViewOrder(),
 };

@@ -3,7 +3,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_order/components/order_card.dart';
 import 'package:foodpanzu/screens/owner_order/owner_order_viewmodel.dart';
 import 'package:foodpanzu/widgets/emptyWidget.dart';
@@ -75,8 +74,7 @@ class _BodyState extends State<Body> {
                         itemBuilder: ((_, index) {
                           if (widget.viewmodel.hasOrder()) {
                             return OrderCard(
-                              menu: widget.viewmodel.orderList[index],
-                              onMenuClick: () {},
+                              order: widget.viewmodel.orderList[index],
                             );
                           } else
                             // ignore: curly_braces_in_flow_control_structures
@@ -107,8 +105,7 @@ class _BodyState extends State<Body> {
                         itemBuilder: ((_, index) {
                           if (widget.viewmodel.hasOrderHis()) {
                             return OrderCard(
-                              menu: widget.viewmodel.orderHisList[index],
-                              onMenuClick: () {},
+                              order: widget.viewmodel.orderHisList[index],
                             );
                           } else
                             // ignore: curly_braces_in_flow_control_structures
