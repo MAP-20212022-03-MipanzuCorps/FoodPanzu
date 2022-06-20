@@ -373,6 +373,16 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
 //order services
+@override
+  Future<Order> getOrder(String orderId) async {
+    QuerySnapshot order = await _firebaseFirestore
+        .collection("testOrders")
+        .where("orderId", isEqualTo: orderId)
+        .get();
+    //if (order.docs.isEmpty) return null;
+    return Order.fromJson(order.docs[0].data() as Map<String, dynamic>);
+  }
+
   @override
   Future<List<Order>> getAllOrder(String resId) async {
     try {

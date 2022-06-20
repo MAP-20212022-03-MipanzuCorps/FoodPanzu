@@ -1,12 +1,14 @@
 import 'package:foodpanzu/screens/add_new_menu/add_new_menu_viewmodel.dart';
 import 'package:foodpanzu/screens/add_order/add_order_viewmodel.dart';
 import 'package:foodpanzu/screens/cust_order/cust_order_viewmodel.dart';
+import 'package:foodpanzu/screens/cust_view_order/cust_view_order_viewmodel.dart';
 import 'package:foodpanzu/screens/customer_cart/cart_view_model.dart';
 import 'package:foodpanzu/screens/edit_menu/edit_menu_viewmodel.dart';
 import 'package:foodpanzu/screens/forgot_password/forgot_password_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_dashboard/dashboard_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_home/ownerhome_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_order/owner_order_viewmodel.dart';
+import 'package:foodpanzu/screens/owner_view_order/owner_view_order_viewmodel.dart';
 import 'package:foodpanzu/screens/profile/profile_viewmodel.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_viewmodel.dart';
@@ -50,6 +52,8 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<OwnerHomeViewModel>(() => OwnerHomeViewModel());
   locator
       .registerLazySingleton<OwnerOrderViewModel>(() => OwnerOrderViewModel());
+  locator
+      .registerLazySingleton<OwnerViewOrderViewModel>(() => OwnerViewOrderViewModel());
   locator.registerLazySingleton<SplashViewModel>(() => SplashViewModel());
   locator
       .registerLazySingleton<RestaurantViewModel>(() => RestaurantViewModel());
@@ -62,5 +66,6 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<DashboardViewModel>(() => DashboardViewModel());
   locator.registerLazySingleton<AddOrderViewModel>(() => AddOrderViewModel());
   locator.registerLazySingleton<CustOrderViewModel>(() => CustOrderViewModel());
+  locator.registerLazySingleton<CustViewOrderViewModel>(() => CustViewOrderViewModel());
   locator.registerLazySingleton<CartViewModel>(() => CartViewModel());
 }
