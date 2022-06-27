@@ -26,6 +26,7 @@ class Body extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      viewmodel.changeOrderStatus();
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.green),

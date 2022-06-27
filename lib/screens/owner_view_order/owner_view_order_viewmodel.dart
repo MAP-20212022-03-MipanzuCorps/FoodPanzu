@@ -69,4 +69,14 @@ class OwnerViewOrderViewModel extends Viewmodel {
     imageUrl = storageService.downloadUrl(menuList[index].foodPicture);
     return imageUrl;
   }
+
+   void changeOrderStatus() {
+    if (order != null) {
+      update(() async {
+        order.orderStatus = "Completed";
+        print("completed :" +order.orderId);
+        await service.updateOrder(order);
+      });
+    }
+  }
 }
