@@ -64,8 +64,8 @@ class HomeViewModel extends Viewmodel {
   }
 
   Future<dynamic> getRestaurantPicture(String imageName) async {
+    if (imageName == '') return _imageUrl = null;
     _imageUrl = await storageService.downloadUrl(imageName);
-    // if (_imageUrl == null) return null;
     return _imageUrl;
   }
 }
