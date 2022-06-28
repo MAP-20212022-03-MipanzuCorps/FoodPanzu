@@ -38,7 +38,7 @@ class OrderCardView extends StatelessWidget {
                         )
                       ],
                     ),
-                    margin: const EdgeInsets.fromLTRB(20,20,20,5),
+                    margin: const EdgeInsets.fromLTRB(20, 20, 20, 5),
                     height: 100,
                     child: Stack(
                       children: [
