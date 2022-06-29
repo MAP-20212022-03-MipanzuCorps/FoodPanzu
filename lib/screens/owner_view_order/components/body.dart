@@ -29,7 +29,6 @@ class Body extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       viewmodel.changeOrderStatus();
-                      //Once status change, the system will send the invoice through email to the user.
                       viewmodel.sendInvoice();
                       Navigator.pop(context);
                     },

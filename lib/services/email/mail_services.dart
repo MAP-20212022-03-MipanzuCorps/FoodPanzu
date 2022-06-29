@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
+import 'package:map_mvvm/map_mvvm.dart';
 
 Future invoiceMail(
     {String receivingName = "FoodPanzuUser",
@@ -11,7 +12,11 @@ Future invoiceMail(
   const userId = 'VIBcWRpnUeLK8jjZa';
   const privateKey = "QPSfVXLvZ_tySkp127rz4";
   var url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
-
+  if (!RegExp(
+          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+      .hasMatch(receivingEmail)) {
+    //do nothing
+  }
   try {
     var response = await http.post(
       url,
@@ -32,8 +37,8 @@ Future invoiceMail(
         },
       ),
     );
-    print(response.body);
   } catch (error) {
-    print(error);
+    throw Failure("400",
+        message: error.toString(), location: "mail_service.dart");
   }
 }

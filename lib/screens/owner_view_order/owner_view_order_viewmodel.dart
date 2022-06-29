@@ -16,7 +16,6 @@ class OwnerViewOrderViewModel extends Viewmodel {
   FireStorage get storageService => locator<FireStorage>();
   StreamSubscription? _streamListener;
   UserModel user = UserModel();
-
   List<OrderItem> _orderItems = [];
   List<Menu> _menuList = [];
   late Order order;
@@ -27,7 +26,6 @@ class OwnerViewOrderViewModel extends Viewmodel {
   List<OrderItem> newOrderItem = [];
 
   List<Menu> get menuList => _menuList;
-
   @override
   void init() async {
     super.init();
@@ -46,7 +44,6 @@ class OwnerViewOrderViewModel extends Viewmodel {
       orderItem = await service.getOrderItem(orderItemId);
       menuList.add(await service.getMenu(orderItem.menuId));
       newOrderItem.add(orderItem);
-      print(orderItem.orderItemId);
       // print("\nmenu id :" + orderItem.menuId);
       // print("\nmenu name :" + menuList.first.foodName);
     }
@@ -83,7 +80,6 @@ class OwnerViewOrderViewModel extends Viewmodel {
     if (order != null) {
       update(() async {
         order.orderStatus = "Completed";
-        print("completed :" + order.orderId);
         await service.updateOrder(order);
       });
     }
@@ -97,7 +93,9 @@ class OwnerViewOrderViewModel extends Viewmodel {
         orderItems: _orderItems,
         menuList: _menuList,
         restaurant: restaurant);
-    invoiceMail(
+    //assuming the email given is correct or else, the system not send the email
+    //The system however, will not show the message to the user
+    await invoiceMail(
         receivingName: customer.name,
         receivingEmail: customer.email,
         message: message);
