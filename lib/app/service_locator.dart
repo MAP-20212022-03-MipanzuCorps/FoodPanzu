@@ -11,6 +11,7 @@ import 'package:foodpanzu/screens/owner_order/owner_order_viewmodel.dart';
 import 'package:foodpanzu/screens/owner_view_order/owner_view_order_viewmodel.dart';
 import 'package:foodpanzu/screens/profile/profile_viewmodel.dart';
 import 'package:foodpanzu/screens/restaurant_menu/restaurantmenu_viewmodel.dart';
+import 'package:foodpanzu/screens/scan_qr/scan_qr_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_in/sign_in_viewmodel.dart';
 import 'package:foodpanzu/screens/sign_up/sign_up_viewmodel.dart';
 import 'package:foodpanzu/screens/restaurant_sign_up/restaurant_viewmodel.dart';
@@ -68,4 +69,5 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<CustOrderViewModel>(() => CustOrderViewModel());
   locator.registerLazySingleton<CustViewOrderViewModel>(() => CustViewOrderViewModel());
   locator.registerLazySingleton<CartViewModel>(() => CartViewModel());
+  locator.registerLazySingleton<ScanQRViewModel>(() => ScanQRViewModel());
 }
