@@ -6,6 +6,7 @@ class Order {
   String _orderStatus;
   double _totalPrice;
   String _tableNumber;
+  dynamic _orderDate;
   List<String>? _orderItems;
 
   String get orderId {
@@ -52,6 +53,14 @@ class Order {
     _tableNumber = tableNumber;
   }
 
+  dynamic get orderDate {
+    return _orderDate;
+  }
+
+  set orderDate(dynamic orderDate) {
+    _orderDate = orderDate;
+  }
+
   List<String>? get orderItems {
     return _orderItems;
   }
@@ -67,6 +76,7 @@ class Order {
       String orderStatus = '',
       double totalPrice = 0,
       String tableNumber = '',
+      dynamic orderDate,
       List<String>? orderItems})
       : _orderId = orderId = "",
         _restId = restId,
@@ -74,6 +84,7 @@ class Order {
         _orderStatus = orderStatus,
         _totalPrice = totalPrice,
         _tableNumber = tableNumber,
+        _orderDate = orderDate,
         _orderItems = orderItems;
 
   Order.fromJson(Map<String, dynamic> map)
@@ -83,6 +94,7 @@ class Order {
         _orderStatus = map['orderStatus'],
         _totalPrice = map['totalPrice'] + .0,
         _tableNumber = map['tableNumber'],
+        _orderDate = map['orderDate'],
         _orderItems = List<String>.from(map['orderItems']);
 
   Map<String, dynamic> toJson() {
@@ -93,6 +105,7 @@ class Order {
       'orderStatus': _orderStatus,
       'totalPrice': _totalPrice,
       'tableNumber': _tableNumber,
+      'orderDate': _orderDate,
       'orderItems': _orderItems,
     };
   }

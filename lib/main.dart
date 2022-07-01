@@ -5,6 +5,7 @@ import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/app/routes.dart';
 import 'package:foodpanzu/screens/splash/splash_screen.dart';
 import 'package:foodpanzu/utils/theme.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,10 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       initialRoute: SplashScreen.routeName,
       routes: routes,
+      // ignore: prefer_const_literals_to_create_immutables
+      localizationsDelegates: [
+        MonthYearPickerLocalizations.delegate,
+      ],
     );
   }
 }

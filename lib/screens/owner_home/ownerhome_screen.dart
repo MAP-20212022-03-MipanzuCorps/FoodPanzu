@@ -39,15 +39,15 @@ class OwnerHomeScreen extends StatelessWidget {
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
+                    children: [
                       Text(
-                        "West Stop",
+                        '${viewmodel.restaurant!.restName}',
                         style: TextStyle(
                           color: Color.fromARGB(255, 47, 44, 44),
                         ),
                       ),
                       Text(
-                        "Western Hub",
+                        '${viewmodel.restaurant!.restDesc}',
                         style: TextStyle(color: Color(0xFFFF7643)),
                       ),
                     ],
@@ -55,7 +55,7 @@ class OwnerHomeScreen extends StatelessWidget {
                   // titlePadding: EdgeInsets.only(left: 500),
                   ),
               //title: Text('My App Bar'),
-              leading: AppBar(),
+              // leading: AppBar(),
               //actions for sign out later on
               actions: [
                 InkWell(

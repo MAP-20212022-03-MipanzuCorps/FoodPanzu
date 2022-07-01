@@ -38,6 +38,7 @@ class OwnerHomeViewModel extends Viewmodel {
           user = await service.getUser(event.uid);
           service.initializeUser();
           _menuList = await service.getAllRestaurantMenu(user.restId!);
+          restaurant = await service.getRestaurant(user.restId!);
           _streamListener = service.menuListListener()!.listen((data) async {
             await update(() async {
               _menuList = [];

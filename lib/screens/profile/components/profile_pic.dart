@@ -42,14 +42,17 @@ class _ProfilePicState extends State<ProfilePic> {
                   child: FutureBuilder(
                       future: viewmodel.getProfilePic(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                      return CircularProgressIndicator();
+                    } else {
+                        if (snapshot.data == null) {
                           return Image.asset("assets/images/Profile Image.png");
                         } else {
                           return Image.network(
                             viewmodel.getpic,
                             fit: BoxFit.cover,
                           );
-                        }
+                        }}
                       })),
             Positioned(
               right: -16,

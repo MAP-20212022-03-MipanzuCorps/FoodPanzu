@@ -55,6 +55,7 @@ class ProfileViewModel extends Viewmodel {
 
   Future<dynamic> getProfilePic() async {
     if (_user.userPic == null || _user.userPic == '') {
+      _imageUrl = null;
       return null;
     }
     _imageUrl = await storageService.downloadUrl(_user.userPic);

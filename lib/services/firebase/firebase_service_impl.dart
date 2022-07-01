@@ -349,6 +349,13 @@ class fireBaseServiceImpl extends firebaseService {
           location: "firebase_service.dart");
     }
   }
+  
+  @override
+  Future<Menu> getMenu(String menuId) async {
+    DocumentSnapshot menu =
+        await _firebaseFirestore.collection("menu").doc(menuId).get();
+    return Menu.fromJson(menu.data() as Map<String, dynamic>);
+  }
 
   @override
   Stream? menuListListener() {
@@ -403,12 +410,12 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
-  Future<List<Order>> getAllOrderHistory(String resId) async {
+  Future<List<Order>> getAllOrderHistory(String restaurantId) async {
     try {
       List<Order> listOrder = [];
       QuerySnapshot querySnapshot = await _firebaseFirestore
           .collection("testOrders")
-          .where('restId', isEqualTo: resId)
+          .where('restId', isEqualTo: restaurantId)
           .where('orderStatus', isEqualTo: "Completed")
           .get();
       querySnapshot.docs.forEach((element) {
@@ -546,12 +553,6 @@ class fireBaseServiceImpl extends firebaseService {
     return OrderItem.fromJson(orderItem.data() as Map<String, dynamic>);
   }
 
-  @override
-  Future<Menu> getMenu(String menuId) async {
-    DocumentSnapshot menu =
-        await _firebaseFirestore.collection("menu").doc(menuId).get();
-    return Menu.fromJson(menu.data() as Map<String, dynamic>);
-  }
 
   @override
   Future<void> updateOrderItem(OrderItem orderItem) async {
@@ -571,4 +572,5 @@ class fireBaseServiceImpl extends firebaseService {
     if (order.docs.isEmpty) return null;
     return Order.fromJson(order.docs[0].data() as Map<String, dynamic>);
   }
+
 }

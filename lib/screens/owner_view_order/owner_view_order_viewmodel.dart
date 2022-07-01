@@ -74,6 +74,7 @@ class OwnerViewOrderViewModel extends Viewmodel {
     if (order != null) {
       update(() async {
         order.orderStatus = "Completed";
+        order.orderDate = DateTime.now();
         print("completed :" +order.orderId);
         await service.updateOrder(order);
       });
