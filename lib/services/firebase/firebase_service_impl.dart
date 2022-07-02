@@ -235,8 +235,10 @@ class fireBaseServiceImpl extends firebaseService {
   Future<List<Restaurant>> getAllRestaurant() async {
     try {
       List<Restaurant> restaurantList = [];
-      QuerySnapshot querySnapshot =
-          await _firebaseFirestore.collection("Restaurants").where("status", isEqualTo: true).get();
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("Restaurants")
+          .where("status", isEqualTo: true)
+          .get();
       querySnapshot.docs.forEach((element) {
         restaurantList
             .add(Restaurant.fromJson(element.data() as Map<String, dynamic>));
@@ -380,7 +382,7 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
 //order services
-@override
+  @override
   Future<Order> getOrder(String orderId) async {
     QuerySnapshot order = await _firebaseFirestore
         .collection("testOrders")

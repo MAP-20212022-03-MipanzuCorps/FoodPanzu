@@ -16,7 +16,9 @@ class Body extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -27,6 +29,7 @@ class Body extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       viewmodel.changeOrderStatus();
+                      viewmodel.sendInvoice();
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.green),

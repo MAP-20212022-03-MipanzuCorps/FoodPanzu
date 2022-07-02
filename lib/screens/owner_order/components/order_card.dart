@@ -86,21 +86,21 @@ class OrderCard extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: Colors.white),
                   child: FutureBuilder(
-                    future: viewmodel.getName(order!.userId),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return CircularProgressIndicator();
-                      }else {
-                        return Text(
-                      viewmodel.name,
-                      style: const TextStyle(
-                        color: Color(0xFFFF7643),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    );
-                      
-                  }}),
+                      future: viewmodel.getName(order!.userId),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Text(
+                            snapshot.data.toString(),
+                            style: const TextStyle(
+                              color: Color(0xFFFF7643),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          );
+                        }
+                      }),
                 ),
               ),
             ),
@@ -175,7 +175,7 @@ class OrderCard extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: Colors.white),
                   child: Text(
-                    order!.orderItems!.length.toString()+" items",
+                    order!.orderItems!.length.toString() + " items",
                     style: const TextStyle(
                       color: Color(0xFFFF7643),
                       fontWeight: FontWeight.w600,
