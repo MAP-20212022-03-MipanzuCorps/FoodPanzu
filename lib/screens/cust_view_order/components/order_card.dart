@@ -96,7 +96,7 @@ class OrderCardView extends StatelessWidget {
                             child: Container(
                               alignment: Alignment.center,
                               height: 30,
-                              width: 90,
+                              width: 100,
                               decoration: const BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),

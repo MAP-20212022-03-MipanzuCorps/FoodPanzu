@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodpanzu/screens/cust_order/cust_order_screen.dart';
 import 'package:foodpanzu/screens/home/home_screen.dart';
 import 'package:foodpanzu/screens/profile/profile_screen.dart';
+import 'package:foodpanzu/screens/scan_qr/scan_qr_screen.dart';
 import 'package:foodpanzu/utils/constants.dart';
 import 'package:foodpanzu/utils/enums.dart';
 
@@ -65,7 +66,9 @@ class CustBottomNavBar extends StatelessWidget {
                         ? kPrimaryColor
                         : inActiveIconColor,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, ScanQR.routeName);
+                  }),
               IconButton(
                   icon: SvgPicture.asset(
                     "assets/icons/order history.svg",

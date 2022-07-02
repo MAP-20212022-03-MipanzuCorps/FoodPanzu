@@ -36,6 +36,9 @@ class CustViewOrderViewModel extends Viewmodel {
   }
 
   Future<List<Menu>> set() async {
+    _menuList = [];
+    _orderItems = [];
+    newOrderItem = [];
     for (var orderItemId in order.orderItems!) {
       orderItem = await service.getOrderItem(orderItemId);
       menuList.add(await service.getMenu(orderItem.menuId));
