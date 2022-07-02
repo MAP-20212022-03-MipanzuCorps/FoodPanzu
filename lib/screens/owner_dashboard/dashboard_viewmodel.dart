@@ -15,6 +15,8 @@ class DashboardViewModel extends Viewmodel {
   bool _restStatus = false;
   late Restaurant _restaurant;
   UserModel _user = UserModel();
+  List<Order> _orders = [];
+  
 
   @override
   void init() async {
@@ -28,6 +30,13 @@ class DashboardViewModel extends Viewmodel {
 
   String get restId => _restaurant.restId;
   String get restName => _restaurant.restName;
+ String get monthlySales {
+    double _monthlySales = 0;
+    _orders.forEach((element) {
+      _monthlySales += element.totalPrice;
+    });
+    return _monthlySales.toStringAsFixed(2);
+  }
 
   set restStatus(value) => update(() async => _restStatus = value);
   bool get getStatus => _restStatus;
@@ -45,6 +54,14 @@ class DashboardViewModel extends Viewmodel {
     _restStatus = _restaurant.restStatus;
     print(_user.restId);
     return _restaurant;
+  }
+
+  Future<void> getMonthlySales(DateTime selected) async {
+    await update(() async {
+      _orders = [];
+      _orders = await service.getAllOrderByMonth(_user.restId, selected);
+      print(_orders.length);
+    });
   }
 
   Future<void> openClose() async => await update(() async {

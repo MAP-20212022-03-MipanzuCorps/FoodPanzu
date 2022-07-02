@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/models/order_item_model.dart';
 import 'package:foodpanzu/models/order_model.dart';
 import 'package:foodpanzu/models/restaurant_model.dart';
 import 'package:foodpanzu/models/user_model.dart';
+import 'package:intl/intl.dart';
 
 String orderInvoiceMailBuilder(
     {required Order order,
     required List<OrderItem> orderItems,
     required List<Menu> menuList,
     required Restaurant restaurant}) {
-  String datePaid = "2/22/2022";
+      
+  DateTime orderDate = order.orderDate;
+  String datePaid = "${orderDate.year.toString()}-${orderDate.month.toString().padLeft(2,'0')}-${orderDate.day.toString().padLeft(2,'0')}";
 
   // ignore: prefer_interpolation_to_compose_strings
   String html = '<!DOCTYPE html>' +

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodpanzu/app/service_locator.dart';
 import 'package:foodpanzu/models/menu_model.dart';
 import 'package:foodpanzu/models/order_item_model.dart';
@@ -80,11 +81,8 @@ class OwnerViewOrderViewModel extends Viewmodel {
     if (order != null) {
       update(() async {
         order.orderStatus = "Completed";
-<<<<<<< HEAD
         order.orderDate = DateTime.now();
         print("completed :" +order.orderId);
-=======
->>>>>>> 1b44e5cb462d0e6d81e283f4e9a335b0ae839054
         await service.updateOrder(order);
       });
     }

@@ -40,11 +40,13 @@ abstract class _AbstractView<V extends Viewmodel> extends StatelessWidget {
     return viewmodel;
   }
 
-  static Widget _defaultProgressBuilder(_, __) => CircularProgressIndicator(
-        backgroundColor: Colors.grey,
-        color: Color(0xFFFF7643),
-        strokeWidth: 5,
-      );
+  static Widget _defaultProgressBuilder(_, __) => Center(
+    child: CircularProgressIndicator(
+          backgroundColor: Colors.grey,
+          color: Color(0xFFFF7643),
+          strokeWidth: 5,
+        ),
+  );
   static Widget _defaultBuilder(_, __) => Container();
 //----------------------------------------------------------------------------
 

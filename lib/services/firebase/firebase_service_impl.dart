@@ -431,6 +431,28 @@ class fireBaseServiceImpl extends firebaseService {
   }
 
   @override
+  Future<List<Order>> getAllOrderByMonth(String restaurantId, DateTime date) async {
+    try {
+      List<Order> listOrder = [];
+      QuerySnapshot querySnapshot = await _firebaseFirestore
+          .collection("testOrders")
+          .where('restId', isEqualTo: restaurantId)
+          .where('orderStatus', isEqualTo: "Completed")
+          .where('orderDate', isGreaterThanOrEqualTo: date)
+          .where('orderDate', isLessThanOrEqualTo: DateTime(date.year, date.month+1, 1))
+          .orderBy('orderDate')
+          .get();
+      querySnapshot.docs.forEach((element) {
+        listOrder.add(Order.fromJson(element.data() as Map<String, dynamic>));
+      });
+      return listOrder;
+    } on FirebaseException catch (e) {
+      throw Failure(e.code,
+          message: e.message, location: "firebase_service.dart");
+    }
+  }
+
+  @override
   Future<List<Order>> getAllCustOrder(String id) async {
     try {
       List<Order> listOrder = [];
