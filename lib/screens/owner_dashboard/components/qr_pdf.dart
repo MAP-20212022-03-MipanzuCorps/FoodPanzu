@@ -55,7 +55,7 @@ class _QrState extends State<Qr> {
   Future<void> generatePDF() async {
     var data = await rootBundle.load("assets/fonts/muli/Muli.ttf");
     var myFont = pw.Font.ttf(data);
-    var myStyle = pw.TextStyle(fontSize: 100, font: myFont);
+    var myStyle = pw.TextStyle(fontSize: 80, font: myFont);
     final pdf = pw.Document();
 
     pdf.addPage(pw.Page(
@@ -71,11 +71,11 @@ class _QrState extends State<Qr> {
 
     String path = directory.path;
 
-    File file = File('$path/output.pdf');
+    File file = File('$path/qrcode.pdf');
 
     await file.writeAsBytes(await pdf.save());
 
-    OpenFile.open('$path/output.pdf');
+    OpenFile.open('$path/qrcode.pdf');
 
   }
 }

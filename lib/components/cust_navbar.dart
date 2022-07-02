@@ -53,14 +53,6 @@ class CustBottomNavBar extends StatelessWidget {
               ),
               IconButton(
                   icon: SvgPicture.asset(
-                    "assets/icons/Heart Icon.svg",
-                    color: MenuState.favourite == selectedMenu
-                        ? kPrimaryColor
-                        : inActiveIconColor,
-                  ),
-                  onPressed: () {}),
-              IconButton(
-                  icon: SvgPicture.asset(
                     "assets/icons/qr code.svg",
                     color: MenuState.qrcode == selectedMenu
                         ? kPrimaryColor
