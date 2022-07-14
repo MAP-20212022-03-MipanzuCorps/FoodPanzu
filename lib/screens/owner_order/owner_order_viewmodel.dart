@@ -51,7 +51,7 @@ class OwnerOrderViewModel extends Viewmodel {
 String get name=> _name;
   Future<void> getOrder(String resId) async {
     try {
-      _orderList = await service.getAllOrder(resId);
+      _orderList = await service.getAllOrder(res);
     } on Failure {
       rethrow;
     }
